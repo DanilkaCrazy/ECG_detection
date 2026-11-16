@@ -1,0 +1,123 @@
+ECG Classic ML Full Evaluation Report
+==================================================
+Classes (8): ['AF', 'AFL', 'NSR', 'SA', 'SB', 'ST', 'SVT', 'VT']
+
+Run: none_aug0 | Model: RandomForest
+  Acc: 0.7343 | BalAcc: 0.7150 | F1_macro: 0.7159 | F1_w: 0.7301
+  Prec_macro: 0.7213 | Rec_macro: 0.7150 | MCC: 0.6945 | Kappa: 0.6939 | LogLoss: 0.9151
+
+Run: none_aug0 | Model: LogisticRegression
+  Acc: 0.5971 | BalAcc: 0.5891 | F1_macro: 0.5880 | F1_w: 0.5989
+  Prec_macro: 0.5928 | Rec_macro: 0.5891 | MCC: 0.5376 | Kappa: 0.5368 | LogLoss: 2.0255
+
+Run: none_aug0 | Model: KNN
+  Acc: 0.3914 | BalAcc: 0.3809 | F1_macro: 0.3880 | F1_w: 0.3925
+  Prec_macro: 0.4404 | Rec_macro: 0.3809 | MCC: 0.3016 | Kappa: 0.2976 | LogLoss: 8.4130
+
+Run: none_aug1 | Model: RandomForest
+  Acc: 0.7571 | BalAcc: 0.7441 | F1_macro: 0.7487 | F1_w: 0.7561
+  Prec_macro: 0.7580 | Rec_macro: 0.7441 | MCC: 0.7208 | Kappa: 0.7202 | LogLoss: 0.8055
+
+Run: none_aug1 | Model: LogisticRegression
+  Acc: 0.6029 | BalAcc: 0.5901 | F1_macro: 0.5912 | F1_w: 0.6042
+  Prec_macro: 0.5990 | Rec_macro: 0.5901 | MCC: 0.5439 | Kappa: 0.5430 | LogLoss: 2.2750
+
+Run: none_aug1 | Model: KNN
+  Acc: 0.3886 | BalAcc: 0.3780 | F1_macro: 0.3856 | F1_w: 0.3903
+  Prec_macro: 0.4328 | Rec_macro: 0.3780 | MCC: 0.2982 | Kappa: 0.2943 | LogLoss: 9.8460
+
+Run: robust_median_mad_aug0 | Model: RandomForest
+  Acc: 0.7286 | BalAcc: 0.7059 | F1_macro: 0.7075 | F1_w: 0.7246
+  Prec_macro: 0.7145 | Rec_macro: 0.7059 | MCC: 0.6878 | Kappa: 0.6872 | LogLoss: 0.9142
+
+Run: robust_median_mad_aug0 | Model: LogisticRegression
+  Acc: 0.6057 | BalAcc: 0.5972 | F1_macro: 0.5943 | F1_w: 0.6065
+  Prec_macro: 0.5991 | Rec_macro: 0.5972 | MCC: 0.5479 | Kappa: 0.5469 | LogLoss: 2.1848
+
+Run: robust_median_mad_aug0 | Model: KNN
+  Acc: 0.3857 | BalAcc: 0.3836 | F1_macro: 0.3917 | F1_w: 0.3880
+  Prec_macro: 0.4456 | Rec_macro: 0.3836 | MCC: 0.2954 | Kappa: 0.2914 | LogLoss: 8.6106
+
+Run: robust_median_mad_aug1 | Model: RandomForest
+  Acc: 0.7600 | BalAcc: 0.7467 | F1_macro: 0.7509 | F1_w: 0.7585
+  Prec_macro: 0.7603 | Rec_macro: 0.7467 | MCC: 0.7243 | Kappa: 0.7235 | LogLoss: 0.8072
+
+Run: robust_median_mad_aug1 | Model: LogisticRegression
+  Acc: 0.5857 | BalAcc: 0.5705 | F1_macro: 0.5719 | F1_w: 0.5888
+  Prec_macro: 0.5796 | Rec_macro: 0.5705 | MCC: 0.5244 | Kappa: 0.5236 | LogLoss: 2.2852
+
+Run: robust_median_mad_aug1 | Model: KNN
+  Acc: 0.3886 | BalAcc: 0.3859 | F1_macro: 0.3934 | F1_w: 0.3903
+  Prec_macro: 0.4434 | Rec_macro: 0.3859 | MCC: 0.2989 | Kappa: 0.2947 | LogLoss: 9.8471
+
+Run: zscore_aug0 | Model: RandomForest
+  Acc: 0.7343 | BalAcc: 0.7150 | F1_macro: 0.7165 | F1_w: 0.7307
+  Prec_macro: 0.7222 | Rec_macro: 0.7150 | MCC: 0.6944 | Kappa: 0.6939 | LogLoss: 0.9148
+
+Run: zscore_aug0 | Model: LogisticRegression
+  Acc: 0.6400 | BalAcc: 0.6285 | F1_macro: 0.6314 | F1_w: 0.6416
+  Prec_macro: 0.6411 | Rec_macro: 0.6285 | MCC: 0.5867 | Kappa: 0.5856 | LogLoss: 1.5546
+
+Run: zscore_aug0 | Model: KNN
+  Acc: 0.4400 | BalAcc: 0.4343 | F1_macro: 0.4451 | F1_w: 0.4464
+  Prec_macro: 0.4769 | Rec_macro: 0.4343 | MCC: 0.3561 | Kappa: 0.3544 | LogLoss: 5.7643
+
+Run: zscore_aug1 | Model: RandomForest
+  Acc: 0.7571 | BalAcc: 0.7441 | F1_macro: 0.7487 | F1_w: 0.7561
+  Prec_macro: 0.7580 | Rec_macro: 0.7441 | MCC: 0.7208 | Kappa: 0.7202 | LogLoss: 0.8063
+
+Run: zscore_aug1 | Model: LogisticRegression
+  Acc: 0.6457 | BalAcc: 0.6300 | F1_macro: 0.6327 | F1_w: 0.6474
+  Prec_macro: 0.6404 | Rec_macro: 0.6300 | MCC: 0.5930 | Kappa: 0.5922 | LogLoss: 1.6040
+
+Run: zscore_aug1 | Model: KNN
+  Acc: 0.4371 | BalAcc: 0.4274 | F1_macro: 0.4381 | F1_w: 0.4431
+  Prec_macro: 0.4734 | Rec_macro: 0.4274 | MCC: 0.3532 | Kappa: 0.3509 | LogLoss: 6.8012
+
+Run: minmax_aug0 | Model: RandomForest
+  Acc: 0.7314 | BalAcc: 0.7124 | F1_macro: 0.7152 | F1_w: 0.7280
+  Prec_macro: 0.7239 | Rec_macro: 0.7124 | MCC: 0.6911 | Kappa: 0.6905 | LogLoss: 0.9137
+
+Run: minmax_aug0 | Model: LogisticRegression
+  Acc: 0.7000 | BalAcc: 0.6957 | F1_macro: 0.6909 | F1_w: 0.7011
+  Prec_macro: 0.6947 | Rec_macro: 0.6957 | MCC: 0.6568 | Kappa: 0.6553 | LogLoss: 0.9625
+
+Run: minmax_aug0 | Model: KNN
+  Acc: 0.5600 | BalAcc: 0.5318 | F1_macro: 0.5389 | F1_w: 0.5610
+  Prec_macro: 0.5842 | Rec_macro: 0.5318 | MCC: 0.4957 | Kappa: 0.4921 | LogLoss: 4.2694
+
+Run: minmax_aug1 | Model: RandomForest
+  Acc: 0.7571 | BalAcc: 0.7441 | F1_macro: 0.7481 | F1_w: 0.7554
+  Prec_macro: 0.7571 | Rec_macro: 0.7441 | MCC: 0.7209 | Kappa: 0.7202 | LogLoss: 0.8066
+
+Run: minmax_aug1 | Model: LogisticRegression
+  Acc: 0.7000 | BalAcc: 0.6954 | F1_macro: 0.6921 | F1_w: 0.7004
+  Prec_macro: 0.6979 | Rec_macro: 0.6954 | MCC: 0.6568 | Kappa: 0.6551 | LogLoss: 0.9672
+
+Run: minmax_aug1 | Model: KNN
+  Acc: 0.5286 | BalAcc: 0.5114 | F1_macro: 0.5242 | F1_w: 0.5357
+  Prec_macro: 0.5649 | Rec_macro: 0.5114 | MCC: 0.4586 | Kappa: 0.4561 | LogLoss: 5.3417
+
+Run: l2_aug0 | Model: RandomForest
+  Acc: 0.7000 | BalAcc: 0.6823 | F1_macro: 0.6850 | F1_w: 0.6994
+  Prec_macro: 0.6914 | Rec_macro: 0.6823 | MCC: 0.6551 | Kappa: 0.6545 | LogLoss: 1.0062
+
+Run: l2_aug0 | Model: LogisticRegression
+  Acc: 0.5743 | BalAcc: 0.5711 | F1_macro: 0.5681 | F1_w: 0.5786
+  Prec_macro: 0.5745 | Rec_macro: 0.5711 | MCC: 0.5122 | Kappa: 0.5112 | LogLoss: 1.1653
+
+Run: l2_aug0 | Model: KNN
+  Acc: 0.3971 | BalAcc: 0.3953 | F1_macro: 0.3999 | F1_w: 0.3983
+  Prec_macro: 0.4155 | Rec_macro: 0.3953 | MCC: 0.3070 | Kappa: 0.3054 | LogLoss: 8.7655
+
+Run: l2_aug1 | Model: RandomForest
+  Acc: 0.7086 | BalAcc: 0.6938 | F1_macro: 0.6959 | F1_w: 0.7090
+  Prec_macro: 0.7013 | Rec_macro: 0.6938 | MCC: 0.6651 | Kappa: 0.6645 | LogLoss: 1.0025
+
+Run: l2_aug1 | Model: LogisticRegression
+  Acc: 0.5857 | BalAcc: 0.5815 | F1_macro: 0.5784 | F1_w: 0.5899
+  Prec_macro: 0.5819 | Rec_macro: 0.5815 | MCC: 0.5248 | Kappa: 0.5243 | LogLoss: 1.1274
+
+Run: l2_aug1 | Model: KNN
+  Acc: 0.3943 | BalAcc: 0.3884 | F1_macro: 0.3943 | F1_w: 0.3971
+  Prec_macro: 0.4107 | Rec_macro: 0.3884 | MCC: 0.3038 | Kappa: 0.3020 | LogLoss: 9.8234

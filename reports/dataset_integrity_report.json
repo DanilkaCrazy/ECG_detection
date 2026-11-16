@@ -1,0 +1,75 @@
+{
+  "created_at_utc": "2026-10-22T03:24:29+00:00",
+  "project_root": "D:\\ИТМО\\Разработка нейросетевого алгоритма детекции и классификации нарушений ритма сердца\\ECG_detection\\ECG_detection",
+  "datasets": [
+    {
+      "dataset": "chapman",
+      "n_records": 45152,
+      "status_counts": {
+        "ok": 45152
+      },
+      "usable": 45152,
+      "checksum_ok": 45152,
+      "checksum_fail": 0,
+      "shape_ok": 45152,
+      "shape_fail": 0,
+      "with_signal_file": 45152,
+      "without_signal_file": 0,
+      "saturation_fraction": {
+        "mean": 2.473866052445074e-06,
+        "p99": 0.0,
+        "max": 0.013
+      },
+      "n_header_files": 45152,
+      "n_mat_files": 45152,
+      "orphan_mat_without_hea": 0,
+      "orphan_hea_without_mat": 0,
+      "orphan_mat_examples": [],
+      "orphan_hea_examples": []
+    },
+    {
+      "dataset": "ptbxl",
+      "n_records": 21799,
+      "status_counts": {
+        "ok": 21799
+      },
+      "usable": 21799,
+      "with_signal_file": 21799,
+      "without_signal_file": 0,
+      "n_patients": 18869,
+      "fold_counts": {
+        "10": 2198,
+        "3": 2192,
+        "9": 2183,
+        "2": 2181,
+        "7": 2176,
+        "1": 2175,
+        "5": 2174,
+        "4": 2174,
+        "8": 2173,
+        "6": 2173
+      }
+    },
+    {
+      "dataset": "mitbih",
+      "n_records": 48,
+      "status_counts": {
+        "ok": 48
+      },
+      "usable": 48,
+      "with_signal_file": 48,
+      "without_signal_file": 0
+    },
+    {
+      "dataset": "incart",
+      "n_records": 75,
+      "status_counts": {
+        "ok": 75
+      },
+      "usable": 75,
+      "with_signal_file": 75,
+      "without_signal_file": 0,
+      "n_patients": 75
+    }
+  ]
+}

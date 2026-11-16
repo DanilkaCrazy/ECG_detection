@@ -1,0 +1,43 @@
+ECG Deep Learning Evaluation Report
+==================================================
+Classes (8): ['AF', 'AFL', 'NSR', 'SA', 'SB', 'ST', 'SVT', 'VT']
+
+Run: none_CNN1D
+  Acc: 0.1405 | BalAcc: 0.1305 | F1_macro: 0.0421 | F1_w: 0.0415
+  Prec_macro: 0.1216 | Rec_macro: 0.1305 | MCC: 0.0214 | Kappa: 0.0047 | LogLoss: 3.7680 | Time: 51.8s
+
+Run: none_MLP
+  Acc: 0.7027 | BalAcc: 0.7083 | F1_macro: 0.6782 | F1_w: 0.6739
+  Prec_macro: 0.7054 | Rec_macro: 0.7083 | MCC: 0.6691 | Kappa: 0.6581 | LogLoss: 0.8009 | Time: 28.8s
+
+Run: robust_median_mad_CNN1D
+  Acc: 0.1422 | BalAcc: 0.1320 | F1_macro: 0.0434 | F1_w: 0.0434
+  Prec_macro: 0.2165 | Rec_macro: 0.1320 | MCC: 0.0281 | Kappa: 0.0069 | LogLoss: 4.4185 | Time: 68.9s
+
+Run: robust_median_mad_MLP
+  Acc: 0.7069 | BalAcc: 0.7128 | F1_macro: 0.6893 | F1_w: 0.6884
+  Prec_macro: 0.7020 | Rec_macro: 0.7128 | MCC: 0.6694 | Kappa: 0.6633 | LogLoss: 0.7916 | Time: 28.8s
+
+Run: zscore_CNN1D
+  Acc: 0.6547 | BalAcc: 0.6451 | F1_macro: 0.6398 | F1_w: 0.6389
+  Prec_macro: 0.6847 | Rec_macro: 0.6451 | MCC: 0.6093 | Kappa: 0.6018 | LogLoss: 0.8628 | Time: 93.6s
+
+Run: zscore_MLP
+  Acc: 0.7078 | BalAcc: 0.7090 | F1_macro: 0.6906 | F1_w: 0.6909
+  Prec_macro: 0.6909 | Rec_macro: 0.7090 | MCC: 0.6685 | Kappa: 0.6641 | LogLoss: 0.7516 | Time: 29.1s
+
+Run: minmax_CNN1D
+  Acc: 0.1791 | BalAcc: 0.2455 | F1_macro: 0.1572 | F1_w: 0.1509
+  Prec_macro: 0.3756 | Rec_macro: 0.2455 | MCC: 0.2057 | Kappa: 0.1179 | LogLoss: 5.5108 | Time: 42.6s
+
+Run: minmax_MLP
+  Acc: 0.7138 | BalAcc: 0.7146 | F1_macro: 0.7066 | F1_w: 0.7064
+  Prec_macro: 0.7058 | Rec_macro: 0.7146 | MCC: 0.6726 | Kappa: 0.6708 | LogLoss: 0.7429 | Time: 29.3s
+
+Run: l2_CNN1D
+  Acc: 0.3933 | BalAcc: 0.4318 | F1_macro: 0.3520 | F1_w: 0.3567
+  Prec_macro: 0.6377 | Rec_macro: 0.4318 | MCC: 0.3563 | Kappa: 0.3174 | LogLoss: 2.5497 | Time: 93.0s
+
+Run: l2_MLP
+  Acc: 0.6812 | BalAcc: 0.6861 | F1_macro: 0.6618 | F1_w: 0.6619
+  Prec_macro: 0.6575 | Rec_macro: 0.6861 | MCC: 0.6379 | Kappa: 0.6339 | LogLoss: 0.7849 | Time: 22.3s

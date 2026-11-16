@@ -1,0 +1,66 @@
+{
+  "created_at_utc": "2026-10-11T11:49:30Z",
+  "project_root": "/content/drive/MyDrive/ECG_detection",
+  "project_root_exists": true,
+  "raw_root_exists": true,
+  "datasets": [
+    {
+      "name": "chapman",
+      "path": "/content/drive/MyDrive/ECG_detection/data/raw/chapman",
+      "file_count": 91261,
+      "extensions": {
+        ".txt": 3,
+        ".csv": 1,
+        "[no extension]": 453,
+        ".html": 500,
+        ".hea": 45152,
+        ".mat": 45152
+      }
+    },
+    {
+      "name": "incart",
+      "path": "/content/drive/MyDrive/ECG_detection/data/raw/incart",
+      "file_count": 233,
+      "extensions": {
+        ".txt": 4,
+        ".dat": 75,
+        ".atr": 75,
+        "[no extension]": 3,
+        ".hea": 75,
+        ".html": 1
+      }
+    },
+    {
+      "name": "mitbih",
+      "path": "/content/drive/MyDrive/ECG_detection/data/raw/mitbih",
+      "file_count": 678,
+      "extensions": {
+        ".txt": 2,
+        ".atr": 72,
+        ".hea": 71,
+        ".dat": 71,
+        ".at_": 8,
+        ".at-": 1,
+        ".xws": 439,
+        "[no extension]": 5,
+        ".html": 3,
+        ".htm": 5,
+        ".bat": 1
+      }
+    },
+    {
+      "name": "ptbxl",
+      "path": "/content/drive/MyDrive/ECG_detection/data/raw/ptbxl",
+      "file_count": 87252,
+      "extensions": {
+        ".txt": 5,
+        ".csv": 2,
+        ".py": 1,
+        "[no extension]": 1,
+        ".html": 47,
+        ".hea": 43598,
+        ".dat": 43598
+      }
+    }
+  ]
+}

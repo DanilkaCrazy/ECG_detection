@@ -1,0 +1,53 @@
+ECG data analysis report
+===================================
+Classes (7): ['AF', 'AFL', 'NSR', 'SA', 'SB', 'ST', 'SVT']
+Unified total: 64758
+Class counts (unified):
+  NSR: 24857
+  SB: 17191
+  ST: 8066
+  AFL: 8051
+  AF: 3294
+  SA: 2400
+  SVT: 899
+
+Metrics (test) by run:
+Run: none_aug0 | norm=none aug=False
+  Accuracy: 0.7669 | Precision_macro: 0.7833 | Recall_macro: 0.7723 | F1_macro: 0.7723
+  Precision_weighted: 0.7792 | Recall_weighted: 0.7669 | F1_weighted: 0.7672 | MCC: 0.7304 | LogLoss: 0.8129
+
+Run: none_aug1 | norm=none aug=True
+  Accuracy: 0.7722 | Precision_macro: 0.7916 | Recall_macro: 0.7782 | F1_macro: 0.7779
+  Precision_weighted: 0.7879 | Recall_weighted: 0.7722 | F1_weighted: 0.7726 | MCC: 0.7374 | LogLoss: 0.8146
+
+Run: robust_median_mad_aug0 | norm=robust_median_mad aug=False
+  Accuracy: 0.7669 | Precision_macro: 0.7833 | Recall_macro: 0.7723 | F1_macro: 0.7723
+  Precision_weighted: 0.7792 | Recall_weighted: 0.7669 | F1_weighted: 0.7672 | MCC: 0.7304 | LogLoss: 0.8128
+
+Run: robust_median_mad_aug1 | norm=robust_median_mad aug=True
+  Accuracy: 0.7687 | Precision_macro: 0.7866 | Recall_macro: 0.7746 | F1_macro: 0.7749
+  Precision_weighted: 0.7823 | Recall_weighted: 0.7687 | F1_weighted: 0.7694 | MCC: 0.7327 | LogLoss: 0.8115
+
+Run: zscore_aug0 | norm=zscore aug=False
+  Accuracy: 0.7651 | Precision_macro: 0.7858 | Recall_macro: 0.7705 | F1_macro: 0.7721
+  Precision_weighted: 0.7819 | Recall_weighted: 0.7651 | F1_weighted: 0.7670 | MCC: 0.7287 | LogLoss: 0.8221
+
+Run: zscore_aug1 | norm=zscore aug=True
+  Accuracy: 0.7544 | Precision_macro: 0.7753 | Recall_macro: 0.7599 | F1_macro: 0.7617
+  Precision_weighted: 0.7708 | Recall_weighted: 0.7544 | F1_weighted: 0.7563 | MCC: 0.7163 | LogLoss: 0.8215
+
+Run: minmax_aug0 | norm=minmax aug=False
+  Accuracy: 0.7616 | Precision_macro: 0.7819 | Recall_macro: 0.7667 | F1_macro: 0.7677
+  Precision_weighted: 0.7781 | Recall_weighted: 0.7616 | F1_weighted: 0.7628 | MCC: 0.7248 | LogLoss: 0.8255
+
+Run: minmax_aug1 | norm=minmax aug=True
+  Accuracy: 0.7580 | Precision_macro: 0.7758 | Recall_macro: 0.7634 | F1_macro: 0.7645
+  Precision_weighted: 0.7711 | Recall_weighted: 0.7580 | F1_weighted: 0.7591 | MCC: 0.7200 | LogLoss: 0.8153
+
+Run: l2_aug0 | norm=l2 aug=False
+  Accuracy: 0.6993 | Precision_macro: 0.7158 | Recall_macro: 0.7028 | F1_macro: 0.7029
+  Precision_weighted: 0.7140 | Recall_weighted: 0.6993 | F1_weighted: 0.6999 | MCC: 0.6517 | LogLoss: 0.9536
+
+Run: l2_aug1 | norm=l2 aug=True
+  Accuracy: 0.6975 | Precision_macro: 0.7123 | Recall_macro: 0.7013 | F1_macro: 0.7020
+  Precision_weighted: 0.7088 | Recall_weighted: 0.6975 | F1_weighted: 0.6981 | MCC: 0.6488 | LogLoss: 0.9481

@@ -1,0 +1,20 @@
+ECG 1D-CNN on Raw Signals Evaluation Report
+==================================================
+Classes (8): ['AF', 'AFL', 'NSR', 'SA', 'SB', 'ST', 'SVT', 'VT']
+Train: 1632, Val: 288, Test: 480
+
+Run: CNN1D_aug0
+  Acc: 0.4979 | BalAcc: 0.4979 | F1_macro: 0.4826 | F1_w: 0.4826
+  Prec_macro: 0.4837 | Rec_macro: 0.4979 | MCC: 0.4285 | Kappa: 0.4262 | LogLoss: 1.3499 | Time: 27.6s
+
+Run: ResNet1D_aug0
+  Acc: 0.6792 | BalAcc: 0.6792 | F1_macro: 0.6684 | F1_w: 0.6684
+  Prec_macro: 0.6630 | Rec_macro: 0.6792 | MCC: 0.6344 | Kappa: 0.6333 | LogLoss: 0.8416 | Time: 61.9s
+
+Run: CNN1D_aug1
+  Acc: 0.5208 | BalAcc: 0.5208 | F1_macro: 0.5082 | F1_w: 0.5082
+  Prec_macro: 0.5030 | Rec_macro: 0.5208 | MCC: 0.4535 | Kappa: 0.4524 | LogLoss: 1.2543 | Time: 63.2s
+
+Run: ResNet1D_aug1
+  Acc: 0.6750 | BalAcc: 0.6750 | F1_macro: 0.6658 | F1_w: 0.6658
+  Prec_macro: 0.6620 | Rec_macro: 0.6750 | MCC: 0.6294 | Kappa: 0.6286 | LogLoss: 0.8724 | Time: 67.6s

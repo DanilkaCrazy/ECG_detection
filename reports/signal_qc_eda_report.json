@@ -1,0 +1,36 @@
+{
+  "created_at_utc": "2026-10-11T14:44:51Z",
+  "project_root": "/content/drive/MyDrive/ECG_detection",
+  "raw_root_exists": true,
+  "chapman_root": "/content/drive/MyDrive/ECG_detection/data/raw/chapman",
+  "ptbxl_root": "/content/drive/MyDrive/ECG_detection/data/raw/ptbxl",
+  "ptbxl_metadata_shape": [
+    21799,
+    28
+  ],
+  "example_signal_qc": {
+    "samples": 2500,
+    "leads": 12,
+    "fs_hz": 500.0,
+    "nonfinite_fraction": 0.0,
+    "p01": -0.215,
+    "median": 0.0,
+    "p99": 0.239,
+    "robust_range_p99_p01": 0.45399999999999996,
+    "flat_difference_fraction": 0.659297052154195
+  },
+  "filter_demo": {
+    "method": "Butterworth SOS band-pass",
+    "low_hz": 0.5,
+    "high_hz": 40,
+    "order": 4,
+    "note": "Demonstration only; validate before batch processing."
+  },
+  "normalization_candidates": [
+    "none",
+    "per-record z-score",
+    "per-record robust",
+    "train-only per-lead standardization"
+  ],
+  "raw_data_modified": false
+}
