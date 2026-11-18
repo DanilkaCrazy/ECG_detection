@@ -1,0 +1,41 @@
+DATA AUDIT — AF/AFL binary task (Chapman-Shaoxing)
+==================================================
+
+1. LABEL VERIFICATION
+   Raw WFDB header example:
+     AF  : JS00001 -> #Dx: 164889003,59118001,164934002
+     AFL : JS00005 -> #Dx: 164890007,429622005,428750005
+   SNOMED 164889003 = Atrial Fibrillation (AFIB), 164890007 = Atrial Flutter (AF).
+   labels.py maps 164889003->AF, 164890007->AFL. CORRECT — no label swap.
+
+   NOTE: The often-quoted counts "AFIB 1780 / AF(flutter) 445" come from the
+   PhysioNet/CinC 2021 challenge SUBSET, not from the full 45,152-record
+   Chapman database. In the full base: 1780 AFIB and 8060 AFL records.
+   In our unified manifest: AF=1781, AFL=7849 (after QC).
+   Therefore in OUR binary task the MINORITY class is AF (~18.5%), not AFL.
+
+2. CLASS BALANCE
+   AF 1,781 (18.5%) vs AFL 7,849 (81.5%); ratio 4.41 : 1.
+
+3. LEAKAGE CHECKS
+   - SMOTE / oversampling: applied ONLY to the training split after splitting. OK.
+   - Normalisation / z-score: fitted ONLY on training split. OK.
+   - Decision threshold: tuned on validation split only. OK.
+   - Exact duplicate ECG signals found: 16.
+       3 of them appeared in BOTH train and test;
+       2 in train and val.
+     => rebuilt dataset without duplicates: af_afl_full10s_dedup
+        9614 records (AF 1779 / AFL 7835), group-aware 70/15/15 split.
+   - Chapman has no usable patient_id; each record_id is treated as one patient.
+     Records are unique (0 duplicate record_id).
+
+4. FORMAT / QUALITY
+   fs: 500 Hz (Chapman) / 360 Hz (2 MIT-BIH records, resampled).
+   12 leads, signals in mV (std 0.1-0.5). NaN filled in 765 records.
+   Geometry unified to 5000 samples (10 s), float32.
+   0 recordings rejected as flat/clipped.
+
+5. CONCLUSION
+   Previous metrics were computed on a dataset with 16 duplicated signals
+   (5 of them crossing split boundaries) and a tiny 22-record test set.
+   All subsequent experiments use the deduplicated, leak-free split.

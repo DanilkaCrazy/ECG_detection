@@ -20,6 +20,8 @@ DATA = config.PROCESSED_ROOT / os.environ.get("AF_AFL_OUT", "af_afl_full")
 FEAT_VERSION = os.environ.get("AF_AFL_FEAT", "v1")
 if FEAT_VERSION == "v2":
     from ecgdet.features_advanced_v2 import extract_v2_features as extract_fn
+elif FEAT_VERSION == "expert":
+    from ecgdet.expert_af_afl import extract_expert_features as extract_fn
 else:
     from ecgdet.features_advanced import extract_advanced_features as extract_fn
 

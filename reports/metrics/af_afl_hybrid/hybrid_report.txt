@@ -1,0 +1,2 @@
+variant  epochs  threshold  f1_macro    f1_af  f1_afl  af_recall  af_precision  accuracy  balanced_accuracy      mcc  auc_roc  auc_pr  log_loss       time
+ hybrid       7       0.62  0.531035 0.284041 0.77803   0.364662      0.232614  0.661123           0.661123 0.079371 0.618752 0.23813  0.751349 304.965216
