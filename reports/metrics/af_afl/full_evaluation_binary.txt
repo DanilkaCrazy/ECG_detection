@@ -1,0 +1,127 @@
+AF vs AFL Binary Classic ML Evaluation Report
+==================================================
+Task: binary recognition of AF (atrial fibrillation) vs AFL (atrial flutter) on raw 12-lead ECG.
+Classes (binary): ['AFL', 'AF']  (AF=1, AFL=0)
+Train: 480, Val: 98, Test: 22
+
+Run: robust_median_mad_aug0 | Model: RandomForest
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.4905 | F1_w: 0.4905
+  Prec_macro: 0.5000 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 0.6422 | AUC: 0.6033 | AUPRC: 0.6633
+
+Run: robust_median_mad_aug0 | Model: HistGradientBoosting
+  Acc: 0.5455 | BalAcc: 0.5455 | F1_macro: 0.5417 | F1_w: 0.5417
+  Prec_macro: 0.5470 | Rec_macro: 0.5455 | MCC: 0.0925 | Kappa: 0.0909 | LogLoss: 0.6914 | AUC: 0.5785 | AUPRC: 0.6585
+
+Run: robust_median_mad_aug0 | Model: LogisticRegression
+  Acc: 0.6818 | BalAcc: 0.6818 | F1_macro: 0.6812 | F1_w: 0.6812
+  Prec_macro: 0.6833 | Rec_macro: 0.6818 | MCC: 0.3651 | Kappa: 0.3636 | LogLoss: 0.5660 | AUC: 0.7521 | AUPRC: 0.7629
+
+Run: robust_median_mad_aug0 | Model: KNN
+  Acc: 0.7273 | BalAcc: 0.7273 | F1_macro: 0.7179 | F1_w: 0.7179
+  Prec_macro: 0.7619 | Rec_macro: 0.7273 | MCC: 0.4880 | Kappa: 0.4545 | LogLoss: 1.7685 | AUC: 0.7521 | AUPRC: 0.7182
+
+Run: robust_median_mad_aug0 | Model: SVC
+  Acc: 0.5909 | BalAcc: 0.5909 | F1_macro: 0.5087 | F1_w: 0.5087
+  Prec_macro: 0.7750 | Rec_macro: 0.5909 | MCC: 0.3162 | Kappa: 0.1818 | LogLoss: 0.6518 | AUC: 0.5083 | AUPRC: 0.4829
+
+Run: robust_median_mad_aug1 | Model: RandomForest
+  Acc: 0.5455 | BalAcc: 0.5455 | F1_macro: 0.5417 | F1_w: 0.5417
+  Prec_macro: 0.5470 | Rec_macro: 0.5455 | MCC: 0.0925 | Kappa: 0.0909 | LogLoss: 0.6207 | AUC: 0.6653 | AUPRC: 0.7547
+
+Run: robust_median_mad_aug1 | Model: HistGradientBoosting
+  Acc: 0.5455 | BalAcc: 0.5455 | F1_macro: 0.5455 | F1_w: 0.5455
+  Prec_macro: 0.5455 | Rec_macro: 0.5455 | MCC: 0.0909 | Kappa: 0.0909 | LogLoss: 0.7856 | AUC: 0.4876 | AUPRC: 0.4936
+
+Run: robust_median_mad_aug1 | Model: LogisticRegression
+  Acc: 0.7273 | BalAcc: 0.7273 | F1_macro: 0.7179 | F1_w: 0.7179
+  Prec_macro: 0.7619 | Rec_macro: 0.7273 | MCC: 0.4880 | Kappa: 0.4545 | LogLoss: 0.5792 | AUC: 0.7355 | AUPRC: 0.7531
+
+Run: robust_median_mad_aug1 | Model: KNN
+  Acc: 0.5455 | BalAcc: 0.5455 | F1_macro: 0.5417 | F1_w: 0.5417
+  Prec_macro: 0.5470 | Rec_macro: 0.5455 | MCC: 0.0925 | Kappa: 0.0909 | LogLoss: 3.0119 | AUC: 0.6240 | AUPRC: 0.6075
+
+Run: robust_median_mad_aug1 | Model: SVC
+  Acc: 0.6364 | BalAcc: 0.6364 | F1_macro: 0.5810 | F1_w: 0.5810
+  Prec_macro: 0.7895 | Rec_macro: 0.6364 | MCC: 0.3974 | Kappa: 0.2727 | LogLoss: 0.6465 | AUC: 0.5083 | AUPRC: 0.4898
+
+Run: none_aug0 | Model: RandomForest
+  Acc: 0.5909 | BalAcc: 0.5909 | F1_macro: 0.5901 | F1_w: 0.5901
+  Prec_macro: 0.5917 | Rec_macro: 0.5909 | MCC: 0.1826 | Kappa: 0.1818 | LogLoss: 0.6515 | AUC: 0.6694 | AUPRC: 0.6629
+
+Run: none_aug0 | Model: HistGradientBoosting
+  Acc: 0.4091 | BalAcc: 0.4091 | F1_macro: 0.4079 | F1_w: 0.4079
+  Prec_macro: 0.4083 | Rec_macro: 0.4091 | MCC: -0.1826 | Kappa: -0.1818 | LogLoss: 0.7471 | AUC: 0.5289 | AUPRC: 0.5869
+
+Run: none_aug0 | Model: LogisticRegression
+  Acc: 0.6364 | BalAcc: 0.6364 | F1_macro: 0.6364 | F1_w: 0.6364
+  Prec_macro: 0.6364 | Rec_macro: 0.6364 | MCC: 0.2727 | Kappa: 0.2727 | LogLoss: 0.6594 | AUC: 0.6942 | AUPRC: 0.7216
+
+Run: none_aug0 | Model: KNN
+  Acc: 0.5909 | BalAcc: 0.5909 | F1_macro: 0.5686 | F1_w: 0.5686
+  Prec_macro: 0.6146 | Rec_macro: 0.5909 | MCC: 0.2041 | Kappa: 0.1818 | LogLoss: 3.1166 | AUC: 0.5331 | AUPRC: 0.5464
+
+Run: none_aug0 | Model: SVC
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.3333 | F1_w: 0.3333
+  Prec_macro: 0.2500 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 0.6738 | AUC: 0.4959 | AUPRC: 0.4784
+
+Run: none_aug1 | Model: RandomForest
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.4990 | F1_w: 0.4990
+  Prec_macro: 0.5000 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 0.6450 | AUC: 0.6446 | AUPRC: 0.6619
+
+Run: none_aug1 | Model: HistGradientBoosting
+  Acc: 0.4545 | BalAcc: 0.4545 | F1_macro: 0.4545 | F1_w: 0.4545
+  Prec_macro: 0.4545 | Rec_macro: 0.4545 | MCC: -0.0909 | Kappa: -0.0909 | LogLoss: 0.7638 | AUC: 0.5537 | AUPRC: 0.5713
+
+Run: none_aug1 | Model: LogisticRegression
+  Acc: 0.6364 | BalAcc: 0.6364 | F1_macro: 0.6364 | F1_w: 0.6364
+  Prec_macro: 0.6364 | Rec_macro: 0.6364 | MCC: 0.2727 | Kappa: 0.2727 | LogLoss: 0.7080 | AUC: 0.6529 | AUPRC: 0.7105
+
+Run: none_aug1 | Model: KNN
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.4728 | F1_w: 0.4728
+  Prec_macro: 0.5000 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 5.5452 | AUC: 0.4132 | AUPRC: 0.4782
+
+Run: none_aug1 | Model: SVC
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.3333 | F1_w: 0.3333
+  Prec_macro: 0.2500 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 0.6732 | AUC: 0.5207 | AUPRC: 0.5010
+
+Per-class metrics (test set):
+  Run: robust_median_mad_aug0 | Model: RandomForest | Class: AFL | Prec: 0.5000 | Rec: 0.6364 | F1: 0.5600 | Support: 11
+  Run: robust_median_mad_aug0 | Model: RandomForest | Class: AF | Prec: 0.5000 | Rec: 0.3636 | F1: 0.4211 | Support: 11
+  Run: robust_median_mad_aug0 | Model: HistGradientBoosting | Class: AFL | Prec: 0.5556 | Rec: 0.4545 | F1: 0.5000 | Support: 11
+  Run: robust_median_mad_aug0 | Model: HistGradientBoosting | Class: AF | Prec: 0.5385 | Rec: 0.6364 | F1: 0.5833 | Support: 11
+  Run: robust_median_mad_aug0 | Model: LogisticRegression | Class: AFL | Prec: 0.7000 | Rec: 0.6364 | F1: 0.6667 | Support: 11
+  Run: robust_median_mad_aug0 | Model: LogisticRegression | Class: AF | Prec: 0.6667 | Rec: 0.7273 | F1: 0.6957 | Support: 11
+  Run: robust_median_mad_aug0 | Model: KNN | Class: AFL | Prec: 0.8571 | Rec: 0.5455 | F1: 0.6667 | Support: 11
+  Run: robust_median_mad_aug0 | Model: KNN | Class: AF | Prec: 0.6667 | Rec: 0.9091 | F1: 0.7692 | Support: 11
+  Run: robust_median_mad_aug0 | Model: SVC | Class: AFL | Prec: 1.0000 | Rec: 0.1818 | F1: 0.3077 | Support: 11
+  Run: robust_median_mad_aug0 | Model: SVC | Class: AF | Prec: 0.5500 | Rec: 1.0000 | F1: 0.7097 | Support: 11
+  Run: robust_median_mad_aug1 | Model: RandomForest | Class: AFL | Prec: 0.5385 | Rec: 0.6364 | F1: 0.5833 | Support: 11
+  Run: robust_median_mad_aug1 | Model: RandomForest | Class: AF | Prec: 0.5556 | Rec: 0.4545 | F1: 0.5000 | Support: 11
+  Run: robust_median_mad_aug1 | Model: HistGradientBoosting | Class: AFL | Prec: 0.5455 | Rec: 0.5455 | F1: 0.5455 | Support: 11
+  Run: robust_median_mad_aug1 | Model: HistGradientBoosting | Class: AF | Prec: 0.5455 | Rec: 0.5455 | F1: 0.5455 | Support: 11
+  Run: robust_median_mad_aug1 | Model: LogisticRegression | Class: AFL | Prec: 0.8571 | Rec: 0.5455 | F1: 0.6667 | Support: 11
+  Run: robust_median_mad_aug1 | Model: LogisticRegression | Class: AF | Prec: 0.6667 | Rec: 0.9091 | F1: 0.7692 | Support: 11
+  Run: robust_median_mad_aug1 | Model: KNN | Class: AFL | Prec: 0.5556 | Rec: 0.4545 | F1: 0.5000 | Support: 11
+  Run: robust_median_mad_aug1 | Model: KNN | Class: AF | Prec: 0.5385 | Rec: 0.6364 | F1: 0.5833 | Support: 11
+  Run: robust_median_mad_aug1 | Model: SVC | Class: AFL | Prec: 1.0000 | Rec: 0.2727 | F1: 0.4286 | Support: 11
+  Run: robust_median_mad_aug1 | Model: SVC | Class: AF | Prec: 0.5789 | Rec: 1.0000 | F1: 0.7333 | Support: 11
+  Run: none_aug0 | Model: RandomForest | Class: AFL | Prec: 0.5833 | Rec: 0.6364 | F1: 0.6087 | Support: 11
+  Run: none_aug0 | Model: RandomForest | Class: AF | Prec: 0.6000 | Rec: 0.5455 | F1: 0.5714 | Support: 11
+  Run: none_aug0 | Model: HistGradientBoosting | Class: AFL | Prec: 0.4000 | Rec: 0.3636 | F1: 0.3810 | Support: 11
+  Run: none_aug0 | Model: HistGradientBoosting | Class: AF | Prec: 0.4167 | Rec: 0.4545 | F1: 0.4348 | Support: 11
+  Run: none_aug0 | Model: LogisticRegression | Class: AFL | Prec: 0.6364 | Rec: 0.6364 | F1: 0.6364 | Support: 11
+  Run: none_aug0 | Model: LogisticRegression | Class: AF | Prec: 0.6364 | Rec: 0.6364 | F1: 0.6364 | Support: 11
+  Run: none_aug0 | Model: KNN | Class: AFL | Prec: 0.6667 | Rec: 0.3636 | F1: 0.4706 | Support: 11
+  Run: none_aug0 | Model: KNN | Class: AF | Prec: 0.5625 | Rec: 0.8182 | F1: 0.6667 | Support: 11
+  Run: none_aug0 | Model: SVC | Class: AFL | Prec: 0.0000 | Rec: 0.0000 | F1: 0.0000 | Support: 11
+  Run: none_aug0 | Model: SVC | Class: AF | Prec: 0.5000 | Rec: 1.0000 | F1: 0.6667 | Support: 11
+  Run: none_aug1 | Model: RandomForest | Class: AFL | Prec: 0.5000 | Rec: 0.4545 | F1: 0.4762 | Support: 11
+  Run: none_aug1 | Model: RandomForest | Class: AF | Prec: 0.5000 | Rec: 0.5455 | F1: 0.5217 | Support: 11
+  Run: none_aug1 | Model: HistGradientBoosting | Class: AFL | Prec: 0.4545 | Rec: 0.4545 | F1: 0.4545 | Support: 11
+  Run: none_aug1 | Model: HistGradientBoosting | Class: AF | Prec: 0.4545 | Rec: 0.4545 | F1: 0.4545 | Support: 11
+  Run: none_aug1 | Model: LogisticRegression | Class: AFL | Prec: 0.6364 | Rec: 0.6364 | F1: 0.6364 | Support: 11
+  Run: none_aug1 | Model: LogisticRegression | Class: AF | Prec: 0.6364 | Rec: 0.6364 | F1: 0.6364 | Support: 11
+  Run: none_aug1 | Model: KNN | Class: AFL | Prec: 0.5000 | Rec: 0.2727 | F1: 0.3529 | Support: 11
+  Run: none_aug1 | Model: KNN | Class: AF | Prec: 0.5000 | Rec: 0.7273 | F1: 0.5926 | Support: 11
+  Run: none_aug1 | Model: SVC | Class: AFL | Prec: 0.0000 | Rec: 0.0000 | F1: 0.0000 | Support: 11
+  Run: none_aug1 | Model: SVC | Class: AF | Prec: 0.5000 | Rec: 1.0000 | F1: 0.6667 | Support: 11

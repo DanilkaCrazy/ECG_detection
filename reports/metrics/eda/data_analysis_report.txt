@@ -1,0 +1,68 @@
+ECG DATA ANALYSIS REPORT (unified manifest + AF/AFL subset)
+======================================================================
+Total records: 44075
+Columns: ['source', 'record_id', 'patient_id', 'rhythm', 'fs', 'n_samp', 'leads', 'path_hea', 'path_mat', 'path_dat', 'duration_s']
+
+1. CLASS DISTRIBUTION (all 8 classes):
+   SB  :  16553  (37.56%)
+   NSR :   8109  (18.40%)
+   AFL :   7849  (17.81%)
+   ST  :   7146  (16.21%)
+   AF  :   1781  ( 4.04%)
+   SA  :   1606  ( 3.64%)
+   SVT :    708  ( 1.61%)
+   VT  :    323  ( 0.73%)
+
+2. AF vs AFL SUBSET: AF=1781, AFL=7849, ratio AFL/AF=4.41
+   (the previous binary model used only 300+300 = 600 of these records!)
+
+3. AF/AFL BY SOURCE:
+rhythm     AF   AFL  total
+source                    
+chapman  1780  7848   9628
+mitbih      1     1      2
+
+4. ALL CLASSES BY SOURCE:
+rhythm     AF   AFL   NSR    SA     SB    ST  SVT   VT
+source                                                
+chapman  1780  7848  8107  1606  16552  7146  708  322
+mitbih      1     1     2     0      1     0    0    1
+
+5. FORMAT / FREQUENCY / LENGTH:
+   fs: min=360.0, max=500.0, median=500.0, unique=2
+   n_samp: min=5000, max=650000, median=5000.0, unique=2
+   duration_s: min=10.0, max=1805.555555555556, median=10.0, unique=2
+   fs values: [np.float64(360.0), np.float64(500.0)]
+   'leads' unique count: 3
+   patient_id missing: 44069 / 44075
+
+6. MISSING VALUES PER COLUMN:
+   source      :      0 ( 0.00%)
+   record_id   :      0 ( 0.00%)
+   patient_id  :  44069 (99.99%)
+   rhythm      :      0 ( 0.00%)
+   fs          :      0 ( 0.00%)
+   n_samp      :      0 ( 0.00%)
+   leads       :      0 ( 0.00%)
+   path_hea    :      0 ( 0.00%)
+   path_mat    :      6 ( 0.01%)
+   path_dat    :  44069 (99.99%)
+   duration_s  :      0 ( 0.00%)
+
+7. SIGNAL QUALITY CHECK (random sample of 600 AF/AFL records):
+   nan       : 1
+   bad_path  : 0
+   resampled : 0
+   padded    : 0
+   truncated : 600
+   ok        : 600
+   bad_signal: 0
+
+8. CONCLUSIONS / RECOMMENDATIONS:
+   - AF/AFL ratio in raw data is ~4.4:1; the 300/300 subsample discarded ~87% of data.
+   - Rebuild the binary dataset using ALL valid AF+AFL records.
+   - Apply imbalance handling: class weights, oversampling, undersampling, SMOTE,
+     threshold tuning, focal loss; compare all on val/test.
+   - Unify geometry: resample to 500 Hz, pad/trim to 2500 samples, 12 leads,
+     NaN -> 0, drop constant/clipped signals.
+   - Extend features: spectral bands, peak morphology, RR irregularity, f-wave proxies.

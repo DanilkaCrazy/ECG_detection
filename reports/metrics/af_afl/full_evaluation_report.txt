@@ -1,0 +1,33 @@
+AF vs AFL Binary Model Evaluation Report
+==================================================
+Task: binary recognition of AF (atrial fibrillation) vs AFL (atrial flutter) on raw 12-lead ECG.
+Purpose: specialised head that will later be inserted into the overall 8-class arrhythmia model.
+Classes (binary): ['AFL', 'AF']  (AF=1, AFL=0)
+Train: 480, Val: 98, Test: 22
+Normalization: robust median/MAD fitted on train (method=median_mad)
+
+Run: CNN1D_aug0
+  Acc: 0.6818 | BalAcc: 0.6818 | F1_macro: 0.6460 | F1_w: 0.6460
+  Prec_macro: 0.8056 | Rec_macro: 0.6818 | MCC: 0.4714 | Kappa: 0.3636 | LogLoss: 0.6354 | AUC: 0.7521 | AUPRC: 0.7891 | Time: 3.1s
+
+Run: ResNet1D_aug0
+  Acc: 0.5000 | BalAcc: 0.5000 | F1_macro: 0.4990 | F1_w: 0.4990
+  Prec_macro: 0.5000 | Rec_macro: 0.5000 | MCC: 0.0000 | Kappa: 0.0000 | LogLoss: 0.6672 | AUC: 0.5620 | AUPRC: 0.5680 | Time: 6.0s
+
+Run: CNN1D_aug1
+  Acc: 0.5909 | BalAcc: 0.5909 | F1_macro: 0.5901 | F1_w: 0.5901
+  Prec_macro: 0.5917 | Rec_macro: 0.5909 | MCC: 0.1826 | Kappa: 0.1818 | LogLoss: 0.6018 | AUC: 0.7025 | AUPRC: 0.6987 | Time: 10.8s
+
+Run: ResNet1D_aug1
+  Acc: 0.7273 | BalAcc: 0.7273 | F1_macro: 0.7179 | F1_w: 0.7179
+  Prec_macro: 0.7619 | Rec_macro: 0.7273 | MCC: 0.4880 | Kappa: 0.4545 | LogLoss: 0.7858 | AUC: 0.6281 | AUPRC: 0.7370 | Time: 22.8s
+
+Per-class metrics (test set):
+  Run: CNN1D_aug0 | Class: AFL | Prec: 1.0000 | Rec: 0.3636 | F1: 0.5333 | Support: 11
+  Run: CNN1D_aug0 | Class: AF | Prec: 0.6111 | Rec: 1.0000 | F1: 0.7586 | Support: 11
+  Run: ResNet1D_aug0 | Class: AFL | Prec: 0.5000 | Rec: 0.4545 | F1: 0.4762 | Support: 11
+  Run: ResNet1D_aug0 | Class: AF | Prec: 0.5000 | Rec: 0.5455 | F1: 0.5217 | Support: 11
+  Run: CNN1D_aug1 | Class: AFL | Prec: 0.5833 | Rec: 0.6364 | F1: 0.6087 | Support: 11
+  Run: CNN1D_aug1 | Class: AF | Prec: 0.6000 | Rec: 0.5455 | F1: 0.5714 | Support: 11
+  Run: ResNet1D_aug1 | Class: AFL | Prec: 0.6667 | Rec: 0.9091 | F1: 0.7692 | Support: 11
+  Run: ResNet1D_aug1 | Class: AF | Prec: 0.8571 | Rec: 0.5455 | F1: 0.6667 | Support: 11
