@@ -1,0 +1,29 @@
+{
+  "HistGB": {
+    "max_iter": 237,
+    "learning_rate": 0.030347133191680812,
+    "max_leaf_nodes": 20,
+    "min_samples_leaf": 23,
+    "l2_regularization": 0.4447542270401317
+  },
+  "CatBoost": {
+    "iterations": 899,
+    "depth": 6,
+    "learning_rate": 0.030051466063808537,
+    "l2_leaf_reg": 5.446036017127612
+  },
+  "XGBoost": {
+    "n_estimators": 409,
+    "max_depth": 4,
+    "learning_rate": 0.08264910605310478,
+    "min_child_weight": 18,
+    "subsample": 0.9460313395668616,
+    "colsample_bytree": 0.8815959563095755
+  },
+  "LightGBM": {
+    "n_estimators": 206,
+    "num_leaves": 26,
+    "learning_rate": 0.11718444660738254,
+    "min_child_samples": 31
+  }
+}
