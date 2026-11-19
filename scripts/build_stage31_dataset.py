@@ -49,7 +49,11 @@ def main() -> int:
             rows.append(None)
         else:
             rows.append(np.asarray(src[i], dtype=np.float32))
-    print(f"manifest rows {len(man)}, misses {misses}", flush=True)
+    if misses:
+        bad = man[[s is None for s in rows]][["source", "record_id"]]
+        bad.to_csv(OUT / "excluded_records.csv", index=False)
+        raise RuntimeError(f"{misses} manifest records not found in source arrays; "
+                           f"see excluded_records.csv")
     keep = [i for i, s in enumerate(rows) if s is not None]
     man = man.iloc[keep].reset_index(drop=True)
     X = np.array([rows[i] for i in keep], dtype=np.float32)
@@ -61,11 +65,14 @@ def main() -> int:
     pd.DataFrame({"idx": np.arange(len(man)), "split": man.split.values,
                   "source": man.source.values, "label": man.label.values,
                   "patient_key": man.patient_key.values}).to_csv(OUT / "split.csv", index=False)
-    h = hashlib.sha256(pd.read_csv(MET / "manifest_final.csv").to_csv(index=False).encode()).hexdigest()
+    h_src = hashlib.sha256(pd.read_csv(MET / "manifest_final.csv").to_csv(index=False).encode()).hexdigest()
+    h_final = hashlib.sha256(man.to_csv(index=False).encode()).hexdigest()
     stats = {"n": len(man), "by_source": man.source.value_counts().to_dict(),
              "by_split": man.split.value_counts().to_dict(),
              "n_afib": int((man.label == 1).sum()), "n_afl": int((man.label == 0).sum()),
-             "manifest_final_sha256": h,
+             "manifest_final_sha256_source": h_src,
+             "manifest_final_sha256_actual": h_final,
+             "manifest_final_sha256": h_final,
              "excluded": ["shdb-af (no canonical leads)", "cpsc2018 (pretrain-only)"]}
     (OUT / "stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps(stats, indent=2, ensure_ascii=False), flush=True)

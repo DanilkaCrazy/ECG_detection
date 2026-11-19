@@ -174,6 +174,24 @@ def harmonize_signal(
             return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
         gain = np.asarray(adc_gain, dtype=float)
         base = 0.0 if baseline is None else np.asarray(baseline, dtype=float)
+        # explicit (channels, 1) broadcasting for per-channel gain/baseline
+        if gain.ndim == 1:
+            if gain.size != sig.shape[0]:
+                info["status"] = HarmonizationStatus.INVALID
+                info["notes"].append("adc_gain length != channels")
+                return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
+            gain = gain[:, None]
+        if np.ndim(base) == 1:
+            base = np.asarray(base, dtype=float)
+            if base.size != sig.shape[0]:
+                info["status"] = HarmonizationStatus.INVALID
+                info["notes"].append("baseline length != channels")
+                return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
+            base = base[:, None]
+        if np.any(np.abs(gain) < 1e-12):
+            info["status"] = HarmonizationStatus.INVALID
+            info["notes"].append("zero adc_gain")
+            return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
         sig = (sig - base) / gain
         info["unit_conversion"] = "digital -> mV via (x-baseline)/adc_gain"
     elif all(x in ("mv", "millivolt") for x in unit_list):
@@ -208,12 +226,12 @@ def harmonize_signal(
         ratio = Fraction(float(target_fs) / float(fs)).limit_denominator(10000)
         up, down = ratio.numerator, ratio.denominator
         if not np.isclose(up / down, float(target_fs) / float(fs), rtol=1e-4):
-            info["status"] = HarmonizationStatus.REQUIRE_REVIEW
+            info["status"] = HarmonizationStatus.INVALID
             info["notes"].append(f"cannot safely resample fs={fs}")
-        else:
-            out = resample_poly(out, up, down, axis=1)
-            info["resampled"] = True
-            info["resample_ratio"] = f"{up}/{down}"
+            return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
+        out = resample_poly(out, up, down, axis=1)
+        info["resampled"] = True
+        info["resample_ratio"] = f"{up}/{down}"
     else:
         info["resampled"] = False
 
@@ -230,5 +248,9 @@ def harmonize_signal(
         info["status"] = HarmonizationStatus.REQUIRE_REVIEW
         info["notes"].append(f"implausible amplitude after conversion: max={max_abs:.2f} mV, std={std:.2f} mV")
 
+    if out.shape != (len(CANONICAL_LEADS), target_len):
+        info["status"] = HarmonizationStatus.INVALID
+        info["notes"].append(f"bad output shape {out.shape}")
+        return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
     out = np.nan_to_num(out, nan=0.0, posinf=0.0, neginf=0.0)
     return out.astype(np.float32), mask, info

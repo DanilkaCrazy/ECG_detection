@@ -1,0 +1,20 @@
+{
+  "expert": {
+    "file": "features_advanced_expert.npy",
+    "rows": 9042,
+    "cols": 67,
+    "sha256": "051266dc27a1de95b906b4a2f2bc4f061a2b4960708428ad9adcb2d372a4be99"
+  },
+  "v2": {
+    "file": "features_advanced_v2.npy",
+    "rows": 9042,
+    "cols": 615,
+    "sha256": "b658eccf189c3201eac9c0a2608d5ff932a3d38953cbecdd2a83a42bb6158b8d"
+  },
+  "heat": {
+    "file": "features_heat.npy",
+    "rows": 9042,
+    "cols": 9,
+    "sha256": "dbbec4f8c7f6e4c4310c381c9fdd59cde40110cc33cc3529d4bfd63c9e41149b"
+  }
+}
