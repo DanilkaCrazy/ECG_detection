@@ -1,0 +1,38 @@
+{
+  "n_records": 8962,
+  "n_features": 427,
+  "feature_nan_fraction": 0.05960033176769781,
+  "by_source": [
+    {
+      "source": "chapman",
+      "n": 7297,
+      "qrs_peaks_median": 17.0,
+      "zero_qrs_frac": 0.001507468822803892,
+      "status_ok_frac": 0.8360970261751405,
+      "qrs_supp_median": 0.6048438743138318,
+      "atr_pres_inside_median": 0.2898470389650446,
+      "dom_freq_median": 4.2724609375
+    },
+    {
+      "source": "cpsc2018_extra",
+      "n": 119,
+      "qrs_peaks_median": 4.0,
+      "zero_qrs_frac": 0.0,
+      "status_ok_frac": 1.0,
+      "qrs_supp_median": NaN,
+      "atr_pres_inside_median": 0.9999982071007631,
+      "dom_freq_median": 3.11279296875
+    },
+    {
+      "source": "ptbxl",
+      "n": 1546,
+      "qrs_peaks_median": 4.0,
+      "zero_qrs_frac": 0.0,
+      "status_ok_frac": 1.0,
+      "qrs_supp_median": NaN,
+      "atr_pres_inside_median": 0.9999997193531658,
+      "dom_freq_median": 3.11279296875
+    }
+  ],
+  "verdict": "P0 extraction usable"
+}

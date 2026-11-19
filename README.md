@@ -1,3 +1,23 @@
+> **АКТУАЛЬНАЯ ЗАДАЧА (Stage 3.6):** бинарная классификация **AFIB (1) vs AFL (0)**
+> по 10-секундной 12-канальной ЭКГ (500 Гц). Источники: Chapman, CPSC2018-extra,
+> PTB-XL. Описание 8-классовой задачи ниже — историческая часть проекта.
+>
+> **Ограничения, которые нельзя игнорировать:**
+> - Chapman не имеет настоящего `patient_id`; group = surrogate `record_id`.
+>   Заявлять patient-level validation для Chapman нельзя.
+> - Источник и класс сильно связаны (source classifier accuracy 0.9993),
+>   LOSO не показывает переноса (AFL-F1 = 0). domain generalization не доказана.
+> - Текущий контрольный baseline: expert + RandomForest, Macro-F1 0.7315,
+>   AFIB-F1 0.6156 на test из 1492 записей. F1 ≥ 0.90 — исследовательская цель,
+>   а не полученный результат.
+> - Stage 3.6 P0: обнаружена transpose-ошибка в Stage 3.5 (QRS-пики = 0).
+>   Извлечение предсердного сигнала переписано; обучение НЕ запускалось.
+>   См. `reports/AF_AFL_STAGE36_P0_AUDIT.md`.
+>
+> **Актуальные точки входа:** `scripts/stage36_extract_atrial.py`,
+> `scripts/stage35_baseline_integrity.py`, `scripts/stage35_compare.py`,
+> `scripts/stage35_loso_correct.py`. Отчёты Stage 3.5/3.6 — в `reports/`.
+
 
 # ECG Detection: Research Pipeline for Arrhythmia Classification
 
@@ -219,3 +239,110 @@ ECG_detection/
 ---
 
 *README составлен на основе текущего состояния проекта и может обновляться по мере развития платформы.*
+
+
+---
+
+## AFIB vs AFL: исследования Stage 1–3.0
+
+Отдельная бинарная задача — различение фибрилляции (AFIB, SNOMED 164889003) и
+трепетания (AFL, SNOMED 164890007) предсердий.
+
+| Этап | Что сделано | Лучший результат (независимый тест) |
+|---|---|---|
+| Stage 1 | Полные 9 630 записей Chapman, 6 стратегий балансировки × 6 моделей, DL-архитектуры | Macro-F1 0.572, AFIB-F1 0.324 |
+| Stage 2 | Строгая разметка (#Dx), 67 физиологических признаков, HEAT-inspired, дедупликация | **Macro-F1 0.6094, AFIB-F1 0.4413, ROC-AUC 0.6785** |
+| Stage 3.0 | Аудит данных, гармонизация, GroupKFold, bootstrap CI, SHAP, CatBoost/XGBoost/LightGBM | Chapman Macro-F1 ≈ 0.57; внешние тесты AFIB-F1 0.97 |
+
+**Важные оговорки:**
+- полная база Chapman+Shaoxing (45 152 записи) объединяет Chapman и Ningbo; в локальных данных Ningbo отсутствует;
+- в бинарной задаче меньшинство — AFIB (18.5%), а не AFL;
+- прирост от HEAT-признаков в Stage 2 **не статистически значим** при 5-кратном групповом CV (Wilcoxon p=0.44);
+- добавление внешних данных выравнивает классы (53/47), но вызывает domain shift; для Chapman предпочтительна модель, обученная только на Chapman;
+- CPSC2018 не содержит AFL и используется только для pretraining AFIB vs others.
+
+### Отчёты
+
+- `reports/AF_AFL_ANALYSIS_REPORT.md` — Stage 1
+- `reports/AF_AFL_STAGE2_REPORT.md` — аудит разметки, HEAT, анализ ошибок
+- `reports/AF_AFL_MERGED_REPORT.md` — внешние AF-источники и балансировка
+- `reports/AF_AFL_STAGE3_REPORT.md` — CatBoost/XGBoost/LightGBM + Optuna + SHAP
+- `reports/AF_AFL_STAGE3_DATA_AUDIT.md`, `AF_AFL_STAGE3_VALIDATION.md`,
+  `AF_AFL_STAGE3_HARMONIZATION.md`, `AF_AFL_STAGE3_HEAT_PLAN.md` — Stage 3.0
+
+### Воспроизведение Stage 3.0
+
+```bash
+python scripts/stage3_data_integrity.py
+python scripts/stage3_validation_protocol.py
+python scripts/stage3_statistical_validation.py
+python scripts/stage3_atrial_experiment.py
+python scripts/train_stage3_gbdt.py
+```
+
+
+---
+
+## Stage 3.1/3.2 — единый аудированный протокол (актуально)
+
+Единый набор: `data/processed/af_afl_stage31/` — 9 042 записи, собранные
+строго из `manifest_final.csv` (SHA256 зафиксирован в `stats.json`).
+SHDB-AF исключён (ECG1/ECG2 не мапятся в 12 отведений), CPSC2018 (0 AFL) —
+только pretrain-only. Полный QC всех записей: `reports/AF_AFL_STAGE31_FULL_QC.md`.
+
+Воспроизведение:
+
+```bash
+python scripts/build_stage31_dataset.py
+python scripts/extract_af_afl_features.py   # expert, v2, heat через AF_AFL_OUT/AF_AFL_FEAT
+python scripts/stage31_full_qc.py
+python scripts/stage32_compare_models.py     # E1-E7, выбор по validation
+```
+
+Отчёты: `reports/AF_AFL_STAGE31_FULL_QC.md`,
+`reports/AF_AFL_STAGE32_REPORT.md`.
+
+
+---
+
+## Stage 3.3 — исправленный протокол (актуально)
+
+- `scripts/stage33_full_qc.py` — полный QC с PASS/REVIEW/REJECT (9042 записи);
+- `scripts/stage33_extract_features.py` — воспроизводимое извлечение признаков + SHA256;
+- `scripts/test_harmonization.py` — 11 юнит-тестов гармонизации;
+- `scripts/stage33_compare_strict.py` — 4-way split (train/cal/thr/select/test), выбор модели только на independent validation, cluster bootstrap.
+
+Отчёты: `reports/AF_AFL_STAGE33_DATA_INTEGRITY.md`,
+`reports/AF_AFL_STAGE33_STATISTICAL_VALIDATION.md`.
+
+
+---
+
+## Stage 3.4 — atrial activity и целостность эксперимента (актуально)
+
+- QC STATUS **реально** фильтрует набор: 9042 → 8962 (80 REVIEW/REJECT удалены из X/y/meta/features);
+- `src/ecgdet/atrial_activity_v2.py`: QRST cancellation (template subtraction), 80 признаков
+  предсердной активности (частота, периодичность, морфология, II/III/aVF/V1, межотведенческая согласованность);
+- `scripts/test_atrial_red.py` + `test_stage34_red.py`: 17 тестов, все проходят;
+- `scripts/stage34_compare_features.py`: 8 feature sets × 6 моделей, 4-way split, 4 варианта порога;
+- `scripts/stage34_error_analysis.py`: FN/FP с record_id, probability/threshold curves, permutation importance;
+- `scripts/stage34_domain_generalization.py`: leave-one-source-out.
+
+Отчёты: `reports/AF_AFL_STAGE34_REPORT.md`, `AF_AFL_STAGE34_ERROR_ANALYSIS.md`,
+`AF_AFL_STAGE34_DOMAIN_GENERALIZATION.md`.
+
+
+---
+
+## Stage 3.5 — Experimental Integrity & Advanced Atrial Signal Modeling (актуально)
+
+P0: error analysis и baseline используют ОДИН test split (1492 записи, model+calibrator из Stage 3.4), record_id проверены, LOSO preprocessingtrain-only, bootstrap CI. Достоверный baseline: F1 0.728, AFIB-F1 0.607.
+
+P1: `src/ecgdet/atrial_signal_analysis.py` — multi-lead QRS, QRST cancellation (median/adaptive/beat-aligned) с измеренным качеством, спектральные/временные/межотведенческие признаки (62). 27 unit-тестов.
+
+P2: сравнение на одном split — atrial-признаки НЕ улучшили метрики (лучший expert+RF F1 0.7315).
+
+P3: source classifier accuracy 0.9993 (source confounding), LOSO AFL-F1 = 0.
+
+Отчёты: `reports/AF_AFL_STAGE35_DATA_AUDIT.md`, `AF_AFL_STAGE35_BASELINE.md`,
+`AF_AFL_STAGE35_ERROR_ANALYSIS.md`, `AF_AFL_STAGE35_DOMAIN_AUDIT.md`.

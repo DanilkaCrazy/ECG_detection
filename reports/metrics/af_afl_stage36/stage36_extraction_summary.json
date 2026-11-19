@@ -1,0 +1,22 @@
+{
+  "n_records": 8962,
+  "n_features": 427,
+  "qrs_peaks_median": 16.0,
+  "n_zero_qrs": 11,
+  "status_counts": {
+    "median": "{'ok': 7766, 'degraded': 1185, 'failed': 11}",
+    "adaptive": "{'ok': 7325, 'degraded': 1626, 'failed': 11}",
+    "beat_aligned": "{'ok': 8139, 'degraded': 812, 'failed': 11}",
+    "tq_segment": "{'ok': 7271, 'failed': 1691}"
+  },
+  "qrs_suppression_by_source": {
+    "chapman": 0.6048438743138318,
+    "cpsc2018_extra": NaN,
+    "ptbxl": NaN
+  },
+  "atrial_pres_inside_by_source": {
+    "chapman": 0.28984703896504466,
+    "cpsc2018_extra": 0.9999982071007631,
+    "ptbxl": 0.9999997193531658
+  }
+}

@@ -102,12 +102,14 @@ def main() -> int:
     df.to_csv(MET / "stage35_loso_correct.csv", index=False)
 
     # source classifier: can source be predicted from features?
-    keep, med, sc, cen = fit_preprocess(np.asarray(X))
+    # FIX Stage 3.6 P0: preprocessing is fitted on the TRAIN part of the
+    # source-classification split only, not on the whole feature matrix.
+    gss = list(StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=42).split(
+        np.asarray(X), src, groups))
+    tr, te = gss[0][0], gss[0][1]
+    keep, med, sc, cen = fit_preprocess(np.asarray(X)[tr])
     Xa = apply_preprocess(np.asarray(X), keep, med, sc, cen)
     sc_clf = HistGradientBoostingClassifier(max_iter=200, random_state=42)
-    # group split by patient for source classification evaluation
-    gss = list(StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=42).split(Xa, src, groups))
-    tr, te = gss[0][0], gss[0][1]
     sc_clf.fit(Xa[tr], src[tr])
     sp_acc = accuracy_score(src[te], sc_clf.predict(Xa[te]))
     contingency = pd.crosstab(src, y)

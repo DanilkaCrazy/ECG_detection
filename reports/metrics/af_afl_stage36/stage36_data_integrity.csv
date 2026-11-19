@@ -1,0 +1,10 @@
+dataset,source,n,n_checked,nonzero_frac_median,invalid_records_frac
+af_external,ptbxl,1547,310,0.0024,1.0
+af_external,cpsc2018,1081,361,0.0023833333333333332,1.0
+af_external,cpsc2018_extra,122,122,0.0023916666666666665,1.0
+af_afl_stage31,chapman,7373,308,0.9752333333333333,0.0
+af_afl_stage31,ptbxl,1547,310,0.0024,1.0
+af_afl_stage31,cpsc2018_extra,122,122,0.0023916666666666665,1.0
+af_afl_stage34,chapman,7297,305,0.9751,0.0
+af_afl_stage34,ptbxl,1546,310,0.0024,1.0
+af_afl_stage34,cpsc2018_extra,119,119,0.0024,1.0

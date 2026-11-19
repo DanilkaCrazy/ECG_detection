@@ -1,0 +1,78 @@
+{
+  "verdict": "DATA INVALID — rebuild required",
+  "note": "WFDB p_signal is (samples, channels); harmonize_signal expects (channels, samples). External X.npy contains ~12 real samples padded with zeros to 5000.",
+  "by_dataset_source": [
+    {
+      "dataset": "af_external",
+      "source": "ptbxl",
+      "n": 1547,
+      "n_checked": 310,
+      "nonzero_frac_median": 0.0024,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_external",
+      "source": "cpsc2018",
+      "n": 1081,
+      "n_checked": 361,
+      "nonzero_frac_median": 0.0023833333333333332,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_external",
+      "source": "cpsc2018_extra",
+      "n": 122,
+      "n_checked": 122,
+      "nonzero_frac_median": 0.0023916666666666665,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_afl_stage31",
+      "source": "chapman",
+      "n": 7373,
+      "n_checked": 308,
+      "nonzero_frac_median": 0.9752333333333333,
+      "invalid_records_frac": 0.0
+    },
+    {
+      "dataset": "af_afl_stage31",
+      "source": "ptbxl",
+      "n": 1547,
+      "n_checked": 310,
+      "nonzero_frac_median": 0.0024,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_afl_stage31",
+      "source": "cpsc2018_extra",
+      "n": 122,
+      "n_checked": 122,
+      "nonzero_frac_median": 0.0023916666666666665,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_afl_stage34",
+      "source": "chapman",
+      "n": 7297,
+      "n_checked": 305,
+      "nonzero_frac_median": 0.9751,
+      "invalid_records_frac": 0.0
+    },
+    {
+      "dataset": "af_afl_stage34",
+      "source": "ptbxl",
+      "n": 1546,
+      "n_checked": 310,
+      "nonzero_frac_median": 0.0024,
+      "invalid_records_frac": 1.0
+    },
+    {
+      "dataset": "af_afl_stage34",
+      "source": "cpsc2018_extra",
+      "n": 119,
+      "n_checked": 119,
+      "nonzero_frac_median": 0.0024,
+      "invalid_records_frac": 1.0
+    }
+  ]
+}
