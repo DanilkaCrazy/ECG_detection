@@ -62,9 +62,23 @@ def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple
     if sig2d.shape[0] != len(lead_names) and sig2d.shape[1] == len(lead_names):
         sig2d = sig2d.T
     idx = lead_index_map(lead_names)
-    chosen = [idx[l] for l in ("II", "V1", "V5") if l in idx]
-    if not chosen:
-        chosen = list(range(min(3, sig2d.shape[0])))
+    candidates = [idx[l] for l in ("II", "V1", "V5") if l in idx]
+    if not candidates:
+        candidates = list(range(min(3, sig2d.shape[0])))
+    # Dynamically drop absent/flat leads (Chapman missing chest leads).
+    usable = []
+    for ci in candidates:
+        raw = sig2d[ci]
+        bp = _bandpass(raw, fs, 5, 15)
+        if float(np.std(raw)) > 1e-6 and float(np.std(bp)) > 1e-8:
+            usable.append(ci)
+    auto_transposed = bool(sig2d.shape[0] == len(lead_names))
+    if not usable:
+        return np.asarray([], dtype=int), {
+            "consensus_leads": [], "votes": 0, "per_lead_counts": {},
+            "qrs_detection_status": "failed", "qrs_detection_confidence": 0.0,
+            "auto_transposed": auto_transposed}
+    chosen = usable
     votes = np.zeros(sig2d.shape[1], dtype=float)
     per_lead = {}
     for ci in chosen:
@@ -81,16 +95,22 @@ def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple
         per_lead[ci] = peaks
         for p in peaks:
             votes[max(0, p - int(0.03 * fs)):min(len(votes), p + int(0.03 * fs))] += 1
-    need = 2 if len(chosen) > 1 else 1
+    # Required votes adapt to the number of actually usable leads.
+    need = 1 if len(chosen) == 1 else 2
     cand, _ = sp_signal.find_peaks(votes, height=need - 0.5, distance=int(0.25 * fs))
     refined = []
     for c in cand:
         lo, hi = max(0, c - int(0.04 * fs)), min(len(votes), c + int(0.04 * fs))
         refined.append(int(lo + np.argmax(votes[lo:hi])))
     peaks = np.unique(np.asarray(refined, dtype=int))
+    confidence = float(len(usable) / max(len(candidates), 1))
+    status = ("ok" if confidence >= 0.66 and len(peaks) >= 3 else
+              "degraded" if len(peaks) >= 3 else "failed")
     return peaks, {"consensus_leads": chosen, "votes": len(cand),
                    "per_lead_counts": {str(k): int(len(v)) for k, v in per_lead.items()},
-                   "auto_transposed": bool(sig2d.shape[0] == len(lead_names))}
+                   "qrs_detection_confidence": confidence,
+                   "qrs_detection_status": status,
+                   "auto_transposed": auto_transposed}
 
 
 def _cancel(x, fs, peaks, method, pre=0.08, post=0.12):

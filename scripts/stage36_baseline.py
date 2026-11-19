@@ -46,12 +46,20 @@ def metrics(y, p, thr):
                 cm=confusion_matrix(y, q, labels=[0, 1]).tolist())
 
 
-def calibrate(yv, score_v, yt, score_t):
-    cal = LogisticRegression().fit(score_v.reshape(-1, 1), yv)
-    pv = cal.predict_proba(score_v.reshape(-1, 1))[:, 1]
-    thr = float(THR[int(np.argmax([f1_score(yv, (pv >= t).astype(int), average="macro") for t in THR]))])
+def calibrate(yv, score_v, score_t, groups=None):
+    """Fit the calibrator and choose the threshold on DISJOINT val halves."""
+    from sklearn.model_selection import StratifiedGroupKFold
+    if groups is None:
+        groups = np.arange(len(yv))
+    folds = list(StratifiedGroupKFold(n_splits=2, shuffle=True, random_state=42).split(
+        np.zeros((len(yv), 1)), yv, groups=groups))
+    ic, it = folds[0][0], folds[0][1]
+    cal = LogisticRegression().fit(score_v[ic].reshape(-1, 1), yv[ic])
+    pthr = cal.predict_proba(score_v[it].reshape(-1, 1))[:, 1]
+    thr = float(THR[int(np.argmax([f1_score(yv[it], (pthr >= t).astype(int), average="macro")
+                                   for t in THR]))])
     pt = cal.predict_proba(score_t.reshape(-1, 1))[:, 1]
-    return cal, thr, pt
+    return cal, thr, pt, ic, it
 
 
 def main():
@@ -65,13 +73,15 @@ def main():
 
     F = np.asarray(np.load(D / "features_advanced_expert.npy", mmap_mode="r"), dtype=np.float32)
     keep = ~np.isnan(F[tr]).all(axis=0)
-    med = np.nan_to_num(np.nanmedian(F[tr][:, keep], axis=0))
-    F = np.where(np.isnan(F), med, F)[:, keep]
+    F = F[:, keep]  # subset first: imputation width must match
+    med = np.nan_to_num(np.nanmedian(F[tr], axis=0))
+    F = np.where(np.isnan(F), med, F)
     q1, q3 = np.percentile(F[tr], [25, 75], axis=0)
     sc = np.where((q3 - q1) > 1e-9, q3 - q1, 1.0)
     cen = np.median(F[tr], axis=0)
     F = np.clip((F - cen) / sc, -20, 20).astype(np.float32)
-    np.save(MET / "stage36_2_preprocessing.npy", np.vstack([keep, med, sc, cen]))
+    assert len(keep) == len(med) == len(sc) == len(cen), "preprocessing dimension mismatch"
+    np.savez(MET / "stage36_2_preprocessing.npz", keep=keep, med=med, sc=sc, cen=cen)
 
     models = {
         "expert_RandomForest": RandomForestClassifier(n_estimators=400, min_samples_leaf=3, class_weight="balanced_subsample", n_jobs=-1, random_state=42),
@@ -83,9 +93,11 @@ def main():
         m.fit(F[tr], y[tr])
         sv = m.predict_proba(F[va])[:, 1]
         st = m.predict_proba(F[te])[:, 1]
-        cal, thr, pt = calibrate(y[va], sv, y[te], st)
+        cal, thr, pt, ic, it = calibrate(y[va], sv, st, groups=meta.patient_key.iloc[va].to_numpy())
         r = metrics(y[te], pt, thr)
-        r.update({"model": name, "threshold": float(thr), "n_test": len(te), "calibration": "logistic on val"})
+        r.update({"model": name, "threshold": float(thr), "n_test": len(te),
+                  "calibration": "logistic on val-half A; threshold on val-half B",
+                  "n_cal": len(ic), "n_thr": len(it)})
         rows.append(r)
         joblib.dump({"model": m, "calibrator": cal, "threshold": thr}, MOD / f"{name}.joblib")
         pd.DataFrame({"record_id": meta.record_id.iloc[te].to_numpy(), "source": meta.source.iloc[te].to_numpy(),

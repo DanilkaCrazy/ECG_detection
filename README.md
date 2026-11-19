@@ -12,9 +12,12 @@
 > - Новый честный baseline (Stage 3.6.2): ResNet1D Macro-F1 0.639 / AFIB-F1 0.540;
 >   Expert+RandomForest 0.623 / 0.508. Различия между моделями статистически
 >   не значимы. F1 ≥ 0.90 — исследовательская цель, не полученный результат.
-> - Stage 3.6.1: строгая проверка 20764 записей выявила 55 Chapman-записей с
->   пропущенными грудными отведениями. Ablation новых 427 atrial-признаков ещё
->   не запускалась. См. `reports/AF_AFL_STAGE36_1_REPORT.md`.
+> - Stage 3.6.3: ablation дал статистически значимый прирост от корректно
+>   выделенного предсердного остатка: adaptive + RF F1 0.644 / AFIB-F1 0.533
+>   против 0.624 / 0.506 baseline (paired cluster bootstrap).
+> - Stage 3.6.4: LOSO показывает отсутствие переноса между источниками;
+>   source-only baseline (только имя датасета) даёт F1 0.740. Domain
+>   generalization не доказана. См. `reports/AF_AFL_STAGE36_3_4_REPORT.md`.
 >   См. `reports/AF_AFL_STAGE36_P0_AUDIT.md`.
 >
 > **Актуальные точки входа:** `scripts/stage36_extract_atrial.py`,

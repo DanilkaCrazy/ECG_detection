@@ -1,0 +1,53 @@
+{
+  "loso": [
+    {
+      "held_out_source": "chapman",
+      "n_train": 1665,
+      "n_test": 7297,
+      "afib_in_test": 1777,
+      "afl_in_test": 5520,
+      "threshold": 0.5099999999999999,
+      "f1_macro": 0.19825161820508924,
+      "afib_f1": 0.37778524241406336,
+      "afl_f1": 0.018717993996115134,
+      "roc_auc": 0.46578727378010487,
+      "pr_auc_afib": 0.22982344499177731,
+      "preprocessing_fit_on": "train sources only"
+    },
+    {
+      "held_out_source": "cpsc2018_extra",
+      "n_train": 8843,
+      "n_test": 119,
+      "afib_in_test": 75,
+      "afl_in_test": 44,
+      "threshold": 0.4099999999999999,
+      "f1_macro": 0.6017402945113788,
+      "afib_f1": 0.7590361445783133,
+      "afl_f1": 0.4444444444444444,
+      "roc_auc": 0.7557575757575759,
+      "pr_auc_afib": 0.8443466965253862,
+      "preprocessing_fit_on": "train sources only"
+    },
+    {
+      "held_out_source": "ptbxl",
+      "n_train": 7416,
+      "n_test": 1546,
+      "afib_in_test": 1490,
+      "afl_in_test": 56,
+      "threshold": 0.27999999999999997,
+      "f1_macro": 0.2803406118470129,
+      "afib_f1": 0.5503292568203199,
+      "afl_f1": 0.010351966873706004,
+      "roc_auc": 0.09868168744007669,
+      "pr_auc_afib": 0.8950652581468345,
+      "preprocessing_fit_on": "train sources only"
+    }
+  ],
+  "source_only_baseline": {
+    "f1_macro": 0.739654790805686,
+    "afib_f1": 0.6246246246246246,
+    "afl_f1": 0.8546849569867473,
+    "roc_auc": 0.7266783046037782,
+    "note": "source name only; upper bound of dataset shortcut"
+  }
+}

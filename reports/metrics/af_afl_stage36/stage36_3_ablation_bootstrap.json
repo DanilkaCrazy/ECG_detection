@@ -1,0 +1,38 @@
+{
+  "B_expert_median_minus_A_expert": {
+    "mean": 0.0186880623378973,
+    "lo": 0.006513148651410805,
+    "hi": 0.03230860471695185,
+    "significant": true
+  },
+  "C_expert_adaptive_minus_A_expert": {
+    "mean": 0.02012297636324525,
+    "lo": 0.00729473047442486,
+    "hi": 0.03255777570213777,
+    "significant": true
+  },
+  "D_expert_beat_aligned_minus_A_expert": {
+    "mean": 0.014287319167635343,
+    "lo": 0.0012756798118325312,
+    "hi": 0.02796530839968259,
+    "significant": true
+  },
+  "E_expert_tq_minus_A_expert": {
+    "mean": 0.005015336739319281,
+    "lo": -0.005979801009135835,
+    "hi": 0.01718548335544758,
+    "significant": false
+  },
+  "F_expert_all_atrial_minus_A_expert": {
+    "mean": 0.0018770144381291605,
+    "lo": -0.014710205112446913,
+    "hi": 0.017779784114423037,
+    "significant": false
+  },
+  "G_expert_selected_atrial_minus_A_expert": {
+    "mean": 0.016446627567727006,
+    "lo": 0.003393489731091476,
+    "hi": 0.02987046280183467,
+    "significant": true
+  }
+}

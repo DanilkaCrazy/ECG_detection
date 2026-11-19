@@ -68,25 +68,31 @@ def _subtract_template(x, fs, peaks, template, L1, L2):
     return out, mask
 
 
-def _tq_residual(x, fs, peaks, pre_q=0.10, post_t=0.25):
-    """Independent baseline: concatenate TQ segments between T end and next QRS."""
+def _tq_residual(x, fs, peaks, margin_s=0.02, min_len_s=0.05):
+    """TQ segments derived from QRS-mask boundaries — never inside a QRS window.
+
+    Returns (residual_with_NaN_gaps, valid_mask, segment_lengths, n_invalid_short).
+    Short intervals are marked invalid instead of being forced into existence.
+    """
     n = len(x)
-    peak_list = np.sort(np.asarray(peaks, dtype=int))
+    qmask = _qrs_window_mask(n, fs, peaks)
     out = np.full(n, np.nan)
     mask = np.zeros(n, dtype=bool)
-    start = int(peak_list[0] + post_t * fs) if len(peak_list) else 0
-    for p in peak_list[1:]:
-        stop = max(start + 8, int(p - pre_q * fs))
-        if stop <= n and stop > start:
-            out[start:stop] = x[start:stop]
-            mask[start:stop] = True
-        start = int(p + post_t * fs)
-    if len(peak_list):
-        stop = min(n, int(peak_list[-1] + (1.0 / 0.8 - post_t) * fs))
-        if stop > start:
-            out[start:stop] = x[start:stop]
-            mask[start:stop] = True
-    return out, mask
+    # Contiguous runs of NOT-QRS samples are the TQ intervals.
+    free = ~qmask
+    d = np.diff(np.concatenate(([0], free.astype(int), [0])))
+    starts, ends = np.where(d == 1)[0], np.where(d == -1)[0]
+    margin, min_len = int(margin_s * fs), int(min_len_s * fs)
+    seg_lens, invalid = [], 0
+    for s, e in zip(starts, ends):
+        a, b = s + margin, e - margin
+        if b - a >= min_len:
+            out[a:b] = x[a:b]
+            mask[a:b] = True
+            seg_lens.append(b - a)
+        else:
+            invalid += 1
+    return out, mask, seg_lens, invalid
 
 
 def _qrs_window_mask(n, fs, peaks, pre=0.08, post=0.12):
@@ -152,6 +158,8 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
     valid = []
     idx = _lead_index(lead_names)
     tq_segments = []
+    tq_invalid = 0
+    tq_all_segments = 0
 
     for name in ("II", "V1", "III", "aVF", "V5"):
         if name not in idx:
@@ -159,9 +167,11 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
         li = idx[name]
         x = sig[li]
         if method == "tq_segment":
-            resid, tq_mask = _tq_residual(x, fs, peaks)
+            resid, tq_mask, _seg_lens, _n_invalid = _tq_residual(x, fs, peaks)
             qmask = _qrs_window_mask(len(x), fs, peaks)
             vmask = tq_mask
+            tq_invalid += _n_invalid
+            tq_all_segments += len(_seg_lens)
         else:
             tmpl = _beat_template(x, fs, peaks, method)
             if tmpl is None or tmpl[0] is None:
@@ -223,6 +233,7 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
             "valid_tq_duration": valid_dur,
             "valid_tq_fraction": valid_frac,
             "n_valid_tq_segments": int(len(tq_segments)),
+            "n_invalid_short_tq": int(tq_invalid),
             "median_tq_segment_length": med_len,
             "tq_extraction_status": tq_status,
         }
@@ -231,7 +242,8 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
     else:
         tq_metrics = {
             "valid_tq_duration": np.nan, "valid_tq_fraction": np.nan,
-            "n_valid_tq_segments": 0, "median_tq_segment_length": np.nan,
+            "n_valid_tq_segments": 0, "n_invalid_short_tq": 0,
+            "median_tq_segment_length": np.nan,
             "tq_extraction_status": "not_applicable",
         }
         status = ("failed" if not valid or len(peaks) < 2 else
