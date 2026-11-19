@@ -62,7 +62,8 @@ def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple
     if sig2d.shape[0] != len(lead_names) and sig2d.shape[1] == len(lead_names):
         sig2d = sig2d.T
     idx = lead_index_map(lead_names)
-    candidates = [idx[l] for l in ("II", "V1", "V5") if l in idx]
+    candidates = [idx[l] for l in ("II", "V1", "V5", "III", "aVF", "V6", "V4",
+                                   "V2", "I", "aVR", "aVL") if l in idx]
     if not candidates:
         candidates = list(range(min(3, sig2d.shape[0])))
     # Dynamically drop absent/flat leads (Chapman missing chest leads).

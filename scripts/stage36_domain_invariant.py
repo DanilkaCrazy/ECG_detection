@@ -12,8 +12,9 @@ from sklearn.metrics import f1_score, roc_auc_score
 
 D = ROOT / "data" / "processed" / "af_afl_stage34"
 MET = ROOT / "reports" / "metrics" / "af_afl_stage36"
-EPOCHS = 15
+EPOCHS = 20
 BATCH = 128
+ALPHA_WARMUP = 1.0
 
 
 class Net(nn.Module):
@@ -57,18 +58,23 @@ def main():
         dom_ids = np.array([train_sources.index(s) for s in src[tr]])
         dom_t = torch.as_tensor(dom_ids, dtype=torch.long)
         n_dom = len(train_sources)
+        idx_by_dom = [torch.where(dom_t == d)[0] for d in range(n_dom)]
         net = Net(X.shape[1], n_dom)
         opt = torch.optim.Adam(net.parameters(), lr=1e-3)
         bce = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([float((y[tr] == 0).sum() / max((y[tr] == 1).sum(), 1))]))
         ce = nn.CrossEntropyLoss()
         for ep in range(EPOCHS):
             net.train()
+            alpha = min(ALPHA_WARMUP, ep / (EPOCHS // 2))
             perm = torch.randperm(len(tr))
+            # domain-balanced batches: draw roughly equally from each domain
             for k in range(0, len(perm), BATCH):
-                idx = perm[k:k + BATCH]
+                cand = torch.cat([idx_by_dom[d][torch.randperm(len(idx_by_dom[d]))[: BATCH // n_dom]]
+                                  for d in range(n_dom)])
+                cand = cand[torch.randperm(len(cand))[: BATCH]]
+                idx = cand
                 if len(idx) < 2 or len(torch.unique(dom_t[idx])) < 2:
-                    continue  # need both domains in a batch for CORAL/DANN
-                alpha = min(1.0, 2.0 / (1.0 + np.exp(-10 * ep / EPOCHS)) - 1.0)
+                    continue
                 yh, dh, z = net(Xtr[idx], alpha)
                 loss = bce(yh, ytr[idx]) + ce(dh, dom_t[idx])
                 # CORAL between the two training sources
