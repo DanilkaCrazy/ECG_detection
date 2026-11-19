@@ -47,7 +47,7 @@ def test_qrs_cancel_methods_compare_quality():
     assert set(out.keys()) >= {"median", "adaptive", "beat_aligned"}
     for k, v in out.items():
         assert "qrs_residual_energy" in v, (k, v)
-        assert "preservation" in v
+        assert "residual_energy_ratio_outside_qrs" in v
 
 
 def test_spectral_features():

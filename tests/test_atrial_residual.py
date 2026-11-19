@@ -1,7 +1,8 @@
-"""Stage 3.6 P0 — RED tests for correct atrial residual extraction.
+"""Stage 3.6 P0/P0.1 — tests for correct atrial residual extraction.
 
 Synthetic signals with a KNOWN atrial component (4.5 Hz sine) and a KNOWN QRS
-component are used, so suppression and preservation can be measured, not assumed.
+component are used: suppression and F-wave preservation are measured, not
+assumed. Energy ratios on real ECG are NOT interpreted as F-wave preservation.
 """
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
@@ -16,7 +17,6 @@ LEADS = ["I", "II", "III", "aVR", "aVL", "aVF", "V1", "V2", "V3", "V4", "V5", "V
 
 
 def make_signal(atrial_hz=4.5, atrial_amp=0.15, qrs_period_s=0.8, noise=0.005, seed=0):
-    """Return (signal[1,N], qrs[N], atrial[N], qrs_peaks) with known components."""
     rng = np.random.default_rng(seed)
     n = FS * 10
     t = np.arange(n) / FS
@@ -37,18 +37,20 @@ def make_signal(atrial_hz=4.5, atrial_amp=0.15, qrs_period_s=0.8, noise=0.005, s
 def test_extract_atrial_residual_contract():
     sig, _, _, peaks, _ = make_signal()
     r = extract_atrial_residual(sig, FS, ["II"], method="median", qrs_peaks=peaks)
-    for key in ("residual", "qrs_mask", "qrs_suppression_quality",
-                "atrial_preservation_quality", "valid_leads", "extraction_status"):
+    for key in ("residual", "qrs_exclusion_mask", "valid_sample_mask",
+                "qrs_suppression_quality", "residual_energy_ratio_inside_qrs",
+                "residual_energy_ratio_outside_qrs", "residual_energy_ratio_composite",
+                "valid_leads", "extraction_status"):
         assert key in r, key
     assert r["residual"].shape == sig.shape
-    assert r["qrs_mask"].shape == (sig.shape[1],)
+    assert r["qrs_exclusion_mask"].shape == (sig.shape[1],)
     assert r["extraction_status"] in ("ok", "degraded", "failed")
 
 
-def test_residual_suppresses_qrs_but_preserves_atrial():
+def test_residual_suppresses_qrs_but_preserves_known_atrial():
     sig, qrs, atrial, peaks, _ = make_signal()
     r = extract_atrial_residual(sig, FS, ["II"], method="median", qrs_peaks=peaks)
-    mask = r["qrs_mask"]
+    mask = r["qrs_exclusion_mask"]
     assert mask.sum() > 100, "QRS mask must cover the QRS windows"
     resid = r["residual"][0]
     pre = float(np.mean(sig[0][mask] ** 2))
@@ -57,18 +59,16 @@ def test_residual_suppresses_qrs_but_preserves_atrial():
     corr = float(np.corrcoef(resid[mask], atrial[mask])[0, 1])
     assert corr > 0.7, corr  # known 4.5 Hz atrial wave survived
     assert r["qrs_suppression_quality"] > 0.6
-    assert r["atrial_preservation_quality"] > 0.6
+    assert np.isfinite(r["residual_energy_ratio_inside_qrs"])
 
 
 @pytest.mark.parametrize("method", ["median", "adaptive", "beat_aligned", "tq_segment"])
 def test_all_methods_return_usable_residual(method):
     sig, _, _, peaks, _ = make_signal()
-    sig2 = np.repeat(sig, 2, axis=0)  # two leads for two lead names
+    sig2 = np.repeat(sig, 2, axis=0)
     r = extract_atrial_residual(sig2, FS, ["II", "V1"], method=method, qrs_peaks=peaks)
     assert r["residual"].shape == (2, FS * 10)
-    # TQ segments intentionally leave NaN in discarded intervals; usable samples
-    # are those marked by qrs_mask. Other methods return fully finite residuals.
-    m = r["qrs_mask"]
+    m = r["valid_sample_mask"]
     assert m.sum() > FS, method
     assert np.isfinite(r["residual"][:, m]).all(), method
     assert r["extraction_status"] != "failed", (method, r["extraction_status"])
@@ -80,10 +80,37 @@ def test_tq_segment_residual_keeps_atrial_frequency():
     r = extract_atrial_residual(sig, FS, ["II"], method="tq_segment", qrs_peaks=peaks)
     f = spectral_atrial(r["residual"][0], FS)
     assert 4.2 <= f["dominant_freq"] <= 4.8, f
+    assert r["valid_tq_fraction"] > 0.3
 
 
 def test_unreliable_extraction_is_marked_not_zero_filled():
     flat = np.zeros((1, FS * 10))
     r = extract_atrial_residual(flat, FS, ["II"], method="median", qrs_peaks=np.array([]))
     assert r["extraction_status"] in ("degraded", "failed")
-    assert np.isnan(r["qrs_suppression_quality"]) or np.isnan(r["atrial_preservation_quality"])
+    assert np.isnan(r["qrs_suppression_quality"])
+
+
+def test_residual_preserves_time_varying_atrial_component():
+    """Atrial activity with drifting frequency, amplitude and polarity."""
+    rng = np.random.default_rng(7)
+    n = FS * 10
+    t = np.arange(n) / FS
+    # frequency drift 4 -> 6 Hz, amplitude modulation, phase jitter
+    phase = 2 * np.pi * np.cumsum(4.0 + 2.0 * t / 10.0) / FS
+    atrial = (0.12 + 0.06 * np.sin(2 * np.pi * 0.3 * t)) * np.sin(phase)
+    atrial *= np.where(np.floor(t / 2) % 2 == 0, 1.0, -1.0)  # polarity changes
+    qrs = np.zeros(n)
+    L = 40
+    tmpl = np.hanning(L) * np.sin(np.linspace(0, 2 * np.pi, L))
+    peaks = []
+    for k in range(1, 13):
+        c = int(k * 0.8 * FS)
+        qrs[c - L // 2:c - L // 2 + L] += tmpl
+        peaks.append(c)
+    sig = (qrs + atrial + rng.normal(0, 0.003, n))[None, :]
+    r = extract_atrial_residual(sig, FS, ["II"], method="median", qrs_peaks=np.asarray(peaks))
+    mask = r["qrs_exclusion_mask"]
+    resid = r["residual"][0]
+    corr = float(np.corrcoef(resid[mask], atrial[mask])[0, 1])
+    assert corr > 0.5, corr
+    assert r["qrs_suppression_quality"] > 0.5

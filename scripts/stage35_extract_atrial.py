@@ -29,7 +29,7 @@ def one(i):
     cancel = qrs_cancel_compare(s, 500.0, LEADS, peaks)
     for method, d in cancel.items():
         out[f"cancel_{method}_resid_energy"] = float(d["qrs_residual_energy"])
-        out[f"cancel_{method}_preservation"] = float(d["preservation"])
+        out[f"cancel_{method}_preservation"] = float(d["residual_energy_ratio_outside_qrs"])
     li = lead_index_map(LEADS)
     for l in ("II","III","aVF","V1"):
         if l not in li: continue

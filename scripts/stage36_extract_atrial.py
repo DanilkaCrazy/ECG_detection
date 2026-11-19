@@ -54,8 +54,12 @@ def one(i, X):
         r = extract_atrial_residual(raw, FS, LEADS, method=method, qrs_peaks=peaks)
         out[f"status_{method}"] = r["extraction_status"]
         out[f"qrs_supp_{method}"] = r["qrs_suppression_quality"]
-        out[f"atr_pres_{method}"] = r["atrial_preservation_quality"]
-        out[f"atr_pres_inside_{method}"] = r["atrial_preservation_inside_qrs"]
+        out[f"resid_ratio_{method}"] = r["residual_energy_ratio_composite"]
+        out[f"resid_ratio_inside_{method}"] = r["residual_energy_ratio_inside_qrs"]
+        if method == "tq_segment":
+            for k in ("valid_tq_duration", "valid_tq_fraction", "n_valid_tq_segments",
+                      "median_tq_segment_length"):
+                out[f"{k}_tq"] = r[k]
         for lead in ATRIAL_LEADS:
             resid = r["residual"][LEADS.index(lead)]
             prefix = f"{method}_{lead}_"
@@ -93,7 +97,8 @@ def main():
 
     keep_cols = [k for k in (res[0] if res else {}) if k.startswith("status_")
                  or k in ("n_qrs_peaks", "n_qrs_votes") or k.startswith("qrs_supp_")
-                 or k.startswith("atr_pres_")]
+                 or k.startswith("resid_ratio_") or k.startswith("valid_tq_")
+                 or k in ("n_valid_tq_segments", "median_tq_segment_length")]
     diag_rows = []
     for i, d in enumerate(res):
         row = {"record_id": meta.record_id.iloc[i], "source": meta.source.iloc[i]}
@@ -110,7 +115,7 @@ def main():
         "status_counts": {m: str(diag[f"status_{m}"].value_counts().to_dict())
                           for m in ("median", "adaptive", "beat_aligned", "tq_segment")},
         "qrs_suppression_by_source": diag.groupby("source")["qrs_supp_median"].median().to_dict(),
-        "atrial_pres_inside_by_source": diag.groupby("source")["atr_pres_inside_median"].median().to_dict(),
+        "residual_energy_ratio_inside_by_source": diag.groupby("source")["resid_ratio_inside_median"].median().to_dict(),
     }
     (REP / "stage36_extraction_summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")

@@ -45,7 +45,11 @@ def load_one(rec: dict):
                                               signal_hash)
     try:
         r = wfdb.rdrecord(str(rec["path"]))
-        units = list(getattr(r, "units", [])) or ["mV"]
+        # Keep per-channel units: harmonize_signal validates and converts each
+        # channel. Taking units[0] for every lead can silently mis-convert mV/uV.
+        units = [str(u).strip() for u in (getattr(r, "units", []) or ["mV"])]
+        if len(units) == 1:
+            units = units * len(r.sig_name)
         # FIX Stage 3.6 P0: WFDB returns (samples, channels); harmonize_signal
         # expects (channels, samples). Without the transpose a 5000x12 record
         # becomes 12 samples padded with 4988 zeros -> invalid dataset.
@@ -55,7 +59,7 @@ def load_one(rec: dict):
         # WFDB p_signal is physical; do not pass adc_gain here.
         canonical, mask, info = harmonize_signal(
             p_signal, float(r.fs),
-            list(r.sig_name), units=units[0], signal_kind="physical",
+            list(r.sig_name), units=units, signal_kind="physical",
             target_fs=FS, target_len=LEN)
         if info["status"] != HarmonizationStatus.OK:
             return None
@@ -66,7 +70,7 @@ def load_one(rec: dict):
             return None
         return {"signal": np.ascontiguousarray(canonical, dtype=np.float32),
                 "mask": mask, "hash": signal_hash(canonical),
-                "units": units[0], "channels": list(r.sig_name), "info": info}
+                "units": "|".join(sorted(set(units))), "channels": list(r.sig_name), "info": info}
     except Exception:
         return None
 

@@ -1,0 +1,25 @@
+{
+  "n_checked": 20764,
+  "n_per_dataset_source": {
+    "af_afl_stage31/chapman": 7373,
+    "af_afl_stage31/cpsc2018_extra": 120,
+    "af_afl_stage31/ptbxl": 1546,
+    "af_afl_stage34/chapman": 7297,
+    "af_afl_stage34/cpsc2018_extra": 119,
+    "af_afl_stage34/ptbxl": 1546,
+    "af_external/cpsc2018": 1086,
+    "af_external/cpsc2018_extra": 126,
+    "af_external/ptbxl": 1551
+  },
+  "n_failed": 129,
+  "failed_by_dataset_source": {
+    "af_afl_stage31/chapman": 71,
+    "af_afl_stage34/chapman": 55,
+    "af_external/cpsc2018": 3
+  },
+  "failed_reasons": {
+    "channel_nonzero<0.5": 108,
+    "channel_nonzero<0.5;amplitude_implausible": 21
+  },
+  "verdict": "FAIL — mandatory checks violated"
+}

@@ -146,21 +146,22 @@ def qrs_cancel_compare(sig2d: np.ndarray, fs: float, lead_names: list[str],
             pres_in = float(np.mean(rb[inside] ** 2) / (np.mean(xb[inside] ** 2) + 1e-12))
             pres_out = float(np.mean(rb[outside] ** 2) / (np.mean(xb[outside] ** 2) + 1e-12)) if outside.sum() > 10 else np.nan
             per_lead.append({"lead": l, "qrs_residual_energy": post / (pre + 1e-12),
-                             "preservation": pres_out,
-                             "atrial_preservation_inside_qrs": pres_in,
+                             "residual_energy_ratio_outside_qrs": pres_out,
+                             "residual_energy_ratio_inside_qrs": pres_in,
                              "resid_std": float(np.std(resid))})
         if per_lead:
             detail = {d["lead"]: d for d in per_lead}
             result[method] = {
                 "qrs_residual_energy": float(np.nanmean([d["qrs_residual_energy"] for d in per_lead])),
-                "preservation": float(np.nanmean([d["preservation"] for d in per_lead])),
-                "atrial_preservation_inside_qrs": float(np.nanmean([d["atrial_preservation_inside_qrs"] for d in per_lead])),
+                "residual_energy_ratio_outside_qrs": float(np.nanmean([d["residual_energy_ratio_outside_qrs"] for d in per_lead])),
+                "residual_energy_ratio_inside_qrs": float(np.nanmean([d["residual_energy_ratio_inside_qrs"] for d in per_lead])),
                 "resid_std": float(np.nanmean([d["resid_std"] for d in per_lead])),
                 "per_lead": detail,
             }
         else:
-            result[method] = {"qrs_residual_energy": np.nan, "preservation": np.nan,
-                              "atrial_preservation_inside_qrs": np.nan,
+            result[method] = {"qrs_residual_energy": np.nan,
+                              "residual_energy_ratio_outside_qrs": np.nan,
+                              "residual_energy_ratio_inside_qrs": np.nan,
                               "resid_std": np.nan, "per_lead": {}}
     return result
 

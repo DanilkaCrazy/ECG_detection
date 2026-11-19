@@ -24,7 +24,7 @@ def main():
             "zero_qrs_frac": float((g["n_qrs_peaks"] == 0).mean()),
             "status_ok_frac": float((g["status_median"] == "ok").mean()),
             "qrs_supp_median": float(g["qrs_supp_median"].median()),
-            "atr_pres_inside_median": float(g["atr_pres_inside_median"].median()),
+            "residual_energy_ratio_inside_median": float(g["resid_ratio_inside_median"].median()),
             "dom_freq_median": float(g["dom_freq"].median()),
         })
     s = pd.DataFrame(rows)

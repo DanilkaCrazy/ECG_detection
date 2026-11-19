@@ -99,5 +99,5 @@ def test_preservation_measured_inside_qrs_window():
     sig = np.asarray([qrs + atrial, qrs + atrial])
     res = qrs_cancel_compare(sig, FS, ["II", "V1"], qrs_peaks)
     for method in ("median", "adaptive", "beat_aligned"):
-        assert "atrial_preservation_inside_qrs" in res[method], res[method]
-        assert 0.0 <= res[method]["atrial_preservation_inside_qrs"] <= 1.5
+        assert "residual_energy_ratio_inside_qrs" in res[method], res[method]
+        assert 0.0 <= res[method]["residual_energy_ratio_inside_qrs"] <= 1.5

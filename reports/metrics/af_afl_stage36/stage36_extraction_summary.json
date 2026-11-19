@@ -1,20 +1,20 @@
 {
   "n_records": 8962,
-  "n_features": 427,
+  "n_features": 431,
   "qrs_peaks_median": 17.0,
   "n_zero_qrs": 11,
   "status_counts": {
     "median": "{'ok': 7542, 'degraded': 1409, 'failed': 11}",
     "adaptive": "{'ok': 7025, 'degraded': 1926, 'failed': 11}",
     "beat_aligned": "{'ok': 8003, 'degraded': 948, 'failed': 11}",
-    "tq_segment": "{'ok': 8935, 'failed': 27}"
+    "tq_segment": "{'ok': 7094, 'degraded': 1686, 'failed': 182}"
   },
   "qrs_suppression_by_source": {
     "chapman": 0.6048438743138318,
     "cpsc2018_extra": 0.6613719484657753,
     "ptbxl": 0.66640167825471
   },
-  "atrial_pres_inside_by_source": {
+  "residual_energy_ratio_inside_by_source": {
     "chapman": 0.28984703896504466,
     "cpsc2018_extra": 0.294852203680148,
     "ptbxl": 0.2461588258114662

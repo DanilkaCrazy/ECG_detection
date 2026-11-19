@@ -1,0 +1,26 @@
+{
+  "ResNet1D_minus_CNN1D": {
+    "mean": 0.003982553833479833,
+    "lo": -0.010285816582494528,
+    "hi": 0.01771124737552,
+    "significant": false
+  },
+  "expert_CatBoost_minus_CNN1D": {
+    "mean": -0.015472855187663065,
+    "lo": -0.03828008355739638,
+    "hi": 0.00695697225969816,
+    "significant": false
+  },
+  "expert_HistGB_minus_CNN1D": {
+    "mean": -0.019328045028131832,
+    "lo": -0.04207230983422946,
+    "hi": 0.0029368808518855185,
+    "significant": false
+  },
+  "expert_RandomForest_minus_CNN1D": {
+    "mean": -0.012025295428803384,
+    "lo": -0.03416955120155585,
+    "hi": 0.01037540076159907,
+    "significant": false
+  }
+}

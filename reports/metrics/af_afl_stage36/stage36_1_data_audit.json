@@ -1,0 +1,90 @@
+{
+  "n_records": 8962,
+  "shape": [
+    8962,
+    12,
+    5000
+  ],
+  "sha256": {
+    "X.npy": "faae7555005d8a1130e8736e31ef27d09f68fc1e693ece0016cc19d024613aeb",
+    "meta.csv": "349d334c12d63eb595c5f2d89fd5ed3fdfa37481a570cf3da95c9e2a2de3e3bb",
+    "split.csv": "8f3d4ad04a4108677c26dcb13ef2a77e921873554d2a446fe16eaf37bc028a4a",
+    "qc_final_manifest.csv": "526d7985858c43da289d8ea0c3f7531fef925e250f559b4d35b633656f02041c",
+    "features_advanced_expert.npy": "f3a29d62ea8919a48b53a98e6072b8a00d91003a5e1c12510a80ce6589791d10",
+    "features_advanced_v2.npy": "f92fc257dc036596bcb143174ac345e7ab274596dd7780dcf22e9b49209fd471",
+    "features_heat.npy": "d39f06ca608d7685bc1cd79dc1a7412dd08bd5c97fe2189ca076ddb005845205",
+    "features_atrial34.npy": "78837f4dbac3ee713f63a3cc3a679d598e64c396400e95562b4bc9e46862d0f4"
+  },
+  "source_label_split": [
+    {
+      "source": "chapman",
+      "label": 0,
+      "test": 1838,
+      "train": 1841,
+      "val": 1841
+    },
+    {
+      "source": "chapman",
+      "label": 1,
+      "test": 592,
+      "train": 592,
+      "val": 593
+    },
+    {
+      "source": "cpsc2018_extra",
+      "label": 0,
+      "test": 15,
+      "train": 15,
+      "val": 14
+    },
+    {
+      "source": "cpsc2018_extra",
+      "label": 1,
+      "test": 24,
+      "train": 25,
+      "val": 26
+    },
+    {
+      "source": "ptbxl",
+      "label": 0,
+      "test": 18,
+      "train": 19,
+      "val": 19
+    },
+    {
+      "source": "ptbxl",
+      "label": 1,
+      "test": 496,
+      "train": 497,
+      "val": 497
+    }
+  ],
+  "duplicate_signal_hashes": 0,
+  "duplicate_hashes_within_split": 0,
+  "patient_key_in_multiple_splits": 0,
+  "ptbxl_patient_id_in_multiple_splits": 0,
+  "grouping_note": "Chapman: no real patient_id, patient_key=record_id surrogate; PTB-XL: patient_id present; CPSC2018-extra: record surrogate",
+  "amplitude_by_source": {
+    "chapman": {
+      "n": 7297,
+      "median_std_mv": 0.2501390725374222,
+      "p05": 0.1457585170865059,
+      "p95": 0.5072043389081955
+    },
+    "cpsc2018_extra": {
+      "n": 119,
+      "median_std_mv": 0.2365923672914505,
+      "p05": 0.14176095128059388,
+      "p95": 0.45862897336482994
+    },
+    "ptbxl": {
+      "n": 1546,
+      "median_std_mv": 0.2297920063138008,
+      "p05": 0.13350287824869156,
+      "p95": 0.49832137674093246
+    }
+  },
+  "fs_hz": 500,
+  "n_samples": 5000,
+  "verdict": "ok"
+}

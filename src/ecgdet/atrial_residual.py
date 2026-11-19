@@ -68,7 +68,7 @@ def _subtract_template(x, fs, peaks, template, L1, L2):
     return out, mask
 
 
-def _tq_residual(x, fs, peaks, pre_q=0.05, post_t=0.25):
+def _tq_residual(x, fs, peaks, pre_q=0.10, post_t=0.25):
     """Independent baseline: concatenate TQ segments between T end and next QRS."""
     n = len(x)
     peak_list = np.sort(np.asarray(peaks, dtype=int))
@@ -89,6 +89,24 @@ def _tq_residual(x, fs, peaks, pre_q=0.05, post_t=0.25):
     return out, mask
 
 
+def _qrs_window_mask(n, fs, peaks, pre=0.08, post=0.12):
+    """QRS windows used for template subtraction (also for TQ exclusion)."""
+    mask = np.zeros(n, dtype=bool)
+    L1, L2 = int(pre * fs), int(post * fs)
+    for p in peaks:
+        lo, hi = max(0, p - L1), min(n, p + L2)
+        mask[lo:hi] = True
+    return mask
+
+
+def _mask_segments(mask):
+    """Lengths (samples) of contiguous True runs in a boolean mask."""
+    d = np.diff(np.concatenate(([0], mask.astype(int), [0])))
+    starts = np.where(d == 1)[0]
+    ends = np.where(d == -1)[0]
+    return (ends - starts) if len(starts) else np.array([], dtype=int)
+
+
 def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=None):
     """Extract the atrial component from a multilead ECG.
 
@@ -104,10 +122,16 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
 
     Returns
     -------
-    dict with residual (n_leads, n_samples), qrs_mask (n_samples,),
-    qrs_suppression_quality, atrial_preservation_quality,
-    atrial_preservation_inside_qrs, valid_leads, extraction_status, notes,
-    per_lead (dict).
+    dict with residual, qrs_exclusion_mask (QRS windows for ALL methods),
+    valid_sample_mask (samples usable for analysis — whole signal for template
+    subtraction, TQ segments for tq_segment), qrs_suppression_quality (NaN for
+    TQ), residual_energy_ratio_inside_qrs / _outside_qrs / _composite (energy
+    ratios, NOT F-wave preservation), TQ-specific metrics, valid_leads,
+    extraction_status, notes and per_lead.
+
+    F-wave preservation is NOT claimed from these ratios: on real ECG the
+    original signal inside QRS contains both QRS and atrial activity. It must
+    be validated on synthetic signals with a known atrial component.
     """
     sig = np.asarray(signal, dtype=float)
     n_leads_expected = len(lead_names)
@@ -122,10 +146,12 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
 
     peaks = np.sort(np.asarray([] if qrs_peaks is None else qrs_peaks, dtype=int))
     residual = np.full_like(sig, np.nan)
-    mask_union = np.zeros(sig.shape[1], dtype=bool)
+    qrs_excl = np.zeros(sig.shape[1], dtype=bool)
+    valid_mask = np.zeros(sig.shape[1], dtype=bool)
     per_lead = {}
     valid = []
     idx = _lead_index(lead_names)
+    tq_segments = []
 
     for name in ("II", "V1", "III", "aVF", "V5"):
         if name not in idx:
@@ -133,72 +159,92 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
         li = idx[name]
         x = sig[li]
         if method == "tq_segment":
-            resid, m = _tq_residual(x, fs, peaks)
+            resid, tq_mask = _tq_residual(x, fs, peaks)
+            qmask = _qrs_window_mask(len(x), fs, peaks)
+            vmask = tq_mask
         else:
             tmpl = _beat_template(x, fs, peaks, method)
             if tmpl is None or tmpl[0] is None:
-                resid, m = np.full_like(x, np.nan), np.zeros(len(x), dtype=bool)
+                resid = np.full_like(x, np.nan)
+                qmask = np.zeros(len(x), dtype=bool)
+                vmask = np.zeros(len(x), dtype=bool)
             else:
                 template, L1, L2, _n = tmpl
-                resid, m = _subtract_template(x, fs, peaks, template, L1, L2)
-        ok = np.isfinite(resid).sum() > fs
+                resid, qmask = _subtract_template(x, fs, peaks, template, L1, L2)
+                vmask = np.isfinite(resid)
+        ok = vmask.sum() > fs
+        entry = {"n_beats_subtracted": 0, "qrs_suppression_quality": np.nan,
+                 "residual_energy_ratio_inside_qrs": np.nan,
+                 "residual_energy_ratio_outside_qrs": np.nan}
         if ok:
             residual[li] = resid
-            mask_union |= m
+            qrs_excl |= qmask
+            valid_mask |= vmask
             valid.append(name)
-            xa, ra = _bandpass(x, fs, 3, 12), _bandpass(np.nan_to_num(resid), fs, 3, 12)
-            inside = m
-            outside = ~m
-            pre_q = float(np.mean(x[inside] ** 2)) if inside.sum() else np.nan
-            post_q = float(np.mean(np.nan_to_num(resid)[inside] ** 2)) if inside.sum() else np.nan
-            supp = float(np.clip(1.0 - post_q / (pre_q + 1e-12), 0.0, 1.0)) if np.isfinite(pre_q) and pre_q > 0 else np.nan
-            pres_in = float(np.mean(ra[inside] ** 2) / (np.mean(xa[inside] ** 2) + 1e-12)) if inside.sum() else np.nan
-            pres_out = float(np.mean(ra[outside] ** 2) / (np.mean(xa[outside] ** 2) + 1e-12)) if outside.sum() else np.nan
             if method == "tq_segment":
-                # TQ does not cancel QRS — it excludes QRS windows by construction.
-                # Template-subtraction quality metrics are not applicable.
-                per_lead[name] = {
-                    "qrs_suppression_quality": 1.0,
-                    "atrial_preservation_inside_qrs": np.nan,
-                    "atrial_preservation_outside_qrs": np.nan,
-                    "n_beats_subtracted": 0,
-                }
+                segs = _mask_segments(tq_mask)
+                tq_segments.extend((s / fs for s in segs))
+                entry["n_beats_subtracted"] = int(len(segs))
             else:
-                per_lead[name] = {
-                    "qrs_suppression_quality": supp,
-                    "atrial_preservation_inside_qrs": pres_in,
-                    "atrial_preservation_outside_qrs": pres_out,
-                    "n_beats_subtracted": int(m.sum() and len(peaks)),
-                }
-        else:
-            per_lead[name] = {"qrs_suppression_quality": np.nan,
-                              "atrial_preservation_inside_qrs": np.nan,
-                              "atrial_preservation_outside_qrs": np.nan,
-                              "n_beats_subtracted": 0}
+                xa = _bandpass(x, fs, 3, 12)
+                ra = _bandpass(np.nan_to_num(resid), fs, 3, 12)
+                inside, outside = qmask, ~qmask
+                pre_q = float(np.mean(x[inside] ** 2)) if inside.sum() else np.nan
+                post_q = float(np.mean(np.nan_to_num(resid)[inside] ** 2)) if inside.sum() else np.nan
+                entry["qrs_suppression_quality"] = (
+                    float(np.clip(1.0 - post_q / (pre_q + 1e-12), 0.0, 1.0))
+                    if np.isfinite(pre_q) and pre_q > 0 else np.nan)
+                entry["residual_energy_ratio_inside_qrs"] = (
+                    float(np.mean(ra[inside] ** 2) / (np.mean(xa[inside] ** 2) + 1e-12))
+                    if inside.sum() else np.nan)
+                entry["residual_energy_ratio_outside_qrs"] = (
+                    float(np.mean(ra[outside] ** 2) / (np.mean(xa[outside] ** 2) + 1e-12))
+                    if outside.sum() else np.nan)
+                entry["n_beats_subtracted"] = int(len(peaks) if qmask.sum() else 0)
+        per_lead[name] = entry
 
-    supp_vals = [v["qrs_suppression_quality"] for v in per_lead.values()]
-    in_vals = [v["atrial_preservation_inside_qrs"] for v in per_lead.values()]
-    out_vals = [v["atrial_preservation_outside_qrs"] for v in per_lead.values()]
-    supp = float(np.nanmean(supp_vals)) if np.isfinite(supp_vals).any() else np.nan
-    pres_in = float(np.nanmean(in_vals)) if np.isfinite(in_vals).any() else np.nan
-    pres_out = float(np.nanmean(out_vals)) if np.isfinite(out_vals).any() else np.nan
-    # composite: keep BOTH inside- and outside-window information
-    pres = float(np.sqrt(max(pres_in, 1e-6) * max(pres_out, 1e-6))) if np.isfinite(pres_in) and np.isfinite(pres_out) else np.nan
+    def aggregated(key):
+        vals = [v[key] for v in per_lead.values() if np.isfinite(v[key])]
+        return float(np.mean(vals)) if vals else np.nan
 
-    if not valid or len(peaks) < 2:
-        status = "failed"
-    elif np.isfinite(supp) and supp < 0.3:
-        status = "degraded"
+    supp = aggregated("qrs_suppression_quality")
+    ratio_in = aggregated("residual_energy_ratio_inside_qrs")
+    ratio_out = aggregated("residual_energy_ratio_outside_qrs")
+    ratio_composite = (float(np.sqrt(max(ratio_in, 1e-6) * max(ratio_out, 1e-6)))
+                       if np.isfinite(ratio_in) and np.isfinite(ratio_out) else np.nan)
+
+    if method == "tq_segment":
+        valid_frac = float(valid_mask.mean()) if len(valid_mask) else 0.0
+        valid_dur = float(valid_mask.sum() / fs)
+        med_len = float(np.median(tq_segments)) if tq_segments else np.nan
+        tq_status = ("ok" if valid_frac >= 0.3 and len(tq_segments) >= 3 else
+                     "degraded" if valid_frac >= 0.1 else "failed")
+        tq_metrics = {
+            "valid_tq_duration": valid_dur,
+            "valid_tq_fraction": valid_frac,
+            "n_valid_tq_segments": int(len(tq_segments)),
+            "median_tq_segment_length": med_len,
+            "tq_extraction_status": tq_status,
+        }
+        supp = np.nan  # TQ excludes QRS; it does not cancel a template
+        status = tq_status if valid else "failed"
     else:
-        status = "ok"
+        tq_metrics = {
+            "valid_tq_duration": np.nan, "valid_tq_fraction": np.nan,
+            "n_valid_tq_segments": 0, "median_tq_segment_length": np.nan,
+            "tq_extraction_status": "not_applicable",
+        }
+        status = ("failed" if not valid or len(peaks) < 2 else
+                  "degraded" if np.isfinite(supp) and supp < 0.3 else "ok")
 
-    return {
+    out = {
         "residual": residual,
-        "qrs_mask": mask_union,
+        "qrs_exclusion_mask": qrs_excl,
+        "valid_sample_mask": valid_mask,
         "qrs_suppression_quality": supp,
-        "atrial_preservation_quality": pres,
-        "atrial_preservation_inside_qrs": pres_in,
-        "atrial_preservation_outside_qrs": pres_out,
+        "residual_energy_ratio_inside_qrs": ratio_in,
+        "residual_energy_ratio_outside_qrs": ratio_out,
+        "residual_energy_ratio_composite": ratio_composite,
         "valid_leads": valid,
         "extraction_status": status,
         "notes": notes,
@@ -206,3 +252,5 @@ def extract_atrial_residual(signal, fs, lead_names, method="median", qrs_peaks=N
         "method": method,
         "n_qrs_peaks": int(len(peaks)),
     }
+    out.update(tq_metrics)
+    return out
