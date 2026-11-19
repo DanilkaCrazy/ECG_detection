@@ -1,0 +1,49 @@
+{
+  "f1_macro": 0.7277103309943225,
+  "afib_f1": 0.6074429771908764,
+  "afl_f1": 0.8479776847977685,
+  "afib_recall": 0.4550359712230216,
+  "afib_precision": 0.9133574007220217,
+  "afl_recall": 0.9743589743589743,
+  "accuracy": 0.7808310991957105,
+  "balanced_accuracy": 0.7146974727909979,
+  "mcc": 0.5339544677150204,
+  "pr_auc_afib": 0.7498478954983995,
+  "roc_auc": 0.7720304525610281,
+  "brier": 0.16160718166149418,
+  "log_loss": 0.49219684996344987,
+  "n_test": 1492,
+  "threshold": 0.42999999999999994,
+  "model": "all_heat_RandomForest",
+  "cm": [
+    [
+      912,
+      24
+    ],
+    [
+      303,
+      253
+    ]
+  ],
+  "bootstrap_ci": {
+    "f1_macro": {
+      "mean": 0.7268971236222354,
+      "low": 0.6993557279873319,
+      "high": 0.7541732908454372
+    },
+    "afib_f1": {
+      "mean": 0.6059015488718489,
+      "low": 0.5612700784802699,
+      "high": 0.6505818965517242
+    },
+    "afl_f1": {
+      "mean": 0.8478926983726217,
+      "low": 0.8318318155456288,
+      "high": 0.8631093256635508
+    }
+  },
+  "qc_manifest_sha256": "526d7985858c43da289d8ea0c3f7531fef925e250f559b4d35b633656f02041c",
+  "model_sha256": "112aeaca71ca990c50bd2072c5018ccbbf3f54110caa70be40de0595c09ef7e5",
+  "grouping_note": "Chapman: record_id surrogate (no real patient_id); PTB-XL/CPSC: record-level",
+  "test_indices_sha256": "d496380938826d2c24ff7e7392620de3a67416f44a8f4e268742674357719fce"
+}
