@@ -1,0 +1,12 @@
+# Balanced merged dataset — AFIB/AFL
+
+Records: 10354; AFIB 4648, AFL 5706, ratio 1.228
+Train: 7250 (AFIB 3241), Val: 1552
+Sources: chapman 7373, ptbxl 1553, cpsc2018 1221, cpsc2018_extra 207
+Threshold (val): 0.100
+
+Stage 2 Chapman-only baseline: Macro-F1 0.6094, AFIB-F1 0.4413, AUC 0.6785
+
+ f1_macro  afib_f1   afl_f1  afib_recall  afib_precision  afl_recall  accuracy  balanced_accuracy      mcc  pr_auc_afib  roc_auc  log_loss    brier          test  threshold
+ 0.563065 0.344203 0.781928     0.346715        0.341727    0.780048  0.672694           0.563382 0.126152     0.320910 0.612314  0.548861 0.182325  test_chapman       0.27
+ 0.490286 0.980571 0.000000     1.000000        0.961883    0.000000  0.961883           0.500000 0.000000     0.986693 0.732483  0.158293 0.036333 test_external       0.10
