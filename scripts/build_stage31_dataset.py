@@ -52,8 +52,11 @@ def main() -> int:
     if misses:
         bad = man[[s is None for s in rows]][["source", "record_id"]]
         bad.to_csv(OUT / "excluded_records.csv", index=False)
-        raise RuntimeError(f"{misses} manifest records not found in source arrays; "
-                           f"see excluded_records.csv")
+        # Records rejected by the rebuilt external dataset (implausible
+        # amplitude / zero padding) are legitimately absent; skip them and
+        # keep the remaining manifest rows in their original order.
+        print(f"WARNING: {misses} manifest records absent from source arrays; "
+              f"skipping (see excluded_records.csv)", flush=True)
     keep = [i for i, s in enumerate(rows) if s is not None]
     man = man.iloc[keep].reset_index(drop=True)
     X = np.array([rows[i] for i in keep], dtype=np.float32)

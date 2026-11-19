@@ -75,7 +75,4 @@ JS19057,chapman,REJECT,amplitude>20mV:26.36,0,train
 JS19309,chapman,REVIEW,nan_frac=0.001,0,test
 JS19879,chapman,REVIEW,flat_leads=1,0,train
 JS19950,chapman,REVIEW,flat_leads=1,0,train
-12337,ptbxl,REJECT,amplitude>20mV:24.49,1,test
-Q0395,cpsc2018_extra,REVIEW,flat_leads=6,0,val
 Q1468,cpsc2018_extra,REJECT,amplitude>20mV:32.77,0,test
-Q2790,cpsc2018_extra,REJECT,amplitude>20mV:32.74,1,test

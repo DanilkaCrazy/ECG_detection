@@ -1,22 +1,22 @@
 {
   "n_records": 8962,
   "n_features": 427,
-  "qrs_peaks_median": 16.0,
+  "qrs_peaks_median": 17.0,
   "n_zero_qrs": 11,
   "status_counts": {
-    "median": "{'ok': 7766, 'degraded': 1185, 'failed': 11}",
-    "adaptive": "{'ok': 7325, 'degraded': 1626, 'failed': 11}",
-    "beat_aligned": "{'ok': 8139, 'degraded': 812, 'failed': 11}",
-    "tq_segment": "{'ok': 7271, 'failed': 1691}"
+    "median": "{'ok': 7542, 'degraded': 1409, 'failed': 11}",
+    "adaptive": "{'ok': 7025, 'degraded': 1926, 'failed': 11}",
+    "beat_aligned": "{'ok': 8003, 'degraded': 948, 'failed': 11}",
+    "tq_segment": "{'ok': 8935, 'failed': 27}"
   },
   "qrs_suppression_by_source": {
     "chapman": 0.6048438743138318,
-    "cpsc2018_extra": NaN,
-    "ptbxl": NaN
+    "cpsc2018_extra": 0.6613719484657753,
+    "ptbxl": 0.66640167825471
   },
   "atrial_pres_inside_by_source": {
     "chapman": 0.28984703896504466,
-    "cpsc2018_extra": 0.9999982071007631,
-    "ptbxl": 0.9999997193531658
+    "cpsc2018_extra": 0.294852203680148,
+    "ptbxl": 0.2461588258114662
   }
 }

@@ -28,12 +28,14 @@ def main():
             })
     df = pd.DataFrame(rows)
     df.to_csv(OUT / "stage36_data_integrity.csv", index=False)
+    bad = (df["invalid_records_frac"] > 0.5).any()
     summary = {
-        "verdict": "DATA INVALID — rebuild required" if (df["invalid_records_frac"] > 0.5).any()
-                   else "ok",
-        "note": "WFDB p_signal is (samples, channels); harmonize_signal expects "
-                "(channels, samples). External X.npy contains ~12 real samples "
-                "padded with zeros to 5000.",
+        "verdict": "DATA INVALID — rebuild required" if bad else "ok",
+        "note": ("WFDB p_signal is (samples, channels); harmonize_signal expects "
+                 "(channels, samples). External X.npy contains ~12 real samples "
+                 "padded with zeros to 5000.") if bad else
+                ("Rebuilt 2026-11-19 with p_signal.T in build_external_af_dataset.py; "
+                 "external signals are full-length and non-zero."),
         "by_dataset_source": df.to_dict(orient="records"),
     }
     (OUT / "stage36_data_integrity.json").write_text(

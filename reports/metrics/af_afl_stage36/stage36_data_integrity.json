@@ -1,30 +1,30 @@
 {
-  "verdict": "DATA INVALID — rebuild required",
-  "note": "WFDB p_signal is (samples, channels); harmonize_signal expects (channels, samples). External X.npy contains ~12 real samples padded with zeros to 5000.",
+  "verdict": "ok",
+  "note": "Rebuilt 2026-11-19 with p_signal.T in build_external_af_dataset.py; external signals are full-length and non-zero.",
   "by_dataset_source": [
     {
       "dataset": "af_external",
       "source": "ptbxl",
-      "n": 1547,
-      "n_checked": 310,
-      "nonzero_frac_median": 0.0024,
-      "invalid_records_frac": 1.0
+      "n": 1551,
+      "n_checked": 311,
+      "nonzero_frac_median": 0.9882666666666666,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_external",
       "source": "cpsc2018",
-      "n": 1081,
-      "n_checked": 361,
-      "nonzero_frac_median": 0.0023833333333333332,
-      "invalid_records_frac": 1.0
+      "n": 1086,
+      "n_checked": 362,
+      "nonzero_frac_median": 0.9937333333333334,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_external",
       "source": "cpsc2018_extra",
-      "n": 122,
-      "n_checked": 122,
-      "nonzero_frac_median": 0.0023916666666666665,
-      "invalid_records_frac": 1.0
+      "n": 126,
+      "n_checked": 126,
+      "nonzero_frac_median": 0.9937166666666667,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_afl_stage31",
@@ -37,18 +37,18 @@
     {
       "dataset": "af_afl_stage31",
       "source": "ptbxl",
-      "n": 1547,
+      "n": 1546,
       "n_checked": 310,
-      "nonzero_frac_median": 0.0024,
-      "invalid_records_frac": 1.0
+      "nonzero_frac_median": 0.9881666666666666,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_afl_stage31",
       "source": "cpsc2018_extra",
-      "n": 122,
-      "n_checked": 122,
-      "nonzero_frac_median": 0.0023916666666666665,
-      "invalid_records_frac": 1.0
+      "n": 120,
+      "n_checked": 120,
+      "nonzero_frac_median": 0.9937833333333334,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_afl_stage34",
@@ -63,16 +63,16 @@
       "source": "ptbxl",
       "n": 1546,
       "n_checked": 310,
-      "nonzero_frac_median": 0.0024,
-      "invalid_records_frac": 1.0
+      "nonzero_frac_median": 0.9881666666666666,
+      "invalid_records_frac": 0.0
     },
     {
       "dataset": "af_afl_stage34",
       "source": "cpsc2018_extra",
       "n": 119,
       "n_checked": 119,
-      "nonzero_frac_median": 0.0024,
-      "invalid_records_frac": 1.0
+      "nonzero_frac_median": 0.9937833333333334,
+      "invalid_records_frac": 0.0
     }
   ]
 }
