@@ -66,7 +66,10 @@ def main() -> int:
     add("- Лучший результат: **" + f"{best['dataset']} / {best['features']}" +
         f" — Macro-F1 {best['f1_macro']:.4f}, AFIB-F1 {best['afib_f1']:.4f}, "
         f"PR-AUC(AFIB) {best['pr_auc_afib']:.4f}, ROC-AUC {best['roc_auc']:.4f}**.")
-    add("- HEAT-inspired признаки (9) и top-k отбор не улучшили результат — полный набор 682 признаков лучший.")
+    add("- На расширенной выборке HEAT-признаки не улучшили результат; на строгой (strict) выборке "
+        "combinated_heat691 дал лучший точечный результат. Однако повторный групповой CV "
+        "в Stage 3.0 не подтвердил статистическую значимость этого прироста "
+        "(Wilcoxon p=0.44, см. `AF_AFL_STAGE3_VALIDATION.md`).")
     add("- Сравнение strict vs extended показывает влияние 'secondary AFL' на метрики (см. таблицу).")
     add("")
     add("## 4. Анализ ошибок AFIB")

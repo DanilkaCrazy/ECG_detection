@@ -1,0 +1,6 @@
+set,sources,n,n_afib,n_afl,train,val,test
+A_chapman_only,chapman,7373,1777,5596,2457,2458,2458
+B_ptbxl_only,ptbxl,1553,1497,56,518,517,518
+C_cpsc_extra_only,cpsc2018_extra,144,95,49,48,48,48
+D_chapman_ptbxl,"chapman,ptbxl",8926,3274,5652,2975,2975,2976
+E_all_binary,"chapman,cpsc2018_extra,ptbxl,shdb-af",11211,5358,5853,3741,3733,3737
