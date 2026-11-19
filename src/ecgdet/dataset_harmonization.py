@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass, field
+from fractions import Fraction
 from typing import Any
 
 import numpy as np
@@ -128,7 +129,7 @@ def harmonize_signal(
     fs: float,
     lead_names: list[str],
     *,
-    units: str,
+    units: str | list[str],
     signal_kind: str = "physical",      # "physical" (p_signal) or "digital" (d_signal)
     adc_gain: float | np.ndarray | None = None,
     baseline: float | np.ndarray | None = None,
@@ -154,7 +155,18 @@ def harmonize_signal(
     # QC BEFORE cleaning
     info["qc_raw"] = signal_quality(sig)
 
-    u = str(units).strip().lower()
+    # per-channel units: accept a list matching n_channels, or one string for all
+    if isinstance(units, (list, tuple, np.ndarray)):
+        unit_list = [str(u).strip().lower() for u in units]
+        if len(unit_list) != sig.shape[0]:
+            info["status"] = HarmonizationStatus.INVALID
+            info["notes"].append(f"units count {len(unit_list)} != channels {sig.shape[0]}")
+            return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
+        if len(set(unit_list)) > 1:
+            info["notes"].append("heterogeneous units across channels; converting each")
+    else:
+        unit_list = [str(units).strip().lower()] * sig.shape[0]
+    u = unit_list[0]
     if signal_kind == "digital" or u in ("digital", "counts", "adc"):
         if adc_gain is None:
             info["status"] = HarmonizationStatus.INVALID
@@ -164,16 +176,22 @@ def harmonize_signal(
         base = 0.0 if baseline is None else np.asarray(baseline, dtype=float)
         sig = (sig - base) / gain
         info["unit_conversion"] = "digital -> mV via (x-baseline)/adc_gain"
-    elif u in ("mv", "millivolt"):
+    elif all(x in ("mv", "millivolt") for x in unit_list):
         info["unit_conversion"] = "physical mV (p_signal); gain already applied by WFDB"
-    elif u in ("uv", "microv", "µv", "microvolt"):
+    elif all(x in ("uv", "microv", "µv", "microvolt") for x in unit_list):
         sig = sig / 1000.0
         info["unit_conversion"] = "physical uV -> mV"
-    else:
+    elif any(x not in ("mv", "millivolt", "uv", "microv", "µv", "microvolt") for x in unit_list):
         info["status"] = HarmonizationStatus.REQUIRE_REVIEW
-        info["notes"].append(f"unknown physical units {units!r}; refusing to assume mV")
+        info["notes"].append(f"unknown physical units {sorted(set(unit_list))}; refusing to assume mV")
         info["unit_conversion"] = "NONE (unknown units)"
         return np.zeros((12, target_len), dtype=np.float32), np.zeros(12, dtype=bool), info
+    else:
+        # mixed mV/uV -> convert uV channels individually
+        for ci, un in enumerate(unit_list):
+            if un in ("uv", "microv", "µv", "microvolt"):
+                sig[ci] /= 1000.0
+        info["unit_conversion"] = "per-channel mV/uV -> mV"
 
     idx, mask = canonicalize_leads(lead_names, n_channels=sig.shape[0])
     info["lead_mask"] = mask.tolist()
@@ -186,9 +204,16 @@ def harmonize_signal(
             info["notes"].append(f"lead {CANONICAL_LEADS[j]} has no valid channel index")
 
     if abs(float(fs) - target_fs) > 1e-6:
-        g = int(np.gcd(int(target_fs), int(fs)))
-        out = resample_poly(out, int(target_fs) // g, int(fs) // g, axis=1)
-        info["resampled"] = True
+        # rational approximation for non-integer fs (e.g. 257 Hz), bounded denominator
+        ratio = Fraction(float(target_fs) / float(fs)).limit_denominator(10000)
+        up, down = ratio.numerator, ratio.denominator
+        if not np.isclose(up / down, float(target_fs) / float(fs), rtol=1e-4):
+            info["status"] = HarmonizationStatus.REQUIRE_REVIEW
+            info["notes"].append(f"cannot safely resample fs={fs}")
+        else:
+            out = resample_poly(out, up, down, axis=1)
+            info["resampled"] = True
+            info["resample_ratio"] = f"{up}/{down}"
     else:
         info["resampled"] = False
 
