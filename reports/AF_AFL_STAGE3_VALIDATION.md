@@ -1,3 +1,6 @@
+> Устаревший протокол: финальная статистическая проверка с повторной CV и
+> patient-level bootstrap — `AF_AFL_STAGE3_STATISTICAL_VALIDATION.md`.
+
 # Stage 3.0 — валидация и статистическая значимость
 
 5-кратная `StratifiedGroupKFold` на Chapman (experiment set A), одинаковые фолды для обеих моделей. Порог 0.5 (без подбора на тесте).

@@ -1,0 +1,301 @@
+source,status,units,n_channels,fs,leads_present,missing,qc_nan_frac,qc_inf_frac,max_abs_post,std_post,notes
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.81,0.01858452657812557,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.386,0.00866369063364774,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.156,0.0027476234760950937,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.098,0.002814536058078173,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,2.011,0.022448436706669204,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.254,0.004341795276406089,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.498,0.008440746787508396,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.117,0.002583471985472694,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.264,0.004515934860733587,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.166,0.004216869469563095,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.498,0.00818731505005694,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.176,0.0028043558118973104,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.093,0.0019230760479993737,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.283,0.004753338039706646,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.273,0.004201450116725575,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.098,0.0021454139924240467,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.337,0.024119914118121463,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.142,0.003059857351613343,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.137,0.002947807892881307,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.332,0.00470178434733973,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.205,0.004294966871428308,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.493,0.02044033795675573,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.771,0.013170624651346897,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.844,0.019575636205469517,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.166,0.01616932508190019,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.244,0.004206088757847234,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.396,0.024612653672986765,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.093,0.0019923132701432497,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.176,0.003920808294075202,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.249,0.007419592724503145,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.117,0.0017917413872791154,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.381,0.00897889998211857,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.4,0.008637494605819189,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.283,0.00645550809051206,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.234,0.006110085158162692,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.312,0.007038329150503927,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.171,0.003804252678801273,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.151,0.0037607970425902475,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.342,0.004871685872809673,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.298,0.0041956110336345,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.673,0.016232024721929587,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.478,0.009296044434761248,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.195,0.003927049375237795,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.224,0.003814410666254137,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.273,0.005102888506522555,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.21,0.0040347191448104535,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.454,0.017500684299565417,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.088,0.023323293116485497,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.645,0.036763945750690606,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.562,0.02811246469841665,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.088,0.0019435312963063452,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.259,0.004581674886345241,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.264,0.006317617693908748,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.82,0.015811660246476334,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.171,0.0034994816263348993,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.146,0.0029991489892504876,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,1.835,0.03160676770981529,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.181,0.004814136377032403,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.161,0.003281725480935635,
+chapman,ok,mV,12,500.0,12,0,0.0,0.0,0.171,0.003617292182428115,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.115,0.0029846424955744513,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.183,0.005165707540652641,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.489,0.01252315442813165,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.691,0.03382711354812143,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.185,0.003931929019048199,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.556,0.011117656465568133,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.4,0.007066219819126929,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.23,0.017884420219099452,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.536,0.015823081387082043,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.22,0.006456090550768494,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,2.586,0.047228048977390885,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.395,0.007171337884457512,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.5,0.009036306167883104,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.535,0.008589471518085381,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.205,0.004607837161354072,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.163,0.004626907387469758,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.178,0.0034253624818728636,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.17,0.003026483051699154,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.056,0.015568018819138663,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.6,0.015671690495701333,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.234,0.0039905618651666355,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.366,0.011545225364192764,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.578,0.036569991485369525,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.272,0.006073459269619104,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.431,0.03982350933460452,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.185,0.004385106536112384,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.443,0.008748031615407357,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,3.67,0.05378655421829419,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.816,0.017237855213840653,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.51,0.009145363018112269,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,6.14,0.08727834780745387,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.076,0.0017657234172964032,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.382,0.03110930681115915,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.116,0.0028515818942689026,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.541,0.013640779269029644,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.099,0.0028432256048368724,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.341,0.010616287648271092,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.27,0.004511506210390151,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.115,0.015990900035957947,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.1,0.0015587540707422563,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.185,0.004826022538856979,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.325,0.007206126829129501,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.225,0.007150622194198674,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.286,0.009774014623593634,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.365,0.009092906296653576,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.315,0.0076595914268575,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,2.86,0.04646900407845356,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.105,0.01959943540793969,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,1.29,0.031516825478870095,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.239,0.0062667179001451795,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.11,0.0022573214775604192,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.146,0.003502511574054951,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.67,0.011593884877514334,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.41,0.008247033014616025,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.205,0.004474271982959909,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.495,0.008268290901843018,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.16,0.0032204346827028737,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.66,0.018625521588751696,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.493,0.008785994297602292,
+ptbxl,ok,mV,12,500.0,12,0,0.0,0.0,0.12,0.0026088978302894286,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.114,0.0024107370490624278,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.735,0.01239755734323858,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.082,0.0018983283028906133,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.065,0.001728710346536464,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.088,0.0020467268177914383,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.141,0.002294920076979201,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,2.219,0.03780590184960838,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.445,0.00828165675572963,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,6.831,0.22057519633600134,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.173,0.002626036070614162,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.076,0.0011837450024533716,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.12,0.0019079997062077575,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.118,0.003259600946903709,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.171,0.0033209555351417894,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.662,0.009652523762884791,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.18,0.003494138111974905,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.498,0.008021621988084593,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.053,0.0011550568066838387,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.095,0.0024269881512666864,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.088,0.0018563775656877802,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.267,0.004083968997290912,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.37,0.015082674442735795,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.077,0.0015352142426493225,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.068,0.001299204371486214,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.127,0.0025241726190641826,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.27,0.007281029969188579,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.575,0.02668925169176515,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.069,0.015412531112881996,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.173,0.003269907830845118,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,4.46,0.06233664063635759,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.22,0.004554216755168287,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.481,0.00867988193261675,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.317,0.006420039677880158,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.223,0.006059746643012397,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.14,0.00290071672675718,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.217,0.018450197663793622,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.156,0.017706854563228708,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.358,0.005096637545126089,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.14,0.0027182705408136908,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.322,0.007232378619310217,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.599,0.008675418710100137,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.138,0.0021495901291486556,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.251,0.0038634253172828673,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.133,0.002698443521272958,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.076,0.0018810057444976966,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.414,0.008700061862806875,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.822,0.011350705339023355,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,1.053,0.014297368647994867,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.092,0.0020073599021268374,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.275,0.004064602316340431,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.271,0.003305087623607311,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,5.181,0.06967787681475536,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.138,0.0026685990157134265,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.213,0.0038900464070353827,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.451,0.0092657883679096,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.587,0.012431908777986053,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.375,0.009081324585087917,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.144,0.0038010310517893253,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.06,0.0016044369258057137,
+cpsc2018,ok,mV,12,500.0,12,0,0.0,0.0,0.236,0.005583694024941433,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.69,0.015131166170441062,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.314,0.003976259941166098,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,1.438,0.013262441024845313,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.15,0.002276739875836109,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.269,0.006836911316197948,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,2.033,0.028084336787567197,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.198,0.004246061839418577,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.108,0.0018643594538965205,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.205,0.005015265087460481,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.281,0.005153259418939521,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.718,0.009170838709675845,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.369,0.008210711225368292,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.115,0.0023565219045001235,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.174,0.003708026945208043,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.091,0.001373530510116984,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,1.344,0.01761587396816355,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.142,0.003355864414184353,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.268,0.0032719425624882573,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.189,0.0034923143800192,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.666,0.012729338931905827,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.296,0.005483964362854262,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.145,0.00393436355420628,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.687,0.010123068977985655,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.321,0.007453695093915202,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.403,0.010158902562107233,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.538,0.012919944955926348,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.117,0.0022465677404036187,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.564,0.0070951895981048695,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.292,0.006821365824785794,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.089,0.0016733498485240782,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.091,0.0018415901099472585,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.182,0.004869349319866967,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.105,0.0022243208761327576,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.072,0.0022157306870420877,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.656,0.02082635627425552,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.39,0.007524690652759236,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.175,0.005131969155423892,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.819,0.009762096950151984,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.612,0.00872307631610928,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.106,0.0027020445949420516,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,3.192,0.030218316404606146,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.502,0.007941325758265361,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.47,0.009091484562658375,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.546,0.009619633092087708,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.164,0.004881153018498805,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.125,0.002935883480695755,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.163,0.0032177078183338315,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,1.838,0.039825502409382395,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.537,0.012127079295893505,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.296,0.006426627537830398,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.342,0.006404272902697247,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.194,0.0032205123718905353,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.104,0.002503110331611897,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.12,0.0024708862267525705,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.28,0.00773952822306086,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.191,0.0034512858278554033,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.254,0.0039744515903664835,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.244,0.006496901490454251,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.245,0.004405064880307919,
+cpsc2018_extra,ok,mV,12,500.0,12,0,0.0,0.0,0.109,0.002995936342179,
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i
+shdb-af,ok,mV,2,200.0,0,12,0.0,0.0,0.0,0.0,lead I has no valid channel index;lead II has no valid channel index;lead III has no valid channel i

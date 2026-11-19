@@ -35,27 +35,29 @@ FS, LEN, LEADS = 500.0, 5000, 12
 
 
 def load_one(rec: dict):
+    """Load one external record through the shared harmonization contract.
+
+    Uses WFDB p_signal (already converted to physical units by WFDB — gain is
+    NOT applied twice), maps channels by name and returns an explicit mask.
+    """
     import wfdb
-    from scipy.signal import resample_poly
+    from ecgdet.dataset_harmonization import (HarmonizationStatus, harmonize_signal,
+                                              signal_hash)
     try:
         r = wfdb.rdrecord(str(rec["path"]))
-        sig = np.asarray(r.p_signal, dtype=np.float32)
-        fs = float(r.fs)
-        if abs(fs - FS) > 1e-6:
-            g = math.gcd(int(FS), int(fs))
-            sig = resample_poly(sig, int(FS) // g, int(fs) // g, axis=0).astype(np.float32)
-        if sig.shape[0] < LEN:
-            sig = np.pad(sig, ((0, LEN - sig.shape[0]), (0, 0)), mode="constant")
-        else:
-            sig = sig[:LEN]
-        if sig.shape[1] < LEADS:
-            sig = np.pad(sig, ((0, 0), (0, LEADS - sig.shape[1])), mode="constant")
-        else:
-            sig = sig[:, :LEADS]
-        sig = np.nan_to_num(sig)
-        if np.std(sig) < 1e-3 or np.max(np.abs(sig)) > 100:
+        units = list(getattr(r, "units", [])) or ["mV"]
+        # WFDB p_signal is physical; do not pass adc_gain here.
+        canonical, mask, info = harmonize_signal(
+            np.asarray(r.p_signal, dtype=np.float64), float(r.fs),
+            list(r.sig_name), units=units[0], signal_kind="physical",
+            target_fs=FS, target_len=LEN)
+        if info["status"] != HarmonizationStatus.OK:
             return None
-        return np.ascontiguousarray(sig.T, dtype=np.float32)
+        if canonical.std() < 1e-3 or np.max(np.abs(canonical)) > 20:
+            return None
+        return {"signal": np.ascontiguousarray(canonical, dtype=np.float32),
+                "mask": mask, "hash": signal_hash(canonical),
+                "units": units[0], "channels": list(r.sig_name), "info": info}
     except Exception:
         return None
 
@@ -105,20 +107,30 @@ def main() -> int:
     print(f"Strict external candidates: {len(rows)} "
           f"(AFIB={sum(r['rhythm']=='AFIB' for r in rows)}, AFL={sum(r['rhythm']=='AFL' for r in rows)})", flush=True)
     sigs = Parallel(n_jobs=8, verbose=5, batch_size=16)(delayed(load_one)(r) for r in rows)
-    keep = [(r, s) for r, s in zip(rows, sigs) if s is not None]
-    X = np.array([s for _, s in keep], dtype=np.float32)
-    meta = pd.DataFrame([r for r, _ in keep])
+    keep = [(r, s) for r, s in zip(rows, sigs) if s is not None and isinstance(s, dict)]
+    X = np.array([s["signal"] for _, s in keep], dtype=np.float32)
+    meta = pd.DataFrame([{**r, "signal_hash": s["hash"], "units": s["units"],
+                          "channels": ",".join(s["channels"]),
+                          "n_leads_present": int(s["mask"].sum()),
+                          "qc_status": s["info"]["status"]} for r, s in keep])
     y = np.where(meta["rhythm"] == "AFIB", 1, 0).astype(int)
     print(f"Loaded {len(X)}: AFIB={int(y.sum())}, AFL={int((y==0).sum())}", flush=True)
 
+    # remove exact duplicate signals BEFORE splitting
+    dup = meta.duplicated("signal_hash", keep="first").to_numpy()
+    if dup.any():
+        X = X[~dup]; meta = meta[~dup].reset_index(drop=True); y = y[~dup]
     # patient/group-aware split: PTB-XL patient_id, CPSC record as patient
     grp = meta["patient_id"].fillna(meta["source"] + "_" + meta["record_id"]).astype(str).values
     mm = np.lib.format.open_memmap(OUT / "X.npy", mode="w+", dtype=np.float32, shape=X.shape)
     mm[:] = X; mm.flush()
-    from sklearn.model_selection import GroupShuffleSplit, train_test_split
-    gss = GroupShuffleSplit(n_splits=1, test_size=0.30, random_state=42)
-    tr, tmp = next(gss.split(np.zeros((len(X), 1)), y, groups=grp))
-    va, te = train_test_split(tmp, test_size=0.5, stratify=y[tmp], random_state=42)
+    # Group-aware THREE-way split: StratifiedGroupKFold on all stages.
+    from sklearn.model_selection import StratifiedGroupKFold
+    sgkf = StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=42)
+    folds = list(sgkf.split(np.zeros((len(X), 1)), y, groups=grp))
+    va = folds[0][1]
+    te = folds[1][1]
+    tr = np.setdiff1d(np.arange(len(X)), np.concatenate([va, te]))
     for name, ids in (("train", tr), ("val", va), ("test", te)):
         dst = np.lib.format.open_memmap(OUT / f"X_{name}.npy", mode="w+",
                                         dtype=np.float32, shape=(len(ids), LEADS, LEN))

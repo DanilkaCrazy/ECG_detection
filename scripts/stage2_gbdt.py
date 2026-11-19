@@ -182,8 +182,12 @@ def main() -> int:
         plt.xticks(rotation=30, ha="right"); plt.tight_layout()
         plt.savefig(FIG / f"stage2_{metric}.png", dpi=150); plt.close()
 
-    # ROC/PR/calibration/CM for global best
-    best = df[df.prob_version == "calibrated"].sort_values("f1_macro", ascending=False).iloc[0]
+    # Select configuration by VALIDATION AUC only; test is used once afterwards.
+    val_best = df[df.prob_version == "calibrated"].sort_values("val_auc", ascending=False).iloc[0]
+    best = df[(df.prob_version == "calibrated") &
+              (df.model == val_best["model"]) &
+              (df.features == val_best["features"]) &
+              (df.strategy == val_best["strategy"])].iloc[0]
     print("\nBEST:", best.to_dict(), flush=True)
     d = DATASETS[best["dataset"]]
     bundle = joblib.load(MOD / f"{best['dataset']}_{best['features']}.joblib")
