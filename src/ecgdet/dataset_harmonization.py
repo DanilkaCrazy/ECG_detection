@@ -152,8 +152,12 @@ def harmonize_signal(
         "status": HarmonizationStatus.OK, "notes": [],
     }
 
-    # QC BEFORE cleaning
+    # QC BEFORE cleaning — damaged signals must never be reported OK
     info["qc_raw"] = signal_quality(sig)
+    if info["qc_raw"]["nan_frac"] > 0 or info["qc_raw"]["inf_frac"] > 0:
+        info["status"] = HarmonizationStatus.REQUIRE_REVIEW
+        info["notes"].append(f"raw NaN/Inf: nan={info['qc_raw']['nan_frac']:.3f}, "
+                             f"inf={info['qc_raw']['inf_frac']:.3f}")
 
     # per-channel units: accept a list matching n_channels, or one string for all
     if isinstance(units, (list, tuple, np.ndarray)):
@@ -214,6 +218,9 @@ def harmonize_signal(
     idx, mask = canonicalize_leads(lead_names, n_channels=sig.shape[0])
     info["lead_mask"] = mask.tolist()
     info["missing_leads"] = [lead for lead, ok in zip(CANONICAL_LEADS, mask) if not ok]
+    if info["missing_leads"]:
+        info["status"] = HarmonizationStatus.REQUIRE_REVIEW
+        info["notes"].append(f"missing leads: {info['missing_leads']}")
     out = np.zeros((len(CANONICAL_LEADS), sig.shape[1]), dtype=np.float64)
     for j, ci in enumerate(idx):
         if ci is not None and ci < sig.shape[0]:
@@ -236,6 +243,8 @@ def harmonize_signal(
         info["resampled"] = False
 
     if out.shape[1] < target_len:
+        info["status"] = HarmonizationStatus.REQUIRE_REVIEW
+        info["notes"].append(f"too short: {out.shape[1]} < {target_len}; zero padding is not a real signal")
         out = np.pad(out, ((0, 0), (0, target_len - out.shape[1])), mode="constant")
     else:
         out = out[:, :target_len]
