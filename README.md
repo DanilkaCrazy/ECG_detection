@@ -18,6 +18,9 @@
 > - Stage 3.6.4: LOSO показывает отсутствие переноса между источниками;
 >   source-only baseline (только имя датасета) даёт F1 0.740. Domain
 >   generalization не доказана. См. `reports/AF_AFL_STAGE36_3_4_REPORT.md`.
+> - Stage 3.6.5: временно-частотные признаки и organized-метрики дали лучший
+>   результат: Expert+TF F1 0.662 / AFIB-F1 0.554, прирост +0.039 статистически
+>   значим (paired bootstrap). См. `reports/AF_AFL_STAGE36_5_7_REPORT.md`.
 >   См. `reports/AF_AFL_STAGE36_P0_AUDIT.md`.
 >
 > **Актуальные точки входа:** `scripts/stage36_extract_atrial.py`,
