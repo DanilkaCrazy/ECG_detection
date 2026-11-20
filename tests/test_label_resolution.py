@@ -1,0 +1,58 @@
+"""Stage 3.6.14 — explicit label resolution tests (TDD)."""
+import sys
+import pathlib
+
+import pytest
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
+from ecgdet.diagnosis_provenance import DiagnosisRecord  # noqa: E402
+from ecgdet.label_resolution import (  # noqa: E402
+    CANONICAL_SNOMED, MAPPING_VERSION, resolve_binary, resolve_diagnosis_codes,
+)
+
+
+def rec(codes, source="chapman"):
+    return DiagnosisRecord(source=source, record_id="X", raw_diagnosis_codes=list(codes),
+                           raw_diagnosis_values={}, primary_diagnosis=codes[0] if codes else None,
+                           rhythm_codes=list(codes), secondary_diagnoses=[])
+
+
+def test_canonical_snomed_mapping_is_unambiguous():
+    assert CANONICAL_SNOMED["164889003"] == ("AFIB", 1)
+    assert CANONICAL_SNOMED["164890007"] == ("AFL", 0)
+    assert MAPPING_VERSION == "1.0"
+
+
+@pytest.mark.parametrize("codes,status,label", [
+    (["164889003"], "AFIB", 1),
+    (["164890007"], "AFL", 0),
+    (["AFIB"], "AFIB", 1),
+    (["AFLT"], "AFL", 0),
+    (["164889003", "164890007"], "AMBIGUOUS", None),
+    (["AFIB", "AFLT"], "AMBIGUOUS", None),
+    (["AFLT", "AFIB"], "AMBIGUOUS", None),   # order must NOT matter
+    ([], "UNKNOWN", None),
+    (["59118001"], "OTHER", None),
+])
+def test_resolve_diagnosis_codes(codes, status, label):
+    r = resolve_diagnosis_codes(codes)
+    assert r.label_status == status
+    assert r.label == label
+
+
+def test_resolve_binary_mutates_record_with_full_provenance():
+    d = rec(["164889003", "59118001"])
+    out = resolve_binary(d)
+    assert out is d
+    assert out.canonical_rhythm == "AFIB"
+    assert out.label == 1
+    assert out.label_status == "AFIB"
+    assert out.mapping_version == MAPPING_VERSION
+    assert out.raw_diagnosis_codes == ["164889003", "59118001"]
+
+
+def test_ambiguous_records_never_receive_a_binary_label():
+    for codes in (["164889003", "164890007"], ["AFIB", "AFLT"]):
+        out = resolve_diagnosis_codes(codes)
+        assert out.label is None
+        assert out.label_status == "AMBIGUOUS"

@@ -43,10 +43,14 @@ CHAPMAN_RECORDS_ROOT = "WFDBRecords"
 
 # ------------------------------------------------------- Chapman SNOMED -> rhythm class
 # Source: data/raw/chapman/.../ConditionNames_SNOMED-CT.csv
+# Stage 3.6.14: canonical SNOMED CT mapping.  164889003 = atrial
+# FIBRILLATION -> "AF" in the ELTA taxonomy; 164890007 = atrial FLUTTER -> "AFL".
+# The previous conflicting values ("AFIB"/"AF") are removed; the authoritative
+# binary resolver lives in ecgdet.label_resolution.
 CHAPMAN_SNOMED_TO_ACRONYM = {
     "426783006": "SR",
-    "164889003": "AFIB",
-    "164890007": "AF",
+    "164889003": "AF",
+    "164890007": "AFL",
     "427393009": "SA",
     "426177001": "SB",
     "427084000": "ST",

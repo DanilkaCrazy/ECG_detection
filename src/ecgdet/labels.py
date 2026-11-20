@@ -27,6 +27,13 @@ TARGET_CLASSES = list(config.RHYTHM_CLASSES)
 def map_chapman_dx_to_rhythm(dx_codes: list[str] | str) -> str | None:
     if isinstance(dx_codes, str):
         dx_codes = [c.strip() for c in dx_codes.split(",") if c.strip()]
+    # Stage 3.6.14: do not collapse a mixed AFIB+AFL diagnosis to whichever
+    # code happens to appear first.  Ambiguous records are excluded upstream.
+    _af = any(str(c).strip() in (config.SNOMED_AFIB, "164889003", "AFIB") for c in dx_codes)
+    _afl = any(str(c).strip() in (config.SNOMED_AFL, "164890007", "AFL", "AFLT")
+               for c in dx_codes)
+    if _af and _afl:
+        return None
     for code in dx_codes:
         code_s = str(code).strip()
         if code_s == config.SNOMED_NS_RHYTHM or code_s == '426783006':
@@ -67,6 +74,10 @@ def map_ptbxl_scp_to_rhythm(scp_codes) -> str | None:
     if not isinstance(scp_codes, dict):
         return None
     keys = set(scp_codes.keys())
+    # Stage 3.6.14: a record carrying BOTH diagnoses is ambiguous and must not
+    # be silently assigned to AFIB (the old order-dependent behaviour).
+    if "AFIB" in keys and "AFLT" in keys:
+        return None
     if "AFIB" in keys:
         return "AF"
     if "AFLT" in keys:
