@@ -1,0 +1,24 @@
+# Stage 3.6.12 — foundation transfer / SSL fallback
+seed: 42
+ecg_fm:
+  repo: wanglab/ecg-fm
+  license: MIT
+  checkpoint: mimic_iv_ecg_physionet_pretrained.pt
+  checkpoint_size_bytes: 1090825421
+  architecture: wav2vec2_cmsc
+  backend_required: fairseq
+  status: BLOCKED_IN_THIS_ENVIRONMENT
+ssl_fallback:
+  pretrain_split: chapman/train_only
+  use_labels: false
+  epochs: 8
+  batch_size: 64
+  mask_prob: 0.4
+  dim: 64
+transfer:
+  modes: [ssl_linear_probe, ssl_finetune, supervised_scratch]
+  fit: chapman/train
+  threshold: chapman/val
+  control: chapman/test
+  external: [ptbxl, cpsc2018_extra]
+  bootstrap: {resamples: 1000, group: patient_key}

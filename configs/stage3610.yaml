@@ -1,0 +1,26 @@
+# Stage 3.6.10 — five physiological feature groups
+seed: 42
+groups:
+  A: rhythm
+  B: atrial_activity
+  C: time_frequency
+  D: morphology
+  E: interlead
+experiments:
+  E0: []
+  E1: [A]
+  E2: [B]
+  E3: [C]
+  E4: [D]
+  E5: [E]
+  E6: [A, B]
+  E7: [B, C]
+  E8: [A, B, C, D, E]
+models: [RF, HistGB, CatBoost, XGBoost]
+protocol:
+  fit: chapman/train
+  threshold: chapman/val
+  control: chapman/test
+  external: [ptbxl, cpsc2018_extra]
+  external_threshold_tuning: false
+bootstrap: {resamples: 1000, group: patient_key, correction: Benjamini-Hochberg}

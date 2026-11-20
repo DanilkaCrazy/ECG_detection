@@ -1,0 +1,24 @@
+{
+  "backend": "local_ssl_fallback",
+  "ecg_fm_preflight": {
+    "available": false,
+    "fairseq_installed": false,
+    "checkpoint": null,
+    "reason": "fairseq backend is not installed (ECG-FM checkpoint is a fairseq model); no local ECG-FM checkpoint found",
+    "note": "When unavailable, Stage 3.6.12 trains a LOCAL SSL encoder — not ECG-FM."
+  },
+  "n_pretrain_records": 2433,
+  "epochs": 8,
+  "loss_history": [
+    0.9565559717325064,
+    0.9254326514708691,
+    0.9059470907235757,
+    0.8955701390902201,
+    0.8863146029985868,
+    0.8827687899271647,
+    0.8682652222804534,
+    0.8572007020314535
+  ],
+  "seconds": 9.821643590927124,
+  "warning": "This is NOT ECG-FM. fairseq backend and checkpoint are unavailable."
+}

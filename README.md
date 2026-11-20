@@ -36,6 +36,18 @@
 >   periodicity **противоположно** наивной гипотезе (выше при AFIB, p<1e-5).
 >   См. `reports/STAGE_3_6_10_FEATURE_ABLATION.md` и
 >   `reports/STAGE_3_6_10_FEATURE_IMPORTANCE.md`.
+> - **Stage 3.6.11:** модульная сеть (RR / предсердный остаток / морфология) с
+>   Attention Fusion. Chapman test F1 0.517; веса модулей: морфология 0.77,
+>   предсердный поток 0.15, ритм 0.08 — сеть почти не использует физиологически
+>   интерпретируемые ветви. См. `reports/STAGE_3_6_11_MODULAR_ARCHITECTURE.md`.
+> - **Stage 3.6.12:** настоящий ECG-FM **не запущен** (нет fairseq и чекпоинта;
+>   preflight честно фиксирует блокер). Реализован локальный SSL-fallback на
+>   train-сплите: fine-tune F1 0.523 против 0.514 scratch, но ΔF1 +0.009
+>   статистически **не значим** (CI [-0.015; 0.033]). См.
+>   `reports/STAGE_3_6_12_FOUNDATION_TRANSFER.md`.
+> - **Stage 3.6.13:** Chapman↔PTB-XL/CPSC с none/CORAL/MMD/DANN. Ни один метод
+>   не дал переноса: целевые ROC-AUC 0.014–0.471. См.
+>   `reports/STAGE_3_6_13_CROSS_DATASET.md`.
 >
 > **Актуальные точки входа:** `scripts/stage369_external_test.py`,
 > `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,

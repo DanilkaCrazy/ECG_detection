@@ -1,0 +1,93 @@
+{
+  "ecg_fm_backend": {
+    "available": false,
+    "fairseq_installed": false,
+    "checkpoint": null,
+    "reason": "fairseq backend is not installed (ECG-FM checkpoint is a fairseq model); no local ECG-FM checkpoint found",
+    "note": "When unavailable, Stage 3.6.12 trains a LOCAL SSL encoder — not ECG-FM."
+  },
+  "ssl_linear_probe": {
+    "threshold": 0.5299999999999999,
+    "chapman_test": {
+      "f1_macro": 0.5091065165537753,
+      "afib_f1": 0.3238598810310641,
+      "roc_auc": 0.532576169749728,
+      "pr_auc": 0.25875322613631774,
+      "brier": 0.2535647740830385
+    },
+    "ptbxl": {
+      "f1_macro": 0.29498783702316966,
+      "afib_f1": 0.529839883551674,
+      "roc_auc": 0.4252037392138063,
+      "pr_auc": 0.9550461977048428,
+      "brier": 0.2684366238296819
+    },
+    "cpsc2018_extra": {
+      "f1_macro": 0.44345238095238093,
+      "afib_f1": 0.47619047619047616,
+      "roc_auc": 0.4472727272727272,
+      "pr_auc": 0.6048179439996009,
+      "brier": 0.28762120839269717
+    }
+  },
+  "ssl_finetune": {
+    "threshold": 0.59,
+    "chapman_test": {
+      "f1_macro": 0.5225016807234889,
+      "afib_f1": 0.281198003327787,
+      "roc_auc": 0.5505327654912802,
+      "pr_auc": 0.2719230005223273,
+      "brier": 0.2591327349056333
+    },
+    "ptbxl": {
+      "f1_macro": 0.19308697955218757,
+      "afib_f1": 0.33296582138919517,
+      "roc_auc": 0.3402804410354746,
+      "pr_auc": 0.9430857351968567,
+      "brier": 0.28883376500159996
+    },
+    "cpsc2018_extra": {
+      "f1_macro": 0.3972319326532068,
+      "afib_f1": 0.3364485981308411,
+      "roc_auc": 0.40606060606060607,
+      "pr_auc": 0.5962492652339684,
+      "brier": 0.27651178031503
+    }
+  },
+  "supervised_scratch": {
+    "threshold": 0.5299999999999999,
+    "chapman_test": {
+      "f1_macro": 0.5140443346899983,
+      "afib_f1": 0.2774659182036889,
+      "roc_auc": 0.5370215495691557,
+      "pr_auc": 0.26403574929607765,
+      "brier": 0.23540093236338275
+    },
+    "ptbxl": {
+      "f1_macro": 0.20290539768008267,
+      "afib_f1": 0.3415977961432507,
+      "roc_auc": 0.4548058485139022,
+      "pr_auc": 0.9592859372481533,
+      "brier": 0.3470824078429616
+    },
+    "cpsc2018_extra": {
+      "f1_macro": 0.36688657161098104,
+      "afib_f1": 0.32432432432432434,
+      "roc_auc": 0.3512121212121212,
+      "pr_auc": 0.5710118117024849,
+      "brier": 0.29593023755440656
+    }
+  },
+  "bootstrap_ssl_finetune_minus_scratch": {
+    "mean": 0.008885945379711942,
+    "lo": -0.015105208970123034,
+    "hi": 0.03315877866796284,
+    "significant": false
+  },
+  "bootstrap_linear_probe_minus_scratch": {
+    "mean": -0.0045748487474402645,
+    "lo": -0.028799432887504132,
+    "hi": 0.01955359646048818,
+    "significant": false
+  }
+}

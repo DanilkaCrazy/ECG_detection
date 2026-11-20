@@ -1,0 +1,25 @@
+# Stage 3.6.11 — modular ECG architecture
+seed: 42
+data: data/processed/af_afl_stage34
+inputs: data/processed/af_afl_stage3611/inputs.npz
+decimation: 4
+effective_fs_hz: 125
+model:
+  dim: 32
+  n_rr: 40
+  encoders: [rhythm, atrial_residual, raw_morphology]
+  fusion: attention
+training:
+  epochs: 14
+  batch_size: 64
+  lr: 0.001
+  loss: bce + entropy_regularisation
+protocol:
+  fit: chapman/train
+  threshold: chapman/val
+  control: chapman/test
+  external: [ptbxl, cpsc2018_extra]
+  external_threshold_tuning: false
+limitation: >
+  Atrial encoder consumes a deterministic precomputed residual; no end-to-end
+  QRST/F-wave separation is learned.

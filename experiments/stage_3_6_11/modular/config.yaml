@@ -1,0 +1,23 @@
+stage: "3.6.11"
+experiment: "modular_three_stream"
+seed: 42
+model:
+  dim: 32
+  n_rr: 40
+  encoders: [rhythm, atrial_residual, raw_morphology]
+  fusion: attention
+training:
+  epochs: 14
+  batch_size: 64
+  lr: 0.001
+data:
+  signals: "data/processed/af_afl_stage3611/inputs.npz"
+  decimation: 4
+  effective_fs_hz: 125
+protocol:
+  fit: "chapman/train"
+  threshold: "chapman/val"
+  control: "chapman/test"
+  external: [ptbxl, cpsc2018_extra]
+  external_threshold_tuning: false
+limitation: "atrial encoder consumes a deterministic precomputed residual; no learned QRST/F-wave separation"

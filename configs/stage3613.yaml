@@ -1,0 +1,20 @@
+# Stage 3.6.13 — cross-dataset generalisation
+seed: 42
+features: data/processed/af_afl_stage34/features_advanced_expert.npy
+pairs:
+  - [chapman, ptbxl]
+  - [chapman, cpsc2018_extra]
+  - [ptbxl, chapman]
+  - [cpsc2018_extra, chapman]
+methods: [none, CORAL, MMD, DANN]
+training:
+  epochs: 25
+  batch_size: 128
+  lr: 0.001
+  adaptation_uses: target_features_only
+  target_labels_used_for_training: false
+protocol:
+  fit: source/train_labels
+  threshold: source/val
+  target: full_target_source
+  target_threshold_tuning: false
