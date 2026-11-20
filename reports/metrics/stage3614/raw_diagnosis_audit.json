@@ -1,0 +1,23 @@
+{
+  "n_source_records": 8962,
+  "n_extracted": 8962,
+  "n_missing_source_files": 0,
+  "label_status_counts": {
+    "AFL": 4281,
+    "AFIB": 1899,
+    "OTHER": 1457,
+    "AMBIGUOUS": 1325
+  },
+  "by_source": {
+    "chapman|AFL": 4196,
+    "chapman|AFIB": 1777,
+    "chapman|AMBIGUOUS": 1324,
+    "cpsc2018_extra|AFIB": 75,
+    "cpsc2018_extra|AFL": 43,
+    "cpsc2018_extra|AMBIGUOUS": 1,
+    "ptbxl|OTHER": 1457,
+    "ptbxl|AFIB": 47,
+    "ptbxl|AFL": 42
+  },
+  "records_with_both_codes": 0
+}

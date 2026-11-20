@@ -48,6 +48,17 @@
 > - **Stage 3.6.13:** Chapman↔PTB-XL/CPSC с none/CORAL/MMD/DANN. Ни один метод
 >   не дал переноса: целевые ROC-AUC 0.014–0.471. См.
 >   `reports/STAGE_3_6_13_CROSS_DATASET.md`.
+> - **Stage 3.6.14 (P0):** перечитаны исходные диагнозы всех 8962 записей.
+>   Обнаружено **2782 невалидных метки**: 1457 PTB-XL с AFIB likelihood 0.0 и
+>   1325 записей с обоими диагнозами. Построен чистый датасет
+>   `af_afl_stage3614` (6180 записей) с полной провенансом; подготовлен слепой
+>   пакет экспертной ревизии (240+30 записей). См.
+>   `reports/STAGE_3_6_14_DATA_PROVENANCE.md`.
+> - **Stage 3.6.15 (P0):** source classifier распознаёт датасет по сигналу
+>   даже при фиксированном классе (acc 0.979–0.989); исправлены нормализация
+>   по оси и антиалиасинговая децимация; UDA переведён на разделённый target
+>   adaptation / locked test — перенос по-прежнему не достигнут. См.
+>   `reports/STAGE_3_6_15_SOURCE_LEAKAGE.md`.
 >
 > **Актуальные точки входа:** `scripts/stage369_external_test.py`,
 > `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,

@@ -1,0 +1,32 @@
+{
+  "by_source": [
+    {
+      "source": "chapman",
+      "n": 7297,
+      "n_ambiguous": 1324,
+      "n_other": 0,
+      "n_unknown": 0,
+      "n_zero_likelihood_target": 0
+    },
+    {
+      "source": "cpsc2018_extra",
+      "n": 119,
+      "n_ambiguous": 1,
+      "n_other": 0,
+      "n_unknown": 0,
+      "n_zero_likelihood_target": 0
+    },
+    {
+      "source": "ptbxl",
+      "n": 1546,
+      "n_ambiguous": 0,
+      "n_other": 1457,
+      "n_unknown": 0,
+      "n_zero_likelihood_target": 1457
+    }
+  ],
+  "total_ambiguous": 1325,
+  "total_other": 1457,
+  "total_zero_likelihood_target": 1457,
+  "policy": "AMBIGUOUS / OTHER / UNKNOWN records never receive a binary label"
+}

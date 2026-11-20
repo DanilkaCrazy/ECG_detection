@@ -50,8 +50,21 @@ def _classify(codes: Iterable[str]) -> tuple[str, int | None]:
 
 
 def resolve_binary(record: DiagnosisRecord) -> DiagnosisRecord:
-    """Attach canonical_rhythm / label / label_status in place."""
-    status, label = _classify(record.raw_diagnosis_codes)
+    """Attach canonical_rhythm / label / label_status in place.
+
+    A code whose likelihood is explicitly ``0`` is a statement that is
+    ABSENT, not a diagnosis.  This is critical for PTB-XL: its ``scp_codes``
+    dictionary contains zero-valued keys for every non-selected statement, and
+    the old builder used ``"AFIB" in codes`` regardless of the value.
+    """
+    codes = [c for c in record.raw_diagnosis_codes
+             if float(record.raw_diagnosis_values.get(c, 1.0) or 0.0) > 0]
+    zero_targets = [c for c in record.raw_diagnosis_codes
+                    if c in (AFIB_CODES | AFL_CODES)
+                    and float(record.raw_diagnosis_values.get(c, 1.0) or 0.0) <= 0]
+    if zero_targets:
+        record.notes.append(f"target codes with likelihood 0 ignored: {zero_targets}")
+    status, label = _classify(codes)
     record.canonical_rhythm = status if status in ("AFIB", "AFL") else None
     record.label = label
     record.label_status = status

@@ -51,6 +51,30 @@ def test_resolve_binary_mutates_record_with_full_provenance():
     assert out.raw_diagnosis_codes == ["164889003", "59118001"]
 
 
+def test_zero_likelihood_target_is_not_a_diagnosis():
+    from ecgdet.diagnosis_provenance import DiagnosisRecord
+    r = DiagnosisRecord(source="ptbxl", record_id="1",
+                        raw_diagnosis_codes=["AFIB", "NORM"],
+                        raw_diagnosis_values={"AFIB": 0.0, "NORM": 100.0},
+                        primary_diagnosis="AFIB", rhythm_codes=["AFIB", "NORM"],
+                        secondary_diagnoses=[])
+    out = resolve_binary(r)
+    assert out.label is None
+    assert out.label_status == "OTHER"
+    assert any("likelihood 0" in n for n in out.notes)
+
+
+def test_positive_likelihood_afib_still_resolves():
+    from ecgdet.diagnosis_provenance import DiagnosisRecord
+    r = DiagnosisRecord(source="ptbxl", record_id="2",
+                        raw_diagnosis_codes=["AFIB", "NORM"],
+                        raw_diagnosis_values={"AFIB": 100.0, "NORM": 0.0},
+                        primary_diagnosis="AFIB", rhythm_codes=["AFIB", "NORM"],
+                        secondary_diagnoses=[])
+    out = resolve_binary(r)
+    assert out.label_status == "AFIB" and out.label == 1
+
+
 def test_ambiguous_records_never_receive_a_binary_label():
     for codes in (["164889003", "164890007"], ["AFIB", "AFLT"]):
         out = resolve_diagnosis_codes(codes)

@@ -1,0 +1,39 @@
+{
+  "n_records": 8962,
+  "n_valid": 6180,
+  "n_old_labels_without_valid_diagnosis": 2782,
+  "n_ambiguous": 1325,
+  "by_source": [
+    {
+      "source": "chapman",
+      "n": 7297,
+      "n_valid": 5973,
+      "n_ambiguous": 1324,
+      "n_other": 0,
+      "n_unknown": 0,
+      "n_old_label_invalid": 1324,
+      "n_valid_but_disagrees": 0
+    },
+    {
+      "source": "cpsc2018_extra",
+      "n": 119,
+      "n_valid": 118,
+      "n_ambiguous": 1,
+      "n_other": 0,
+      "n_unknown": 0,
+      "n_old_label_invalid": 1,
+      "n_valid_but_disagrees": 0
+    },
+    {
+      "source": "ptbxl",
+      "n": 1546,
+      "n_valid": 89,
+      "n_ambiguous": 0,
+      "n_other": 1457,
+      "n_unknown": 0,
+      "n_old_label_invalid": 1457,
+      "n_valid_but_disagrees": 0
+    }
+  ],
+  "conclusion": "Stage 3.6.14 found that a large share of stage34 labels cannot be re-derived from the original diagnosis metadata. PTB-XL AFIB records mostly carry AFIB with likelihood 0.0, which the old builder treated as a positive diagnosis."
+}

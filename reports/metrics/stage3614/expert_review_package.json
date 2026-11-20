@@ -1,0 +1,15 @@
+{
+  "n_stratified": 240,
+  "n_targeted": 30,
+  "by_source_label": {
+    "chapman|0": 40,
+    "chapman|1": 40,
+    "cpsc2018_extra|0": 40,
+    "cpsc2018_extra|1": 40,
+    "ptbxl|0": 40,
+    "ptbxl|1": 40
+  },
+  "seed": 42,
+  "blinding": "reviewers receive only anon_id and ECG card; no source/label/prediction",
+  "note": "Expert decisions are not filled in — this package is a protocol template."
+}

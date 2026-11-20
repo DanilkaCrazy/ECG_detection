@@ -1,0 +1,23 @@
+# Stage 3.6.14 — Data Provenance & Expert Label Validation
+seed: 42
+mapping_version: "1.0"
+canonical:
+  "164889003": {class: AFIB, label: 1, name: "Atrial fibrillation"}
+  "164890007": {class: AFL, label: 0, name: "Atrial flutter"}
+  AFIB: {class: AFIB, label: 1}
+  AFLT: {class: AFL, label: 0}
+rules:
+  both_afib_and_afl: AMBIGUOUS
+  zero_likelihood_code: ABSENT
+  unknown_code: OTHER
+  no_codes: UNKNOWN
+sources:
+  chapman: WFDB #Dx header (SNOMED)
+  ptbxl: ptbxl_database.csv scp_codes + scp_statements.csv
+  cpsc2018_extra: WFDB #Dx header (SNOMED)
+dataset_out: data/processed/af_afl_stage3614
+expert_review:
+  stratified_random: 240
+  targeted_ambiguous: 30
+  reviewers: 2
+  adjudication: third reviewer
