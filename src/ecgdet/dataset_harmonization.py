@@ -24,6 +24,7 @@ from scipy.signal import resample_poly
 __all__ = [
     "CANONICAL_LEADS", "ECGRecord", "HarmonizationStatus",
     "canonicalize_leads", "harmonize_signal", "signal_quality", "signal_hash",
+    "decimate_signal",
 ]
 
 CANONICAL_LEADS = [
@@ -122,6 +123,22 @@ def signal_quality(sig: np.ndarray) -> dict[str, float]:
 
 def signal_hash(sig: np.ndarray) -> str:
     return hashlib.md5(np.ascontiguousarray(sig, dtype=np.float32).tobytes()).hexdigest()
+
+
+def decimate_signal(x: np.ndarray, fs: float, target_fs: float) -> np.ndarray:
+    """Rate reduction WITH antialias filtering (Stage 3.6.15).
+
+    Plain ``x[::k]`` aliases components above the new Nyquist frequency into
+    the atrial band.  ``resample_poly`` low-pass filters before decimation.
+    Supports 1-D and (leads, samples) arrays along the last axis.
+    """
+    x = np.asarray(x, dtype=np.float64)
+    fs, target_fs = float(fs), float(target_fs)
+    if fs <= target_fs:
+        return x.astype(np.float32)
+    ratio = Fraction(fs / target_fs).limit_denominator(1000)
+    return np.asarray(resample_poly(x, ratio.numerator, ratio.denominator, axis=-1),
+                      dtype=np.float32)
 
 
 def harmonize_signal(

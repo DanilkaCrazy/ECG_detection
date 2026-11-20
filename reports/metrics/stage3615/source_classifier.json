@@ -1,0 +1,125 @@
+{
+  "A_metadata": {
+    "n_train": 2163,
+    "n_test": 927,
+    "accuracy": 0.9848975188781014,
+    "balanced_accuracy": 0.698005698005698,
+    "macro_f1": 0.7432682005300851,
+    "classes": [
+      "chapman",
+      "cpsc2018_extra",
+      "ptbxl"
+    ],
+    "confusion_matrix": [
+      [
+        896,
+        0,
+        0
+      ],
+      [
+        5,
+        10,
+        3
+      ],
+      [
+        2,
+        4,
+        7
+      ]
+    ],
+    "roc_auc_ovr": 0.9747603858194284
+  },
+  "B_raw_ecg": {
+    "n_train": 2163,
+    "n_test": 927,
+    "accuracy": 0.9848975188781014,
+    "balanced_accuracy": 0.6837606837606837,
+    "macro_f1": 0.7407585011693841,
+    "classes": [
+      "chapman",
+      "cpsc2018_extra",
+      "ptbxl"
+    ],
+    "confusion_matrix": [
+      [
+        896,
+        0,
+        0
+      ],
+      [
+        4,
+        12,
+        2
+      ],
+      [
+        5,
+        3,
+        5
+      ]
+    ],
+    "roc_auc_ovr": 0.9883180234782164
+  },
+  "C_class_conditional": {
+    "label_1": {
+      "n_train": 659,
+      "n_test": 283,
+      "accuracy": 0.9787985865724381,
+      "balanced_accuracy": 0.7424242424242425,
+      "macro_f1": 0.7854324284230826,
+      "classes": [
+        "chapman",
+        "cpsc2018_extra",
+        "ptbxl"
+      ],
+      "confusion_matrix": [
+        [
+          266,
+          0,
+          0
+        ],
+        [
+          2,
+          8,
+          1
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "roc_auc_ovr": 0.9957816599598573
+    },
+    "label_0": {
+      "n_train": 1503,
+      "n_test": 645,
+      "accuracy": 0.9891472868217054,
+      "balanced_accuracy": 0.6666666666666666,
+      "macro_f1": 0.7411087991198487,
+      "classes": [
+        "chapman",
+        "cpsc2018_extra",
+        "ptbxl"
+      ],
+      "confusion_matrix": [
+        [
+          631,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0
+        ],
+        [
+          1,
+          2,
+          4
+        ]
+      ],
+      "roc_auc_ovr": 0.9977608598298254
+    }
+  },
+  "interpretation": "High source accuracy at fixed class means sources differ beyond class prevalence."
+}

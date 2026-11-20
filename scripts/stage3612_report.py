@@ -10,8 +10,14 @@ OUT = ROOT / "reports" / "STAGE_3_6_12_FOUNDATION_TRANSFER.md"
 
 
 def main() -> int:
-    t = json.loads((M / "transfer_results.json").read_text(encoding="utf-8"))
-    s = json.loads((ROOT / "reports" / "models" / "stage3612" / "ssl_pretrain.json").read_text(encoding="utf-8"))
+    tp = M / "transfer_results_corrected.json"
+    if not tp.exists():
+        tp = M / "transfer_results.json"
+    t = json.loads(tp.read_text(encoding="utf-8"))
+    sp = ROOT / "reports" / "models" / "stage3612" / "ssl_pretrain_corrected.json"
+    if not sp.exists():
+        sp = ROOT / "reports" / "models" / "stage3612" / "ssl_pretrain.json"
+    s = json.loads(sp.read_text(encoding="utf-8"))
     lines = [
         "# Stage 3.6.12 — перенос предварительно обученных представлений",
         "",

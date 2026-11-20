@@ -111,20 +111,33 @@ class ModularECGNet(nn.Module):
         self.cls = nn.Sequential(nn.Linear(dim, dim), nn.ReLU(), nn.Linear(dim, 1))
         self.quality = nn.Sequential(nn.Linear(n_leads, 1), nn.Sigmoid())
 
-    def forward(self, x: torch.Tensor, rr: torch.Tensor, mask: torch.Tensor):
+    def encode_modules(self, raw_ecg: torch.Tensor, atrial_residual: torch.Tensor,
+                       rr: torch.Tensor, mask: torch.Tensor):
+        """Return the three module embeddings separately (for audit tests)."""
         w = self.gate(mask)
-        xw = x * w.unsqueeze(-1)
-        toks = torch.stack([
-            self.rhythm(rr),
-            self.atrial(xw),
-            self.morphology(x),
-        ], dim=1)
+        morphology = self.morphology(raw_ecg * w.unsqueeze(-1))
+        atrial = self.atrial(atrial_residual * w.unsqueeze(-1))
+        rhythm = self.rhythm(rr)
+        return torch.stack([rhythm, atrial, morphology], dim=1)
+
+    def forward(self, raw_ecg: torch.Tensor, atrial_residual: torch.Tensor,
+                rr: torch.Tensor, lead_mask: torch.Tensor,
+                signal_quality: torch.Tensor | None = None):
+        """Forward with EXPLICIT atrial-residual routing (Stage 3.6.15 fix).
+
+        The atrial encoder sees only the QRST-cancelled residual; the
+        morphology encoder sees the raw ECG.  Both are masked by the same
+        availability gate, so an absent lead cannot leak into either branch.
+        """
+        w = self.gate(lead_mask)
+        toks = self.encode_modules(raw_ecg, atrial_residual, rr, lead_mask)
         fused, weights = self.fusion(toks)
         logits = self.cls(fused).squeeze(-1)
         p = torch.sigmoid(logits)
+        quality = self.quality(w) if signal_quality is None else self.quality(signal_quality)
         aux = {
             "module_weights": weights,
-            "quality": self.quality(w),
+            "quality": quality,
             "p_afib": p,
             "p_afl": 1 - p,
         }

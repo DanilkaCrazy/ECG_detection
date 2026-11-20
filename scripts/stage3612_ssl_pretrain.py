@@ -37,8 +37,9 @@ def main() -> int:
     meta = pd.read_csv(D / "meta.csv")
     raw = np.load(U / "inputs.npz")["raw"]
     fit = np.where((meta.source == "chapman") & (meta.split == "train"))[0]
+    from ecgdet.signal_normalization import normalize_per_lead_time
     x = raw[fit].astype(np.float32)
-    x = (x - x.mean(axis=1, keepdims=True)) / (x.std(axis=1, keepdims=True) + 1e-6)
+    x = normalize_per_lead_time(x)  # Stage 3.6.15 fix: per lead over time
     dl = DataLoader(TensorDataset(torch.from_numpy(x)), batch_size=BATCH, shuffle=True)
 
     net = MaskedSignalEncoder(n_leads=12, n_samples=1250, dim=64)
@@ -58,14 +59,14 @@ def main() -> int:
 
     torch.save({"state_dict": net.state_dict(), "epochs": EPOCHS,
                 "mask_prob": MASK_PROB, "trained_on": "chapman/train only",
-                "ecg_fm_preflight": preflight}, OUT / "ssl_encoder.pt")
+                "ecg_fm_preflight": preflight}, OUT / "ssl_encoder_corrected.pt")
     meta_out = {
         "backend": "local_ssl_fallback", "ecg_fm_preflight": preflight,
         "n_pretrain_records": len(fit), "epochs": EPOCHS, "loss_history": hist,
         "seconds": time.time() - t0,
         "warning": "This is NOT ECG-FM. fairseq backend and checkpoint are unavailable.",
     }
-    (OUT / "ssl_pretrain.json").write_text(
+    (OUT / "ssl_pretrain_corrected.json").write_text(
         json.dumps(meta_out, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
     print(json.dumps({k: v for k, v in meta_out.items() if k != "loss_history"}, indent=2))
     return 0

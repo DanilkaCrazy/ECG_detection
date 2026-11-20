@@ -1,0 +1,21 @@
+# Stage 3.6.15 — Source Leakage & Signal Harmonization
+seed: 42
+dataset: data/processed/af_afl_stage3614
+source_audit:
+  physical_units_first: true
+  wfdb_p_signal_gain_applied_twice: forbidden
+  hf_energy_above_40hz: auxiliary_indicator_only
+harmonization:
+  resampling:
+    method: polyphase_antialias
+    target_fs_hz: 500
+  normalization_variants: [H0_none, H1_per_lead_time, H2_robust, H3_interlead, H4_train_fitted]
+  per_split_refitting: forbidden
+source_classifier:
+  experiments: [A_metadata, B_raw_ecg, C_class_conditional]
+  forbidden_features: [record_id, absolute_path, filename, row_index, split_id, label]
+uda:
+  target_adaptation_fraction: 0.5
+  regimes: [source_only, transductive_uda, inductive_uda]
+  methods: [none, CORAL, MMD, DANN]
+  locked_target_test: required

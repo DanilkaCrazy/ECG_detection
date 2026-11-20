@@ -1,0 +1,74 @@
+{
+  "n_records": 6180,
+  "by_source": [
+    {
+      "source": "chapman",
+      "n": 5973,
+      "rms_mean": 0.27766628920278535,
+      "rms_std": 0.14551917069070736,
+      "p99_mean": 1.2903928343632622,
+      "zero_frac_mean": 0.027412827166694572
+    },
+    {
+      "source": "cpsc2018_extra",
+      "n": 118,
+      "rms_mean": 0.2669837777266058,
+      "rms_std": 0.11732495713266435,
+      "p99_mean": 1.2756519635855141,
+      "zero_frac_mean": 0.006510875706214689
+    },
+    {
+      "source": "ptbxl",
+      "n": 89,
+      "rms_mean": 0.22517327688048394,
+      "rms_std": 0.0659773029778592,
+      "p99_mean": 1.0327359578582678,
+      "zero_frac_mean": 0.009244194756554308
+    }
+  ],
+  "class_conditional": [
+    {
+      "source": "chapman",
+      "label": 0,
+      "rms": 0.25185559689998627,
+      "p99_abs": 1.1660000085830688,
+      "zero_frac": 0.025533333333333335
+    },
+    {
+      "source": "chapman",
+      "label": 1,
+      "rms": 0.2411062866449356,
+      "p99_abs": 1.1180000305175781,
+      "zero_frac": 0.024733333333333333
+    },
+    {
+      "source": "cpsc2018_extra",
+      "label": 0,
+      "rms": 0.2594316899776459,
+      "p99_abs": 1.1910200119018555,
+      "zero_frac": 0.005633333333333333
+    },
+    {
+      "source": "cpsc2018_extra",
+      "label": 1,
+      "rms": 0.22803469002246857,
+      "p99_abs": 1.100000023841858,
+      "zero_frac": 0.006516666666666666
+    },
+    {
+      "source": "ptbxl",
+      "label": 0,
+      "rms": 0.2560641020536423,
+      "p99_abs": 1.1550050377845764,
+      "zero_frac": 0.006166666666666667
+    },
+    {
+      "source": "ptbxl",
+      "label": 1,
+      "rms": 0.19169868528842926,
+      "p99_abs": 0.8700100183486938,
+      "zero_frac": 0.010316666666666667
+    }
+  ],
+  "caveat": "Amplitude differences may reflect acquisition hardware, not physiology."
+}

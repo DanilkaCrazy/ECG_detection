@@ -34,8 +34,9 @@ EPOCHS, BATCH, LR = 14, 64, 1e-3
 
 
 def norm(x: np.ndarray) -> np.ndarray:
-    x = np.asarray(x, dtype=np.float32)
-    return (x - x.mean(axis=1, keepdims=True)) / (x.std(axis=1, keepdims=True) + 1e-6)
+    """Stage 3.6.15 fix: per-LEAD normalisation over TIME (axis=-1)."""
+    from ecgdet.signal_normalization import normalize_per_lead_time
+    return normalize_per_lead_time(x)
 
 
 def main() -> int:
@@ -57,11 +58,12 @@ def main() -> int:
     exts = {s: np.where(src == s)[0] for s in ("ptbxl", "cpsc2018_extra")}
 
     def tensors(idx):
-        return (torch.from_numpy(raw[idx]), torch.from_numpy(rr[idx]),
-                torch.from_numpy(mask[idx]), torch.from_numpy(y[idx]))
+        return (torch.from_numpy(raw[idx]), torch.from_numpy(atrial[idx]),
+                torch.from_numpy(rr[idx]), torch.from_numpy(mask[idx]),
+                torch.from_numpy(y[idx]))
 
-    Xf, Rf, Mf, Yf = tensors(fit)
-    dl = DataLoader(TensorDataset(Xf, Rf, Mf, Yf), batch_size=BATCH, shuffle=True)
+    Xf, Af, Rf, Mf, Yf = tensors(fit)
+    dl = DataLoader(TensorDataset(Xf, Af, Rf, Mf, Yf), batch_size=BATCH, shuffle=True)
 
     net = ModularECGNet(n_leads=12, n_samples=1250, n_rr=40, dim=32)
     opt = torch.optim.Adam(net.parameters(), lr=LR)
@@ -69,16 +71,16 @@ def main() -> int:
     for ep in range(EPOCHS):
         net.train()
         total = 0.0
-        for xb, rb, mb, yb in dl:
-            logits, aux = net(xb, rb, mb)
+        for xb, ab, rb, mb, yb in dl:
+            logits, aux = net(xb, ab, rb, mb)
             loss, _ = modular_loss(logits, yb, aux)
             opt.zero_grad(); loss.backward(); opt.step()
             total += float(loss.detach())
         net.eval()
         with torch.no_grad():
             lv = float(np.mean([torch.nn.functional.binary_cross_entropy_with_logits(
-                net(torch.from_numpy(raw[i:i + 256]), torch.from_numpy(rr[i:i + 256]),
-                    torch.from_numpy(mask[i:i + 256]))[0],
+                net(torch.from_numpy(raw[i:i + 256]), torch.from_numpy(atrial[i:i + 256]),
+                    torch.from_numpy(rr[i:i + 256]), torch.from_numpy(mask[i:i + 256]))[0],
                 torch.from_numpy(y[i:i + 256])).item()
                 for i in range(0, len(val), 256)]))
         if lv < best:
@@ -92,8 +94,8 @@ def main() -> int:
         with torch.no_grad():
             for i in range(0, len(idx), 256):
                 j = idx[i:i + 256]
-                logits, aux = net(torch.from_numpy(raw[j]), torch.from_numpy(rr[j]),
-                                  torch.from_numpy(mask[j]))
+                logits, aux = net(torch.from_numpy(raw[j]), torch.from_numpy(atrial[j]),
+                                  torch.from_numpy(rr[j]), torch.from_numpy(mask[j]))
                 out.append(torch.sigmoid(logits).numpy())
                 wts.append(aux["module_weights"].numpy())
         return np.concatenate(out), np.concatenate(wts)
@@ -112,7 +114,7 @@ def main() -> int:
             "y_true": y[idx], "p_afib": s,
             "y_pred": (s >= thr).astype(int), "threshold": thr,
             "w_rhythm": w[:, 0], "w_atrial": w[:, 1], "w_morphology": w[:, 2],
-        }).to_csv(MET / f"modular_pred_{name}.csv", index=False)
+        }).to_csv(MET / f"modular_routed_pred_{name}.csv", index=False)
         if name == "chapman_test":
             results["mean_module_weights"] = {
                 "rhythm": float(w[:, 0].mean()), "atrial": float(w[:, 1].mean()),
@@ -120,11 +122,11 @@ def main() -> int:
             }
 
     results["total_seconds"] = time.time() - t0
-    (MET / "modular_results.json").write_text(
+    (MET / "modular_results_routed.json").write_text(
         json.dumps(results, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
     torch.save({"state_dict": net.state_dict(), "threshold": thr,
-                "epochs": EPOCHS, "note": "atrial encoder consumes precomputed QRST residual"},
-               EXP / "modular.pt")
+                "epochs": EPOCHS, "note": "explicit atrial residual routing + per-lead norm + antialias"},
+               EXP / "modular_routed.pt")
     print(json.dumps(results, indent=2, default=float))
     return 0
 

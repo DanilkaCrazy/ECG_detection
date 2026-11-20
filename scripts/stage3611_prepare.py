@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from ecgdet.atrial_signal_analysis import multi_lead_qrs  # noqa: E402
 from ecgdet.atrial_residual import extract_atrial_residual  # noqa: E402
 from ecgdet.lead_quality_audit import build_lead_mask  # noqa: E402
+from ecgdet.dataset_harmonization import decimate_signal  # noqa: E402
 
 D = ROOT / "data" / "processed" / "af_afl_stage34"
 OUT = ROOT / "data" / "processed" / "af_afl_stage3611"
@@ -37,8 +38,9 @@ def one(sig: np.ndarray):
     mask = build_lead_mask(sig, FS, LEADS)
     res = extract_atrial_residual(sig, FS, LEADS, method="median", qrs_peaks=peaks)
     atrial = np.asarray(res["residual"], dtype=np.float32)
-    atrial = np.nan_to_num(atrial[:, ::DEC])[:12, :1250]
-    raw = np.asarray(sig, dtype=np.float32)[:, ::DEC][:12, :1250]
+    # Stage 3.6.15: antialias-filtered resampling, NOT naive x[::DEC].
+    atrial = np.nan_to_num(decimate_signal(atrial, FS, FS / DEC))[:12, :1250]
+    raw = decimate_signal(sig, FS, FS / DEC)[:12, :1250]
     return padded, mask, atrial, raw
 
 

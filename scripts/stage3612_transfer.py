@@ -37,8 +37,9 @@ EPOCHS, BATCH = 8, 64
 
 
 def norm(x):
-    x = np.asarray(x, dtype=np.float32)
-    return (x - x.mean(axis=1, keepdims=True)) / (x.std(axis=1, keepdims=True) + 1e-6)
+    """Stage 3.6.15 fix: per-LEAD normalisation over TIME (axis=-1)."""
+    from ecgdet.signal_normalization import normalize_per_lead_time
+    return normalize_per_lead_time(x)
 
 
 def embeddings(net, x):
@@ -69,7 +70,7 @@ def main() -> int:
     test = np.where((src == "chapman") & (spl == "test"))[0]
     exts = {s: np.where(src == s)[0] for s in ("ptbxl", "cpsc2018_extra")}
 
-    state = torch.load(M / "ssl_encoder.pt", map_location="cpu", weights_only=False)
+    state = torch.load(M / "ssl_encoder_corrected.pt", map_location="cpu", weights_only=False)
     ssl = MaskedSignalEncoder(12, 1250, 64)
     ssl.load_state_dict(state["state_dict"])
     results = {"ecg_fm_backend": state.get("ecg_fm_preflight", {})}
@@ -78,9 +79,23 @@ def main() -> int:
     Ef = embeddings(ssl, raw[fit]); Ev = embeddings(ssl, raw[val])
     Et = embeddings(ssl, raw[test])
     Ee = {k: embeddings(ssl, raw[v]) for k, v in exts.items()}
-    ef, ev = prep(Ef, np.arange(len(Ef))), prep(Ev, np.arange(len(Ev)))
-    et = prep(Et, np.arange(len(Et)))
-    ee = {k: prep(v, np.arange(len(v))) for k, v in Ee.items()}
+    # Stage 3.6.15 fix: fit preprocessing ONCE on train embeddings and apply
+    # the frozen transform to val/test/external (no per-split refitting).
+    from ecgdet.signal_normalization import fit_train_stats, apply_train_stats
+    estats = fit_train_stats(Ef[:, :, None]) if Ef.ndim == 3 else None
+    if estats is None:
+        med = np.nanmedian(Ef, axis=0)
+        q1, q3 = np.nanpercentile(Ef, [25, 75], axis=0)
+        estats = {"median": med.astype(np.float32),
+                  "scale": np.where((q3 - q1) > 1e-9, q3 - q1, 1.0).astype(np.float32)}
+        ef = np.clip((Ef - estats["median"]) / estats["scale"], -20, 20).astype(np.float32)
+        ev = np.clip((Ev - estats["median"]) / estats["scale"], -20, 20).astype(np.float32)
+        et = np.clip((Et - estats["median"]) / estats["scale"], -20, 20).astype(np.float32)
+        ee = {k: np.clip((v - estats["median"]) / estats["scale"], -20, 20).astype(np.float32)
+              for k, v in Ee.items()}
+    else:  # pragma: no cover
+        ef, ev, et = apply_train_stats(Ef, estats), apply_train_stats(Ev, estats), apply_train_stats(Et, estats)
+        ee = {k: apply_train_stats(v, estats) for k, v in Ee.items()}
     lr = LogisticRegression(max_iter=2000, class_weight="balanced").fit(ef, y[fit])
     sv = lr.predict_proba(ev)[:, 1]
     thr = select_threshold(y[val], sv)
@@ -163,7 +178,7 @@ def main() -> int:
         "significant": bool(ll > 0 or hl < 0),
     }
 
-    (MET / "transfer_results.json").write_text(
+    (MET / "transfer_results_corrected.json").write_text(
         json.dumps(results, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
     print(json.dumps(results, indent=2, default=float))
     return 0
