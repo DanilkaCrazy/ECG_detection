@@ -1,0 +1,30 @@
+{
+  "n": 8962,
+  "counts": {
+    "test": 2983,
+    "train": 2989,
+    "val": 2990
+  },
+  "by_source": {
+    "chapman": {
+      "test": 2430,
+      "train": 2433,
+      "val": 2434
+    },
+    "cpsc2018_extra": {
+      "test": 39,
+      "train": 40,
+      "val": 40
+    },
+    "ptbxl": {
+      "test": 514,
+      "train": 516,
+      "val": 516
+    }
+  },
+  "patient_overlap": {},
+  "fingerprint": "099b28b58a390179f2f3b8b769145c07832cb785684b32258bc88188745d174e",
+  "patient_independent": false,
+  "leakage_violations": [],
+  "split_table": "data/processed/af_afl_stage34/split.csv"
+}

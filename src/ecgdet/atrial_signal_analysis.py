@@ -50,11 +50,65 @@ def _bandpass(x, fs, lo, hi):
         return np.asarray(x, dtype=float)
 
 
-def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple[np.ndarray, dict]:
-    """Consensus QRS detection using II, V1, V5 (or available), polarity-robust.
+def _qrs_votes(sig2d, fs, chosen, band, refractory, cluster):
+    """Accumulate one vote per QRS candidate from each usable lead."""
+    votes = np.zeros(sig2d.shape[1], dtype=float)
+    per_lead = {}
+    for ci in chosen:
+        x = _bandpass(sig2d[ci], fs, band[0], band[1])
+        energy = x ** 2
+        med_e = float(np.median(energy))
+        mad_e = float(np.median(np.abs(energy - med_e))) * 1.4826
+        thr = max(med_e + 3.0 * mad_e, 1e-12)
+        if cluster:
+            raw_peaks, _ = sp_signal.find_peaks(
+                energy, height=thr, distance=max(1, int(0.04 * fs)),
+                prominence=max(thr * 0.2, 1e-12))
+            groups: list[list[int]] = []
+            for pk in raw_peaks:
+                if groups and int(pk) - groups[-1][-1] <= max(1, int(0.10 * fs)):
+                    groups[-1].append(int(pk))
+                else:
+                    groups.append([int(pk)])
+            peaks = np.asarray([int(np.median(g)) for g in groups], dtype=int)
+        else:
+            peaks, _ = sp_signal.find_peaks(
+                energy, height=thr, distance=max(1, int(refractory * fs)),
+                prominence=max(thr * 0.2, 1e-12))
+        per_lead[ci] = peaks
+        for pk in peaks:
+            votes[max(0, pk - int(0.03 * fs)):min(len(votes), pk + int(0.03 * fs))] += 1
+    return votes, per_lead
 
-    Expects (leads, samples). A transposed input is auto-detected and transposed;
-    Stage 3.5 silently mis-used (samples, leads) and detected zero peaks.
+
+def _qrs_consensus(votes, fs, need, refractory, adaptive=False):
+    cand, _ = sp_signal.find_peaks(votes, height=need - 0.5,
+                                   distance=max(1, int(refractory * fs)))
+    if adaptive and len(cand) >= 4:
+        rr = float(np.median(np.diff(cand)))
+        dist = min(int(0.25 * fs), max(int(0.10 * fs), int(0.5 * rr)))
+        cand, _ = sp_signal.find_peaks(votes, height=need - 0.5, distance=max(1, dist))
+    refined = []
+    for c in cand:
+        lo, hi = max(0, c - int(0.04 * fs)), min(len(votes), c + int(0.04 * fs))
+        refined.append(int(lo + np.argmax(votes[lo:hi])))
+    return np.unique(np.asarray(refined, dtype=int))
+
+
+def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple[np.ndarray, dict]:
+    """Consensus QRS detection, robust to sparse leads and tachycardia.
+
+    Default path is the historically validated 5-15 Hz / 0.25 s refractory
+    detector.  Two *conditional* fallbacks were added in Stage 3.6.9:
+
+    * if the default finds too few complexes, a short-refractory clustered
+      pass recovers tachycardic beats (the old 0.25 s refractory merged RR
+      intervals shorter than 250 ms);
+    * if the default fails entirely (e.g. strong 5 Hz F-wave contamination),
+      an 8-18 Hz pass suppresses the atrial band.
+
+    Both fallbacks are gated, so the already-extracted feature arrays remain
+    consistent with the default path for the overwhelming majority of records.
     """
     sig2d = np.asarray(sig2d)
     if sig2d.ndim != 2:
@@ -66,7 +120,6 @@ def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple
                                    "V2", "I", "aVR", "aVL") if l in idx]
     if not candidates:
         candidates = list(range(min(3, sig2d.shape[0])))
-    # Dynamically drop absent/flat leads (Chapman missing chest leads).
     usable = []
     for ci in candidates:
         raw = sig2d[ci]
@@ -79,40 +132,38 @@ def multi_lead_qrs(sig2d: np.ndarray, fs: float, lead_names: list[str]) -> tuple
             "consensus_leads": [], "votes": 0, "per_lead_counts": {},
             "qrs_detection_status": "failed", "qrs_detection_confidence": 0.0,
             "auto_transposed": auto_transposed}
-    chosen = usable
-    votes = np.zeros(sig2d.shape[1], dtype=float)
-    per_lead = {}
-    for ci in chosen:
-        x = _bandpass(sig2d[ci], fs, 5, 15)
-        energy = x ** 2
-        # Robust threshold: mean+std is dominated by a single artifact or by
-        # QRS complexes themselves on near-zero-baseline sources (PTB-XL),
-        # leaving a threshold no other complex can cross.
-        med_e = float(np.median(energy))
-        mad_e = float(np.median(np.abs(energy - med_e))) * 1.4826
-        thr = max(med_e + 3.0 * mad_e, 1e-12)
-        peaks, _ = sp_signal.find_peaks(energy, height=thr, distance=int(0.25 * fs),
-                                        prominence=max(thr * 0.2, 1e-12))
-        per_lead[ci] = peaks
-        for p in peaks:
-            votes[max(0, p - int(0.03 * fs)):min(len(votes), p + int(0.03 * fs))] += 1
-    # Required votes adapt to the number of actually usable leads.
-    need = 1 if len(chosen) == 1 else 2
-    cand, _ = sp_signal.find_peaks(votes, height=need - 0.5, distance=int(0.25 * fs))
-    refined = []
-    for c in cand:
-        lo, hi = max(0, c - int(0.04 * fs)), min(len(votes), c + int(0.04 * fs))
-        refined.append(int(lo + np.argmax(votes[lo:hi])))
-    peaks = np.unique(np.asarray(refined, dtype=int))
+    need = 1 if len(usable) == 1 else 2
+
+    votes, per_lead = _qrs_votes(sig2d, fs, usable, (5, 15), 0.25, False)
+    peaks = _qrs_consensus(votes, fs, need, 0.25)
+    path = "default"
+
+    if len(peaks) < 3:
+        votes_r, per_r = _qrs_votes(sig2d, fs, usable, (8, 18), 0.10, True)
+        rescue = _qrs_consensus(votes_r, fs, need, 0.10, adaptive=True)
+        if len(rescue) > len(peaks):
+            peaks, votes, per_lead, path = rescue, votes_r, per_r, "atrial_band_rescue"
+    else:
+        votes_s, per_s = _qrs_votes(sig2d, fs, usable, (5, 15), 0.10, True)
+        short = _qrs_consensus(votes_s, fs, need, 0.10, adaptive=True)
+        gaps = np.diff(short)
+        regular = (len(gaps) >= 4 and gaps.mean() > 0
+                   and float(np.std(gaps) / gaps.mean()) < 0.2)
+        # A tachycardic sequence is both denser AND regular.  Requiring
+        # regularity prevents the clustered pass's extra morphology lobes
+        # (irregular ~100/300 ms gaps) from being mistaken for extra beats.
+        if regular and len(short) > 1.4 * len(peaks) and len(short) >= 4:
+            peaks, votes, per_lead, path = short, votes_s, per_s, "tachycardia_fallback"
+
     confidence = float(len(usable) / max(len(candidates), 1))
     status = ("ok" if confidence >= 0.66 and len(peaks) >= 3 else
               "degraded" if len(peaks) >= 3 else "failed")
-    return peaks, {"consensus_leads": chosen, "votes": len(cand),
+    return peaks, {"consensus_leads": usable, "votes": len(peaks),
                    "per_lead_counts": {str(k): int(len(v)) for k, v in per_lead.items()},
                    "qrs_detection_confidence": confidence,
                    "qrs_detection_status": status,
+                   "detection_path": path,
                    "auto_transposed": auto_transposed}
-
 
 def _cancel(x, fs, peaks, method, pre=0.08, post=0.12):
     x = np.asarray(x, dtype=float)

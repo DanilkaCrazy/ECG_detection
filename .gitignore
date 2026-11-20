@@ -19,6 +19,9 @@ env/
 # Logs
 *.log
 
+# Training framework scratch
+catboost_info/
+
 # Environment variables
 .env
 

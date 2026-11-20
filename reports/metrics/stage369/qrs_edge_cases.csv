@@ -1,0 +1,7 @@
+case,n_ref,n_found,tp,fp,fn,recall,precision,status
+normal,42,42,42,0,0,1.0,1.0,ok
+short_rr,42,42,42,0,0,1.0,1.0,ok
+tachy_240ms,42,42,42,0,0,1.0,1.0,ok
+f_waves,42,42,22,20,20,0.5238095238095238,0.5238095238095238,ok
+single_lead,42,42,42,0,0,1.0,1.0,degraded
+missing_chest,42,42,42,0,0,1.0,1.0,degraded

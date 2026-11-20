@@ -1,0 +1,25 @@
+{
+  "stage": "3.6.10",
+  "experiment": "E7",
+  "groups": "B+C",
+  "model": "RF",
+  "seed": 42,
+  "protocol": {
+    "fit": "chapman/train",
+    "threshold": "chapman/val",
+    "control": "chapman/test",
+    "external": [
+      "ptbxl",
+      "cpsc2018_extra"
+    ],
+    "external_threshold_tuning": false
+  },
+  "features": {
+    "n": 344,
+    "source": [
+      "data/processed/af_afl_stage34/features_advanced_expert.npy",
+      "data/processed/af_afl_stage3610/X.npy"
+    ]
+  },
+  "git_commit": "4ca05de9fff4175d22b7a8e8fc1fd63cf7ac5068"
+}

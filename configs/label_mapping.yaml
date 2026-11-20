@@ -1,0 +1,28 @@
+# Stage 3.6.9 — canonical AFIB/AFL label mapping.
+# Substring matching on "AF"/"flutter" is forbidden: codes must be explicit.
+labels:
+  AFIB:
+    canonical_name: "Atrial Fibrillation"
+    class_label: 1
+    source_codes:
+      chapman: ["AF", "164889003"]
+      ptbxl: ["AFIB"]
+      cpsc2018: ["AFIB", "164889003"]
+      cpsc2018_extra: ["AFIB", "164889003"]
+  AFL:
+    canonical_name: "Atrial Flutter"
+    class_label: 0
+    source_codes:
+      chapman: ["AFL", "164890007"]
+      ptbxl: ["AFLT", "AFL"]
+      cpsc2018: ["AFL", "164890007"]
+      cpsc2018_extra: ["AFL", "164890007"]
+  excluded:
+    - "AFIB_AFL_UNCERTAIN"
+    - "MULTIPLE_CONFLICTING_RHYTHMS"
+
+notes:
+  - "Chapman 'AF' in the processed rhythm column means atrial fibrillation (SNOMED 164889003)."
+  - "PTB-XL uses SCP code AFLT for flutter; the harmonised rhythm column stores AFL."
+  - "Records carrying BOTH AFIB and AFL codes are ambiguous and are dropped at build time."
+  - "config.CHAPMAN_SNOMED_TO_ACRONYM contains a legacy conflicting mapping (164889003->AFIB, 164890007->AF); this config is authoritative."

@@ -1,0 +1,33 @@
+{
+  "n": 8962,
+  "counts": {
+    "holdout": 1786,
+    "test": 1334,
+    "train": 4500,
+    "val": 1342
+  },
+  "by_source": {
+    "chapman": {
+      "holdout": 1459,
+      "test": 1118,
+      "train": 3631,
+      "val": 1089
+    },
+    "cpsc2018_extra": {
+      "holdout": 21,
+      "test": 20,
+      "train": 56,
+      "val": 22
+    },
+    "ptbxl": {
+      "holdout": 306,
+      "test": 196,
+      "train": 813,
+      "val": 231
+    }
+  },
+  "patient_overlap": {},
+  "fingerprint": "136bd5d4ea40886d170660e98eba5f0d46f08e6240ae5ddffee430480f957795",
+  "patient_independent": false,
+  "fingerprint_locked": "099b28b58a390179f2f3b8b769145c07832cb785684b32258bc88188745d174e"
+}

@@ -1,0 +1,49 @@
+{
+  "n_records": 8962,
+  "n_conflicts": 0,
+  "n_unknown": 0,
+  "direction_ok": true,
+  "by_source": {
+    "chapman": {
+      "n": 7297,
+      "n_afib": 1777,
+      "n_afl": 5520,
+      "n_conflicts": 0,
+      "n_unknown": 0,
+      "rhythms": {
+        "AFL": 5520,
+        "AF": 1777
+      }
+    },
+    "cpsc2018_extra": {
+      "n": 119,
+      "n_afib": 75,
+      "n_afl": 44,
+      "n_conflicts": 0,
+      "n_unknown": 0,
+      "rhythms": {
+        "AFIB": 75,
+        "AFL": 44
+      }
+    },
+    "ptbxl": {
+      "n": 1546,
+      "n_afib": 1490,
+      "n_afl": 56,
+      "n_conflicts": 0,
+      "n_unknown": 0,
+      "rhythms": {
+        "AFIB": 1490,
+        "AFL": 56
+      }
+    }
+  },
+  "class_distribution": {
+    "0": 5620,
+    "1": 3342
+  },
+  "excluded_categories": [
+    "AFIB_AFL_UNCERTAIN",
+    "MULTIPLE_CONFLICTING_RHYTHMS"
+  ]
+}

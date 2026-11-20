@@ -1,0 +1,25 @@
+{
+  "n_records": 8962,
+  "n_with_all_leads": 8892,
+  "n_with_missing_leads": 70,
+  "n_with_single_good_lead": 0,
+  "n_with_zero_good_leads": 0,
+  "mean_usable_leads": 11.983932158000446,
+  "by_source": {
+    "chapman": {
+      "mean": 11.980265862683295,
+      "min": 6,
+      "max": 12
+    },
+    "cpsc2018_extra": {
+      "mean": 12.0,
+      "min": 12,
+      "max": 12
+    },
+    "ptbxl": {
+      "mean": 12.0,
+      "min": 12,
+      "max": 12
+    }
+  }
+}

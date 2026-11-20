@@ -1,0 +1,89 @@
+{
+  "source": "chapman",
+  "threshold": 0.35999999999999993,
+  "control": {
+    "n": 2430,
+    "threshold": 0.35999999999999993,
+    "f1_macro": 0.5234992116751309,
+    "afib_f1": 0.2556390977443609,
+    "afl_f1": 0.7913593256059009,
+    "afib_precision": 0.288135593220339,
+    "afib_recall": 0.22972972972972974,
+    "afl_precision": 0.7671092951991828,
+    "afl_recall": 0.8171926006528836,
+    "balanced_accuracy": 0.5234611651913067,
+    "roc_auc": 0.5695765814781049,
+    "pr_auc": 0.3214591258934061,
+    "brier": 0.18335493009681086,
+    "confusion_matrix": {
+      "tn": 1502,
+      "fp": 336,
+      "fn": 456,
+      "tp": 136
+    },
+    "prevalence_afib": 0.24362139917695474
+  },
+  "external": {
+    "ptbxl": {
+      "n": 1546,
+      "threshold": 0.35999999999999993,
+      "f1_macro": 0.18091459997197704,
+      "afib_f1": 0.35363247863247865,
+      "afl_f1": 0.00819672131147541,
+      "afib_precision": 0.8664921465968587,
+      "afib_recall": 0.2221476510067114,
+      "afl_precision": 0.00429553264604811,
+      "afl_recall": 0.08928571428571429,
+      "balanced_accuracy": 0.15571668264621286,
+      "roc_auc": 0.06867209971236818,
+      "pr_auc": 0.8871608950375125,
+      "brier": 0.479092159336324,
+      "confusion_matrix": {
+        "tn": 5,
+        "fp": 51,
+        "fn": 1159,
+        "tp": 331
+      },
+      "prevalence_afib": 0.963777490297542
+    },
+    "cpsc2018_extra": {
+      "n": 119,
+      "threshold": 0.35999999999999993,
+      "f1_macro": 0.3344424778761062,
+      "afib_f1": 0.3008849557522124,
+      "afl_f1": 0.368,
+      "afib_precision": 0.4473684210526316,
+      "afib_recall": 0.22666666666666666,
+      "afl_precision": 0.2839506172839506,
+      "afl_recall": 0.5227272727272727,
+      "balanced_accuracy": 0.3746969696969697,
+      "roc_auc": 0.3512121212121212,
+      "pr_auc": 0.5185423604701062,
+      "brier": 0.34978453677590043,
+      "confusion_matrix": {
+        "tn": 23,
+        "fp": 21,
+        "fn": 58,
+        "tp": 17
+      },
+      "prevalence_afib": 0.6302521008403361
+    }
+  },
+  "external_labels_used_for_selection": false,
+  "in_source_reference": {
+    "ptbxl": {
+      "n_test": 514,
+      "threshold": 0.5199999999999999,
+      "roc_auc": 0.969758064516129,
+      "f1_macro": 0.8668968493741908,
+      "status": "ok"
+    },
+    "cpsc2018_extra": {
+      "n_test": 39,
+      "threshold": 0.58,
+      "roc_auc": 0.7527777777777778,
+      "f1_macro": 0.7350543478260869,
+      "status": "ok"
+    }
+  }
+}

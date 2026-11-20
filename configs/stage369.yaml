@@ -1,0 +1,22 @@
+# Stage 3.6.9 — Experimental Integrity & Label Audit
+seed: 42
+dataset: data/processed/af_afl_stage34
+source_for_training: chapman
+external_sources: [ptbxl, cpsc2018_extra]
+protocol:
+  train_split: train
+  threshold_split: val
+  in_domain_control_split: test
+  external_threshold_tuning: forbidden
+  select_threshold_metric: macro_f1
+  threshold_grid: [0.05, 0.95, 91]
+locked_holdout:
+  holdout_frac: 0.20
+  val_frac: 0.15
+  test_frac: 0.15
+  group_by: patient_key
+qrs_audit:
+  tolerance_ms: [25, 50, 100]
+  max_records_per_dataset: 40
+  annotated_datasets: [mitbih, edb, qtdb, svdb]
+reports_dir: reports/metrics/stage369

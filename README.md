@@ -22,10 +22,30 @@
 >   результат: Expert+TF F1 0.662 / AFIB-F1 0.554, прирост +0.039 статистически
 >   значим (paired bootstrap). См. `reports/AF_AFL_STAGE36_5_7_REPORT.md`.
 >   См. `reports/AF_AFL_STAGE36_P0_AUDIT.md`.
+> - Stage 3.6.8: QRS-детектор проверен по 664 эталонным WFDB-аннотациям; TCN
+>   F1 0.661 / AFIB-F1 0.553. См. `reports/QRS_DETECTOR_BENCHMARK.md`.
+> - **Stage 3.6.9 (P0):** исправлен протокол внешнего теста (обучение только на
+>   Chapman train, порог на val, внешние метки не участвуют в выборе). Метки
+>   согласованы во всех 3 источниках (0 конфликтов). Внутри PTB-XL ROC-AUC
+>   0.970, а Chapman→PTB-XL 0.069 — это **domain shift**, не инверсия меток.
+>   Создан запечатанный holdout. См. `reports/STAGE_3_6_9_EXPERIMENTAL_INTEGRITY.md`.
+> - **Stage 3.6.10 (P1):** ablation E0–E8 по 5 физиологическим группам признаков.
+>   Лучший: Expert + atrial + TF (E7) + RandomForest F1 0.571 / AFIB-F1 0.353
+>   при корректном протоколе; ΔF1 +0.041, 95% CI [0.018; 0.064], BH q=0.
+>   SHAP: топ-признаки — `periodicity` и `atrial_cycle_cv`, причём направление
+>   periodicity **противоположно** наивной гипотезе (выше при AFIB, p<1e-5).
+>   См. `reports/STAGE_3_6_10_FEATURE_ABLATION.md` и
+>   `reports/STAGE_3_6_10_FEATURE_IMPORTANCE.md`.
 >
-> **Актуальные точки входа:** `scripts/stage36_extract_atrial.py`,
-> `scripts/stage36_data_audit.py`, `scripts/stage36_strict_integrity.py`,
-> `scripts/stage36_baseline.py`, `scripts/stage36_baseline_dl.py`.
+> **Актуальные точки входа:** `scripts/stage369_external_test.py`,
+> `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,
+> `scripts/stage3610_extract_features.py`, `scripts/stage3610_ablation.py`,
+> `scripts/stage3610_shap.py`.
+>
+> **ВНИМАНИЕ:** F1 0.571 в Stage 3.6.10 получен на корректном протоколе
+> (обучение только на train) и **не сопоставим напрямую** с прежним 0.662,
+> где train+val использовались для обучения. Domain generalization по-прежнему
+> не доказана: внешние ROC-AUC 0.04–0.16.
 >
 > **ВНИМАНИЕ:** разделы ниже («Ключевые особенности», «Текущие результаты»,
 > «Данные», «Методология оценки») описывают **историческую 8-классовую задачу
