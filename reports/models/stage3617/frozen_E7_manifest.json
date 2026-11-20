@@ -1,0 +1,8 @@
+{
+  "model": "frozen_E7.joblib",
+  "threshold": 0.3999999999999999,
+  "seed": 42,
+  "n_features": 344,
+  "preprocessing": "frozen_E7_preprocessing.npz",
+  "ordered_features": "frozen_E7_feature_manifest.csv"
+}

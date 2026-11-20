@@ -1,0 +1,27 @@
+# Stage 3.6.22 — reproducibility corrections and strict benchmark
+mapping_version: "1.1"
+dataset: data/processed/af_afl_stage3622
+source_dataset: data/processed/af_afl_stage3614_v1_1
+n_records: 7505
+benchmark_sets:
+  E0: expert_67
+  E2: expert + atrial_activity
+  E7: expert + atrial + time_frequency
+  H: expert + 16 TF/organization (compact historical)
+  E7_AV: E7 + AV-conduction features
+models: [RF]
+seeds: [42, 7, 13, 21, 99]
+protocol:
+  fit: chapman/train
+  threshold: chapman/val
+  evaluation: development_test_only
+  demoted_holdout_used_for_selection: false
+bootstrap:
+  resamples: 1000
+  resample_rows: true
+  resample_seed: true
+  group: patient_key
+freeze_bundle:
+  model: reports/models/stage3617/frozen_E7.joblib
+  preprocessing: reports/models/stage3617/frozen_E7_preprocessing.npz
+  ordered_features: reports/models/stage3617/frozen_E7_feature_manifest.csv

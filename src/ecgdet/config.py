@@ -5,6 +5,10 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+# Single authoritative mapping version (Stage 3.6.22).  Every module, config
+# and dataset manifest must use this value.
+LABEL_MAPPING_VERSION = "1.1"
+
 # --------------------------------------------------------------------------- paths
 
 

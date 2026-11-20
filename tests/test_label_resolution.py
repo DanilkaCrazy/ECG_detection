@@ -21,7 +21,7 @@ def rec(codes, source="chapman"):
 def test_canonical_snomed_mapping_is_unambiguous():
     assert CANONICAL_SNOMED["164889003"] == ("AFIB", 1)
     assert CANONICAL_SNOMED["164890007"] == ("AFL", 0)
-    assert MAPPING_VERSION == "1.0"
+    assert MAPPING_VERSION == "1.1"
 
 
 @pytest.mark.parametrize("codes,status,label", [

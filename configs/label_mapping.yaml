@@ -1,4 +1,5 @@
-# Stage 3.6.9 — canonical AFIB/AFL label mapping.
+# Stage 3.6.22 — canonical AFIB/AFL label mapping (version 1.1).
+mapping_version: "1.1"
 # Substring matching on "AF"/"flutter" is forbidden: codes must be explicit.
 labels:
   AFIB:

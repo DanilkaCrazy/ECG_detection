@@ -1,0 +1,6 @@
+{
+  "n_all": 8962,
+  "n_valid": 7505,
+  "n_dataset": 7505,
+  "consistency": "diagnosis_provenance == meta == y == split"
+}

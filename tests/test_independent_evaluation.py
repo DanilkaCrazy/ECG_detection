@@ -48,6 +48,30 @@ def test_too_few_records_per_class_fails_closed():
     assert any("class" in x for x in v)
 
 
+def test_single_source_duplicate_hash_and_label_disagreement_fail_closed():
+    d = _valid()
+    d.loc[0, "label"] = 0          # disagree with expert_label=1
+    d.loc[1, "signal_hash"] = d.loc[0, "signal_hash"]  # duplicate
+    v = independent_set_violations(d)
+    assert any("disagree" in x for x in v)
+    assert any("duplicate" in x for x in v)
+
+
+def test_only_one_source_fails_closed():
+    d = _valid()
+    d["source"] = "only_one"
+    v = independent_set_violations(d)
+    assert any("source" in x for x in v)
+
+
+def test_adjudication_column_resolves_disagreement():
+    d = _valid()
+    d.loc[0, "label"] = 0
+    d["adjudicated_label"] = d["label"]
+    v = independent_set_violations(d)
+    assert not any("disagree" in x for x in v)
+
+
 def test_freeze_artifacts_records_threshold_and_hashes(tmp_path):
     p = tmp_path / "model.pt"
     p.write_bytes(b"abc")

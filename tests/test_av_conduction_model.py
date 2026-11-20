@@ -31,6 +31,7 @@ def test_feature_set_is_complete_and_finite():
     f = av_conduction_features(_rr_afib())
     assert set(f) == set(FEATURE_NAMES)
     assert all(np.isfinite(v) for v in f.values())
+    assert 0 <= f["av_model_reliability"] <= 1
 
 
 def test_fixed_av_block_has_low_model_error():
@@ -44,6 +45,12 @@ def test_multi_level_block_is_detected():
     f = av_conduction_features(_rr_afl_mixed())
     assert f["av_n_levels"] >= 2
     assert f["multi_level_block_prob"] > 0.2
+
+
+def test_sample_entropy_distinguishes_regular_from_irregular_rr():
+    regular = av_conduction_features(_rr_afl(jitter=0.00001))
+    irregular = av_conduction_features(_rr_afib())
+    assert regular["rr_sample_entropy"] < irregular["rr_sample_entropy"]
 
 
 def test_atrial_cycle_is_near_the_true_value():

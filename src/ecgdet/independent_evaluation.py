@@ -34,6 +34,24 @@ def independent_set_violations(meta: pd.DataFrame,
         out.append("expert labels missing")
     if not set(meta.expert_label.dropna().unique()) <= {0, 1}:
         out.append("expert labels must be binary 0/1")
+    # Expert truth must agree with the source label; disagreements need an
+    # explicit adjudication column and must not be silently treated as valid.
+    disag = int((meta.expert_label != meta.label).sum())
+    if disag:
+        if "adjudicated_label" not in meta.columns:
+            out.append(f"{disag} expert/original label disagreements without adjudication")
+        else:
+            unresolved = int((meta.adjudicated_label != meta.label).sum())
+            if unresolved:
+                out.append(f"{unresolved} adjudications still disagree with source label")
+    # At least two independent registration sources, unique signals.
+    n_sources = meta.source.astype(str).nunique()
+    if n_sources < 2:
+        out.append(f"only {n_sources} source(s); at least 2 required")
+    if meta.signal_hash.isna().any() or (meta.signal_hash.astype(str) == "").any():
+        out.append("empty signal_hash")
+    if meta.signal_hash.duplicated().any():
+        out.append(f"{int(meta.signal_hash.duplicated().sum())} duplicate signal_hash in set")
     counts = meta.expert_label.value_counts()
     for lab in (0, 1):
         if int(counts.get(lab, 0)) < MIN_PER_CLASS:

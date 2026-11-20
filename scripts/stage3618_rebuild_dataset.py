@@ -81,9 +81,10 @@ def main() -> int:
 
     prov = to_dataframe(records)
     prov.insert(0, "row_in_stage34", keep_rows)
-    prov.to_csv(D / "diagnosis_provenance.csv", index=False)
+    prov.to_csv(D / "diagnosis_provenance_all.csv", index=False)
 
     valid = prov[prov.label_status.isin(["AFIB", "AFL"])].reset_index(drop=True)
+    valid.to_csv(D / "diagnosis_provenance.csv", index=False)
     rows = valid.row_in_stage34.to_numpy(dtype=int)
     X = np.load(SRC / "X.npy", mmap_mode="r")
     mm = np.lib.format.open_memmap(D / "X.npy", mode="w+", dtype=np.float32,

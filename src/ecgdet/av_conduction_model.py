@@ -15,13 +15,17 @@ FEATURE_NAMES = (
     "rr_cv", "rr_rmssd", "rr_sdnn", "rr_sd1", "rr_sd2", "rr_sample_entropy",
     "rr_autocorr_peak_lag", "atrial_cycle_s", "av_ratio_consistency",
     "av_model_error", "av_n_levels", "multi_level_block_prob",
+    "av_model_reliability",
 )
 
 
 def _sample_entropy(x, m=2, r_factor=0.2):
     if len(x) < m + 2:
         return 0.0
-    r = r_factor * float(np.std(x))
+    # Use an ABSOLUTE tolerance floor for RR sequences: r=0.2*SD becomes
+    # vanishingly small for a near-regular rhythm and wrongly reports high
+    # entropy.  2% of the mean RR (~10-15 ms) is physiologically meaningful.
+    r = max(r_factor * float(np.std(x)), 0.02 * float(np.mean(np.abs(x))))
     if r <= 1e-12:
         return 0.0
 
@@ -94,4 +98,7 @@ def av_conduction_features(rr_intervals: np.ndarray) -> dict[str, float]:
         "av_model_error": float(best_score),
         "av_n_levels": float(n_levels),
         "multi_level_block_prob": multi,
+        # Reliability of the AV fit: 1 = RR intervals lie almost exactly on
+        # integer multiples of the fitted atrial cycle, 0 = poor fit.
+        "av_model_reliability": float(np.clip(1.0 - best_score / 0.2, 0.0, 1.0)),
     }

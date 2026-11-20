@@ -23,18 +23,25 @@ def main() -> int:
     from ecgdet.independent_evaluation import (  # noqa: E402
         independent_set_violations, freeze_artifacts, MIN_PER_CLASS,
     )
+    dev = ROOT / "data" / "processed" / "af_afl_stage3616" / "meta.csv"
+    dev_hashes = set(pd.read_csv(dev).signal_hash.astype(str)) if dev.exists() else set()
     if CAND.exists():
         meta = pd.read_csv(CAND)
-        violations = independent_set_violations(meta)
+        violations = independent_set_violations(meta, development_hashes=dev_hashes)
     else:
         meta, violations = None, ["no independent test set has been supplied yet"]
 
-    s17 = ROOT / "reports" / "metrics" / "stage3617" / "independent_assessment.json"
-    thr = json.loads(s17.read_text(encoding="utf-8"))["threshold"] if s17.exists() else 0.4
-    fn = pd.read_csv(ROOT / "data" / "processed" / "af_afl_stage3616" / "feature_names.csv")
+    mdir = ROOT / "reports" / "models" / "stage3617"
+    fm = mdir / "frozen_E7_manifest.json"
+    manifest = json.loads(fm.read_text(encoding="utf-8")) if fm.exists() else {}
+    ordered = mdir / "frozen_E7_feature_manifest.csv"
+    if ordered.exists():
+        feature_names = pd.read_csv(ordered).feature.astype(str).tolist()
+    else:  # pragma: no cover - fallback only before the bundle is produced
+        feature_names = []
     frozen = freeze_artifacts(
-        ROOT / "reports" / "models" / "stage3617" / "frozen_E7.pt",
-        fn.name.astype(str).tolist(), thr)
+        mdir / "frozen_E7.joblib", feature_names,
+        manifest.get("threshold", 0.4))
 
     report = {
         "status": "BLOCKED" if violations else "READY_FOR_SINGLE_FINAL_EVALUATION",

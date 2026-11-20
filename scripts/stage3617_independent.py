@@ -30,13 +30,20 @@ MET = ROOT / "reports" / "metrics" / "stage3617"
 MET.mkdir(parents=True, exist_ok=True)
 
 
-def prep(X, fit):
+def prep_stats(X, fit):
     X = np.asarray(X, dtype=np.float64)
     med = np.nan_to_num(np.nanmedian(X[fit], axis=0))
-    X = np.where(np.isnan(X), med, X)
-    q1, q3 = np.percentile(X[fit], [25, 75], axis=0)
+    filled = np.where(np.isnan(X), med, X)
+    q1, q3 = np.percentile(filled[fit], [25, 75], axis=0)
     sc = np.where((q3 - q1) > 1e-9, q3 - q1, 1.0)
-    return np.clip((X - np.median(X[fit], axis=0)) / sc, -20, 20).astype(np.float32)
+    return {"fill": med, "center": np.median(filled[fit], axis=0), "scale": sc}
+
+
+def prep(X, fit):
+    X = np.asarray(X, dtype=np.float64)
+    st = prep_stats(X, fit)
+    filled = np.where(np.isnan(X), st["fill"], X)
+    return np.clip((filled - st["center"]) / st["scale"], -20, 20).astype(np.float32)
 
 
 def ci(y, p, t, groups, n=1000, seed=42):
@@ -65,12 +72,31 @@ def main() -> int:
 
     fit = np.where((src == "chapman") & (spl == "train"))[0]
     val = np.where((src == "chapman") & (spl == "val"))[0]
-    hold = np.where(spl == "holdout")[0]
+    hold = np.where(np.isin(spl, ["development_holdout", "holdout"]))[0]
     Xp = prep(X, fit)
     model = RandomForestClassifier(n_estimators=300, min_samples_leaf=3,
                                    class_weight="balanced_subsample",
                                    n_jobs=-1, random_state=42).fit(Xp[fit], y[fit])
     thr = select_threshold(y[val], model.predict_proba(Xp[val])[:, 1])
+
+    # Save the ACTUAL frozen model and its complete preprocessing bundle.
+    import joblib
+    mdir = MET.parent.parent / "models" / "stage3617"
+    mdir.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, mdir / "frozen_E7.joblib")
+    st = prep_stats(X, fit)
+    np.savez(mdir / "frozen_E7_preprocessing.npz", **st)
+    feature_names = np.asarray(feat.name.to_numpy())[cols]
+    pd.DataFrame({"order": np.arange(len(feature_names)),
+                  "feature": feature_names,
+                  "group": feat.group.to_numpy()[cols]}).to_csv(
+        mdir / "frozen_E7_feature_manifest.csv", index=False)
+    (mdir / "frozen_E7_manifest.json").write_text(json.dumps({
+        "model": "frozen_E7.joblib", "threshold": thr, "seed": 42,
+        "n_features": len(feature_names),
+        "preprocessing": "frozen_E7_preprocessing.npz",
+        "ordered_features": "frozen_E7_feature_manifest.csv",
+    }, indent=2), encoding="utf-8")
 
     result = {"frozen_model": "E7 RF", "threshold": thr, "sealed_holdout": {}}
     sh = model.predict_proba(Xp[hold])[:, 1]

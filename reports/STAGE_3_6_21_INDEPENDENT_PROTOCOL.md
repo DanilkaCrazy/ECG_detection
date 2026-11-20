@@ -1,25 +1,25 @@
-# Stage 3.6.21 — Independent evaluation protocol
+# Stage 3.6.21 — Independent external evaluation protocol
 
-**Статус: BLOCKED**.
+**Статус: BLOCKED**. Никакой новой независимой выборки пока 
+не предоставлено; текущий development holdout использовался при сравнении моделей.
 
-Причины блокировки:
+## Требования к новому набору
 
-- no independent test set has been supplied yet.
+- Не менее **100** записей каждого класса (AFIB/AFL).
+- Настоящие `patient_id`, экспертные метки, ≥2 источников регистрации.
+- Известные единицы, частота дискретизации, отсутствие пересечений 
+по `signal_hash` с development-данными.
 
-Требования: ≥100 записей каждого класса с экспертными метками, 
-настоящие patient_id, ≥2 источников, отсутствие пересечений с development.
-
-## Заморозка перед единственной финальной оценкой
+## Заморозка артефактов
 
 {
-  "model_path": "D:\\ИТМО\\Разработка нейросетевого алгоритма детекции и классификации нарушений ритма сердца\\ECG_detection\\ECG_detection\\reports\\models\\stage3617\\frozen_E7.pt",
-  "model_sha256": null,
-  "feature_names_sha256": "98d2071110ba42a7d6994aa557a6b6a5f7153e5eceda34e48d1c5019d77b0e92",
-  "n_features": 372,
+  "model_path": "D:\\ИТМО\\Разработка нейросетевого алгоритма детекции и классификации нарушений ритма сердца\\ECG_detection\\ECG_detection\\reports\\models\\stage3617\\frozen_E7.joblib",
+  "model_sha256": "8f1b51484506115deaf736d6fc7f663820c90eaed74404f8169cf9c70721dc1a",
+  "feature_names_sha256": "466428566268771fbb0f3314ec2e9f5b1917bf48ad1b2b8a987fba2251273a69",
+  "n_features": 344,
   "threshold": 0.3999999999999999,
   "seed": 42,
   "note": "No tuning on the independent set after this freeze."
 }
 
-После заморозки запрещено подстраивать порог, признаки и preprocessing 
-по меткам нового набора.
+После загрузки набора выполняется **одна** финальная оценка без подстройки.

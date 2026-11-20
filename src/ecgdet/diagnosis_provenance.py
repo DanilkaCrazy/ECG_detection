@@ -44,7 +44,7 @@ class DiagnosisRecord:
     canonical_rhythm: str | None = None
     label: int | None = None
     label_status: str = "UNKNOWN"
-    mapping_version: str = "1.0"
+    mapping_version: str = config.LABEL_MAPPING_VERSION
     dataset_version: str | None = None
     patient_id: str | None = None
     strat_fold: int | None = None

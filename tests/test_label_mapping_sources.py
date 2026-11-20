@@ -30,4 +30,5 @@ def test_chapman_mixed_codes_are_not_first_code_wins():
 
 
 def test_mapping_version_is_stable_string():
-    assert MAPPING_VERSION == "1.0"
+    assert MAPPING_VERSION == "1.1"
+    assert config.LABEL_MAPPING_VERSION == MAPPING_VERSION

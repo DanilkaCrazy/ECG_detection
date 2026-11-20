@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
+from . import config
 from .diagnosis_provenance import DiagnosisRecord
 
 __all__ = [
@@ -22,7 +23,7 @@ __all__ = [
     "resolve_binary", "resolve_diagnosis_codes", "resolve_chapman_acronym",
 ]
 
-MAPPING_VERSION = "1.0"
+MAPPING_VERSION = config.LABEL_MAPPING_VERSION
 
 CANONICAL_SNOMED: dict[str, tuple[str, int]] = {
     "164889003": ("AFIB", 1),

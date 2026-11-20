@@ -81,6 +81,17 @@
 >   `reports/STAGE_3_6_20_AV_CONDUCTION_MODEL.md`.
 > - **Stage 3.6.21:** протокол независимой оценки **BLOCKED** — нового набора нет.
 >   См. `reports/STAGE_3_6_21_INDEPENDENT_PROTOCOL.md`.
+> - **Stage 3.6.22:** устранены проблемы воспроизводимости: единый
+>   `MAPPING_VERSION=1.1`, усиленный контракт независимой выборки, сохранён
+>   реальный frozen E7 bundle (SHA256 модели, 344 упорядоченных признака),
+>   признаки пересчитаны на всех **7505** записях v1.1, AV-модуль получил
+>   оценку надёжности и исправленную sample entropy, карточки экспертов
+>   перегенерированы с физической калибровкой. Строгий benchmark E0/E2/E7/H
+>   на 5 seed с bootstrap, учитывающим и строки, и seed. E2 — лучший по F1
+>   (0.565) и AFIB-F1 (0.305); E7 0.556; H (83 признака) 0.558. Прирост E2/E7
+>   над E0 не значим; RF лучше CatBoost/HistGB по общему F1, но HistGB даёт
+>   более высокий AFIB-F1. Domain generalization по-прежнему не доказана.
+>   См. `reports/STAGE_3_6_22_REPRODUCIBILITY_BENCHMARK.md`.
 >
 > **Актуальные точки входа:** `scripts/stage369_external_test.py`,
 > `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,
