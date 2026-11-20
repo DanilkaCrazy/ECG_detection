@@ -1,0 +1,81 @@
+{
+  "by_experiment_mean": {
+    "E0": {
+      "chapman_test_f1_macro": 0.5383896253366837,
+      "chapman_test_roc_auc": 0.5927404778336456,
+      "chapman_test_pr_auc": 0.3945405249859568,
+      "sealed_holdout_f1_macro": 0.5341680372539672,
+      "sealed_holdout_roc_auc": 0.563038453887532,
+      "sealed_holdout_pr_auc": 0.3645008869408799,
+      "ptbxl_f1_macro": 0.12429728159559611,
+      "ptbxl_roc_auc": 0.026849037487335362,
+      "ptbxl_pr_auc": 0.33673967190390686,
+      "cpsc2018_extra_f1_macro": 0.3667019449143085,
+      "cpsc2018_extra_roc_auc": 0.28919896640826875,
+      "cpsc2018_extra_pr_auc": 0.5014950222151335
+    },
+    "E2": {
+      "chapman_test_f1_macro": 0.5584152795477593,
+      "chapman_test_roc_auc": 0.5888256268691051,
+      "chapman_test_pr_auc": 0.4134074062309809,
+      "sealed_holdout_f1_macro": 0.542432693597574,
+      "sealed_holdout_roc_auc": 0.5755942603199603,
+      "sealed_holdout_pr_auc": 0.38374773713788796,
+      "ptbxl_f1_macro": 0.1755920939407178,
+      "ptbxl_roc_auc": 0.003546099290780143,
+      "ptbxl_pr_auc": 0.3346380467609921,
+      "cpsc2018_extra_f1_macro": 0.2252809041590139,
+      "cpsc2018_extra_roc_auc": 0.16279069767441862,
+      "cpsc2018_extra_pr_auc": 0.4607915089530225
+    },
+    "E7": {
+      "chapman_test_f1_macro": 0.5628886047201812,
+      "chapman_test_roc_auc": 0.5930341943540701,
+      "chapman_test_pr_auc": 0.41512913993844974,
+      "sealed_holdout_f1_macro": 0.5158151064767557,
+      "sealed_holdout_roc_auc": 0.5705360493660061,
+      "sealed_holdout_pr_auc": 0.3769159080577551,
+      "ptbxl_f1_macro": 0.08500940801852656,
+      "ptbxl_roc_auc": 0.007429922323539346,
+      "ptbxl_pr_auc": 0.3347947299459868,
+      "cpsc2018_extra_f1_macro": 0.20055704389095483,
+      "cpsc2018_extra_roc_auc": 0.1795348837209302,
+      "cpsc2018_extra_pr_auc": 0.46558056162002304
+    },
+    "E8": {
+      "chapman_test_f1_macro": 0.5499205676532187,
+      "chapman_test_roc_auc": 0.589396628216504,
+      "chapman_test_pr_auc": 0.41218642444126,
+      "sealed_holdout_f1_macro": 0.525460278091953,
+      "sealed_holdout_roc_auc": 0.5643468417199353,
+      "sealed_holdout_pr_auc": 0.3758190321536161,
+      "ptbxl_f1_macro": 0.12146113716644841,
+      "ptbxl_roc_auc": 0.0038838230327592044,
+      "ptbxl_pr_auc": 0.33463336058076515,
+      "cpsc2018_extra_f1_macro": 0.24958889170917056,
+      "cpsc2018_extra_roc_auc": 0.17157622739018086,
+      "cpsc2018_extra_pr_auc": 0.46350605427459995
+    }
+  },
+  "bootstrap_vs_E0": {
+    "E2": {
+      "mean": 0.02358241291780699,
+      "lo": -0.012549359568459467,
+      "hi": 0.05861398129588211,
+      "significant": false
+    },
+    "E7": {
+      "mean": 0.02004256297817922,
+      "lo": -0.015263071174167926,
+      "hi": 0.05512927360276506,
+      "significant": false
+    },
+    "E8": {
+      "mean": 0.015476867355427998,
+      "lo": -0.02263139198475735,
+      "hi": 0.048392655527947595,
+      "significant": false
+    }
+  },
+  "note": "holdout evaluated only after model+threshold frozen; 3 seeds"
+}

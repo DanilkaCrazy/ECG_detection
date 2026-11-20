@@ -1,0 +1,21 @@
+# Stage 3.6.16 — corrected benchmark on the provenance-clean dataset
+seed: 42
+dataset: data/processed/af_afl_stage3616
+source_dataset: data/processed/af_afl_stage34
+row_verification: signal_hash
+experiments:
+  E0: [X]
+  E2: [X, B]
+  E7: [X, B, C]
+  E8: [X, A, B, C, D, E]
+seeds: [42, 7, 13]
+model: RandomForest(n_estimators=300, min_samples_leaf=3, class_weight=balanced_subsample)
+protocol:
+  fit: chapman/train
+  threshold: chapman/val
+  in_domain_control: chapman/test
+  sealed_holdout: eval_only_after_freeze
+  external: [ptbxl, cpsc2018_extra]
+  external_threshold_tuning: forbidden
+bootstrap: {resamples: 1000, group: patient_key, level: record_for_chapman}
+resampling_comparison_hz: [500, 250, 125]

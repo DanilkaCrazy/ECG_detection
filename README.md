@@ -59,6 +59,15 @@
 >   по оси и антиалиасинговая децимация; UDA переведён на разделённый target
 >   adaptation / locked test — перенос по-прежнему не достигнут. См.
 >   `reports/STAGE_3_6_15_SOURCE_LEAKAGE.md`.
+> - **Stage 3.6.16:** повторение E0/E2/E7 на очищенном датасете (6180 записей,
+>   0 расхождений signal_hash). E2 F1 0.558, E7 0.563 против E0 0.538 — но
+>   прирост **не значим** (CI включают нуль). На sealed holdout E7 0.516 < E2
+>   0.542. Прежний +0.041 был частично обусловлен невалидными метками. См.
+>   `reports/STAGE_3_6_16_CORRECTED_BENCHMARK.md`.
+> - **Stage 3.6.17:** замороженная модель на sealed holdout: F1 0.506, внешние
+>   ROC-AUC 0.00–0.11. PTB-XL folds 9/10 дают F1 1.0 только на 18 записях —
+>  этот малый объём не доказывает переносимость. См.
+>   `reports/STAGE_3_6_17_INDEPENDENT_ASSESSMENT.md`.
 >
 > **Актуальные точки входа:** `scripts/stage369_external_test.py`,
 > `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,
