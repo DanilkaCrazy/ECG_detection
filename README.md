@@ -68,6 +68,19 @@
 >   ROC-AUC 0.00–0.11. PTB-XL folds 9/10 дают F1 1.0 только на 18 записях —
 >  этот малый объём не доказывает переносимость. См.
 >   `reports/STAGE_3_6_17_INDEPENDENT_ASSESSMENT.md`.
+> - **Stage 3.6.18 (P0):** исправлена ошибка SNOMED (164934002 = T-wave Change
+>   удалён из AFIB; `AF` в Chapman = flutter). Пересобран `af_afl_stage3614_v1_1`:
+>   0 изменённых классов, **1325 восстановленных записей** (ложно помечены как
+>   ambiguous). Текущий holdout понижен до `development_holdout` — независимой
+>   оценки пока нет. Пакет экспертов исправлен: 249+30 карточек с калибровкой.
+>   Аудит PTB-XL: AUC 0.011, после инверсии 0.989 — диагностика, не исправление.
+>   См. `reports/STAGE_3_6_18_INTEGRITY_CORRECTION.md`.
+> - **Stage 3.6.20:** физиологическая модель AV-проведения; AV-only F1 0.542,
+>   но добавление к E7 не дало статистически значимого прироста
+>   (Δ+0.003, CI включает 0). См.
+>   `reports/STAGE_3_6_20_AV_CONDUCTION_MODEL.md`.
+> - **Stage 3.6.21:** протокол независимой оценки **BLOCKED** — нового набора нет.
+>   См. `reports/STAGE_3_6_21_INDEPENDENT_PROTOCOL.md`.
 >
 > **Актуальные точки входа:** `scripts/stage369_external_test.py`,
 > `scripts/stage369_label_audit.py`, `scripts/stage369_split_audit.py`,

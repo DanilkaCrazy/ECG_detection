@@ -21,7 +21,7 @@ def main() -> int:
         "Датасет `af_afl_stage3614` (6180 записей, метки восстановлены из исходных диагнозов). ",
         "Признаки проверены по `signal_hash` (0 расхождений) и подмножеством перенесены ",
         "из stage34/stage36/stage3610. Протокол: fit=Chapman train, порог=Chapman val, ",
-        "3 seed; test — контроль, sealed holdout — только после заморозки.",
+        "3 seed; test — контроль, development holdout — только после заморозки.",
         "",
         "| Эксперимент | Chapman F1 | Holdout F1 | Chapman AUC | PTB-XL AUC | CPSC AUC |",
         "|---|---:|---:|---:|---:|---:|",

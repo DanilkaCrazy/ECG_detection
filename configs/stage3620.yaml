@@ -1,0 +1,23 @@
+# Stage 3.6.20 — AV conduction physiological model
+seed: 42
+atrial_cycle_search_s: [0.18, 0.60]
+av_ratios: [1, 2, 3, 4, 5, 6]
+exclude_trivial_1_to_1: true
+features:
+  - rr_cv
+  - rr_rmssd
+  - rr_sdnn
+  - rr_poincare_sd1
+  - rr_poincare_sd2
+  - rr_sample_entropy
+  - rr_autocorr_peak_lag
+  - atrial_cycle_s
+  - av_ratio_consistency
+  - av_model_error
+  - av_n_levels
+  - multi_level_block_prob
+protocol:
+  splits: [train, val, development_test]
+  demoted_holdout_used: false
+  bootstrap: {resamples: 1000, group: patient_key}
+prior_art_note: "Sager 2021 / EP2572634A1 — idea known; our feature set is independently defined"

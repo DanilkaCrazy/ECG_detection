@@ -1,0 +1,23 @@
+{
+  "status": "BLOCKED",
+  "violations": [
+    "no independent test set has been supplied yet"
+  ],
+  "requirements": {
+    "min_per_class": 100,
+    "true_patient_id": true,
+    "expert_labels": true,
+    "sources": ">= 2 independent registration sites",
+    "no_overlap_with_development": true
+  },
+  "frozen_artifacts": {
+    "model_path": "D:\\ИТМО\\Разработка нейросетевого алгоритма детекции и классификации нарушений ритма сердца\\ECG_detection\\ECG_detection\\reports\\models\\stage3617\\frozen_E7.pt",
+    "model_sha256": null,
+    "feature_names_sha256": "98d2071110ba42a7d6994aa557a6b6a5f7153e5eceda34e48d1c5019d77b0e92",
+    "n_features": 372,
+    "threshold": 0.3999999999999999,
+    "seed": 42,
+    "note": "No tuning on the independent set after this freeze."
+  },
+  "rule": "threshold/features/model must NOT be tuned on this set after freeze"
+}

@@ -12,13 +12,17 @@ OUT = ROOT / "reports" / "STAGE_3_6_17_INDEPENDENT_ASSESSMENT.md"
 def main() -> int:
     r = json.loads((MET / "independent_assessment.json").read_text(encoding="utf-8"))
     lines = [
-        "# Stage 3.6.17 — Independent Generalization Assessment",
+        "# Stage 3.6.17 — Development-holdout assessment (NOT independent)",
+        "",
+        "**Stage 3.6.18 correction:** this split was already used in Stage 3.6.16 ",
+        "to compare 4 feature sets x 3 seeds and externally to compare models. ",
+        "It is therefore a DEVELOPMENT holdout and must not be presented as an ",
+        "independent final evaluation.",
         "",
         "Замороженная модель E7 RF (порог выбран на Chapman val) оценивается ",
-        "один раз на запечатанном holdout, который не участвовал ни в одном ",
-        "выборе архитектуры/признаков/порога.",
+        "на development holdout. Новый независимый внешний набор пока не создан.",
         "",
-        "## Sealed holdout",
+        "## Development holdout",
         "",
         "| Подвыборка | n | F1-macro | AFIB-F1 | AFL-F1 | ROC-AUC | 95% CI F1 |",
         "|---|---:|---:|---:|---:|---:|---|",

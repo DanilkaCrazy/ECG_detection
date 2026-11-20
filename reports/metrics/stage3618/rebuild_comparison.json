@@ -1,0 +1,36 @@
+{
+  "mapping_version": "1.1",
+  "n_records": 7505,
+  "by_source": {
+    "chapman": 7297,
+    "cpsc2018_extra": 119,
+    "ptbxl": 89
+  },
+  "by_label": {
+    "0": 5606,
+    "1": 1899
+  },
+  "by_split": {
+    "train": 3751,
+    "holdout": 1503,
+    "test": 1126,
+    "val": 1125
+  },
+  "comparison": {
+    "v1_valid": 6180,
+    "v11_valid": 7505,
+    "unchanged": 6180,
+    "class_changed": 0,
+    "newly_excluded": 0,
+    "newly_added": 1325,
+    "explanation": "164934002 (T wave Change) removed from AFIB_CODES; Chapman raw acronym AF namespaced to flutter. Both changes mainly affect ambiguous-record handling, so most labels remain identical."
+  },
+  "sha256": {
+    "X.npy": "55114d152c5914df6681f75b98bc8be088c9cb7ab9485377d4dcdc93562efa87",
+    "y.npy": "31ccc9e832bb49c26725bc5f4e526e8a8cbedca1fa16589f53e94cbedd09abdd",
+    "meta.csv": "f0dcc14755c61121ce6a7000b544380b1fbf42796d2c10afd834f9a1e04a2a5b",
+    "split.csv": "02f3679fd072695662b76d72577efdfc9f0ac10b74ee33e08376c19ecc734948",
+    "diagnosis_provenance.csv": "25e6623adcf2c5103cbfcc2548f0f40d1f4b5223057b8d176230a3d63e9401c7"
+  },
+  "consistency_gates": "meta.label == y.npy == split.label == signal_hash"
+}

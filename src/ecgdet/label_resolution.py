@@ -18,7 +18,8 @@ from .diagnosis_provenance import DiagnosisRecord
 
 __all__ = [
     "MAPPING_VERSION", "CANONICAL_SNOMED", "AFIB_CODES", "AFL_CODES",
-    "LABEL_STATUSES", "resolve_binary", "resolve_diagnosis_codes",
+    "CHAPMAN_RAW_ACRONYM", "LABEL_STATUSES",
+    "resolve_binary", "resolve_diagnosis_codes", "resolve_chapman_acronym",
 ]
 
 MAPPING_VERSION = "1.0"
@@ -28,10 +29,30 @@ CANONICAL_SNOMED: dict[str, tuple[str, int]] = {
     "164890007": ("AFL", 0),
 }
 
-AFIB_CODES = frozenset({"164889003", "AFIB", "AF", "164934002"})
-AFL_CODES = frozenset({"164890007", "AFLT", "AFL"})
+# ONLY unambiguous source codes live here.  SNOMED 164934002 is "T wave
+# Change" (TWC) in the official Chapman ConditionNames table — including it
+# in AFIB_CODES was a real bug.  The bare string "AF" is deliberately absent:
+# in the RAW Chapman taxonomy it means Atrial Flutter, while the project's
+# internal harmonised rhythm column uses "AF" for fibrillation.  The two
+# namespaces must never be mixed (see resolve_chapman_acronym).
+AFIB_CODES = frozenset({"164889003", "AFIB"})   # SNOMED | SCP
+AFL_CODES = frozenset({"164890007", "AFLT"})    # SNOMED | SCP
+
+# Official ConditionNames_SNOMED-CT.csv acronyms (verified 2026-11-20).
+CHAPMAN_RAW_ACRONYM: dict[str, tuple[str, str | None]] = {
+    "AFIB": ("AFIB", 1),
+    "AF": ("AFL", 0),        # raw Chapman acronym = Atrial Flutter
+    "AFL": ("AFL", 0),
+    "TWC": ("OTHER", None),  # 164934002 T wave Change — not AFIB
+}
 
 LABEL_STATUSES = ("AFIB", "AFL", "MIXED", "OTHER", "AMBIGUOUS", "UNKNOWN", "UNREADABLE")
+
+
+def resolve_chapman_acronym(acronym: str) -> str:
+    """Resolve a RAW Chapman acronym (namespace: ConditionNames table)."""
+    key = str(acronym).strip().upper()
+    return CHAPMAN_RAW_ACRONYM.get(key, ("UNKNOWN", None))[0]
 
 
 def _classify(codes: Iterable[str]) -> tuple[str, int | None]:

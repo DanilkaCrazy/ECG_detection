@@ -1,0 +1,13 @@
+# Stage 3.6.21 — independent final evaluation contract
+status: BLOCKED
+min_per_class: 100
+required_columns: [record_id, source, label, patient_id, expert_label, signal_hash]
+min_sources: 2
+true_patient_id: required
+expert_labels: required
+no_overlap_with_development_by_signal_hash: true
+frozen_artifacts:
+  model: frozen_E7
+  threshold_from: stage3617/independent_assessment.json
+  tuning_on_final_set: forbidden
+final_evaluation: single_run_only

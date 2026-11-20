@@ -1,0 +1,22 @@
+# Stage 3.6.18 — integrity corrections
+seed: 42
+mapping_version: "1.1"
+canonical_codes:
+  AFIB: ["164889003", "AFIB"]
+  AFL: ["164890007", "AFLT"]
+  excluded_from_targets: ["164934002"]  # T wave Change
+chapman_raw_acronyms:
+  AFIB: AFIB
+  AF: AFL
+  AFL: AFL
+  TWC: OTHER
+dataset_v11: data/processed/af_afl_stage3614_v1_1
+holdout_status: development_holdout
+expert_review:
+  stratify: [chapman 40/40, ptbxl all 89, cpsc2018_extra 40/40]
+  targeted_ambiguous: 30
+  cards_with_calibration: true
+  lead_mask_visible: true
+auc_audit:
+  invert_for_diagnostic_only: true
+  never_apply_inversion_to_labels_or_predictions: true

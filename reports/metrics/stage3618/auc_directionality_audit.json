@@ -1,0 +1,75 @@
+{
+  "model_classes": [
+    0,
+    1
+  ],
+  "probability_column_used_for_AFIB": 1,
+  "distribution": {
+    "mean_p_afib_AFIB": 0.3514841635676754,
+    "mean_p_afib_AFL": 0.6595157645655174,
+    "n_AFIB": 47,
+    "n_AFL": 42
+  },
+  "confusion_matrices": {
+    "0.5": [
+      [
+        2,
+        40
+      ],
+      [
+        45,
+        2
+      ]
+    ],
+    "val": [
+      [
+        0,
+        42
+      ],
+      [
+        38,
+        9
+      ]
+    ]
+  },
+  "roc_auc_forward": 0.010638297872340427,
+  "roc_auc_after_inversion_diagnostic_only": 0.9893617021276595,
+  "row_alignment": {
+    "n_feature_rows": 6180,
+    "n_record_ids_unique": 6180,
+    "n_hash_unique": 6180,
+    "signal_hash_matches_stage34": 6180,
+    "record_ids_match_provenance": 1
+  },
+  "label_encoding_by_source": {
+    "chapman": {
+      "AFIB": 1777,
+      "AFL": 4196,
+      "raw_codes_sample": [
+        "[\"164889003\", \"59118001\", \"164934002\"]",
+        "[\"164890007\", \"429622005\", \"428750005\"]",
+        "[\"164889003\", \"164934002\"]"
+      ]
+    },
+    "cpsc2018_extra": {
+      "AFIB": 75,
+      "AFL": 43,
+      "raw_codes_sample": [
+        "[\"427172004\", \"164889003\", \"428750005\"]",
+        "[\"164890007\"]",
+        "[\"164890007\"]"
+      ]
+    },
+    "ptbxl": {
+      "AFIB": 47,
+      "AFL": 42,
+      "raw_codes_sample": [
+        "[\"AFLT\"]",
+        "[\"AFLT\", \"ABQRS\"]",
+        "[\"AFLT\"]"
+      ]
+    }
+  },
+  "dev_holdout_ptb_in_official_folds_9_10": 5,
+  "verdict": "Sub-chance AUC persists with correct class column and row alignment; inversion is reported ONLY as a diagnostic, not applied to predictions."
+}

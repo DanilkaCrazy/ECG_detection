@@ -7,7 +7,8 @@ import pytest
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from ecgdet.diagnosis_provenance import DiagnosisRecord  # noqa: E402
 from ecgdet.label_resolution import (  # noqa: E402
-    CANONICAL_SNOMED, MAPPING_VERSION, resolve_binary, resolve_diagnosis_codes,
+    AFIB_CODES, AFL_CODES, CANONICAL_SNOMED, MAPPING_VERSION,
+    resolve_binary, resolve_diagnosis_codes, resolve_chapman_acronym,
 )
 
 
@@ -73,6 +74,27 @@ def test_positive_likelihood_afib_still_resolves():
                         secondary_diagnoses=[])
     out = resolve_binary(r)
     assert out.label_status == "AFIB" and out.label == 1
+
+
+def test_t_wave_change_is_not_afib():
+    """SNOMED 164934002 = T wave Change (TWC), NOT atrial fibrillation."""
+    assert "164934002" not in AFIB_CODES
+    out = resolve_diagnosis_codes(["164934002"], source="chapman")
+    assert out.label_status == "OTHER" and out.label is None
+
+
+def test_t_wave_change_does_not_turn_a_clear_afib_into_ambiguous():
+    out = resolve_diagnosis_codes(["164889003", "164934002"], source="chapman")
+    assert out.label_status == "AFIB" and out.label == 1
+
+
+def test_chapman_raw_acronym_af_means_atrial_flutter():
+    """Raw Chapman 'AF' = Atrial Flutter; internal harmonised 'AF' = AFIB."""
+    assert resolve_chapman_acronym("AF") == "AFL"
+    assert resolve_chapman_acronym("AFIB") == "AFIB"
+    assert resolve_chapman_acronym("AFL") == "AFL"
+    assert "AF" not in AFIB_CODES  # never accept the bare acronym without namespace
+    assert "164890007" in AFL_CODES
 
 
 def test_ambiguous_records_never_receive_a_binary_label():

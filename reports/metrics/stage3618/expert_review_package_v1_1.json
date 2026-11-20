@@ -1,0 +1,15 @@
+{
+  "n_stratified": 249,
+  "n_targeted": 30,
+  "n_cards": 279,
+  "by_source_label": {
+    "chapman|0": 40,
+    "chapman|1": 40,
+    "cpsc2018_extra|0": 40,
+    "cpsc2018_extra|1": 40,
+    "ptbxl|0": 42,
+    "ptbxl|1": 47
+  },
+  "calibration": "25 mm/s time grid, 10 mm/mV amplitude convention, 500 Hz",
+  "lead_mask": "missing leads marked MISSING, not shown as flat signal"
+}

@@ -1,0 +1,11 @@
+{
+  "renamed_split_files": [
+    "data\\processed\\af_afl_stage3614\\split.csv",
+    "data\\processed\\af_afl_stage3614_v1_1\\split.csv",
+    "data\\processed\\af_afl_stage3616\\split.csv"
+  ],
+  "status": "development_holdout",
+  "reason": "used for model comparison in Stage 3.6.16 and again in 3.6.17",
+  "consequence": "no independent final evaluation has been performed yet",
+  "action_required": "create a NEW sealed external set for the single final evaluation"
+}
